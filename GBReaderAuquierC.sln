@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBReaderAuquierC.Avalonia", "GBReaderAuquierC.Avalonia\GBReaderAuquierC.Avalonia.csproj", "{62618630-2C85-45A1-8F62-AD7D8CDA9732}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBReaderAuquierC.Domains", "GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj", "{68040E7F-7D6E-4184-8308-5730ACFAC480}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBReaderAuquierC.Presenter", "GBReaderAuquierC.Presenter\GBReaderAuquierC.Presenter.csproj", "{C8756C0E-76BB-4D36-8064-69402E1429CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBReaderAuquierC.Tests", "GBReaderAuquierC.Tests\GBReaderAuquierC.Tests.csproj", "{1770645B-812C-4528-8B66-9A3414850680}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62618630-2C85-45A1-8F62-AD7D8CDA9732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62618630-2C85-45A1-8F62-AD7D8CDA9732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62618630-2C85-45A1-8F62-AD7D8CDA9732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62618630-2C85-45A1-8F62-AD7D8CDA9732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68040E7F-7D6E-4184-8308-5730ACFAC480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68040E7F-7D6E-4184-8308-5730ACFAC480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68040E7F-7D6E-4184-8308-5730ACFAC480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68040E7F-7D6E-4184-8308-5730ACFAC480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8756C0E-76BB-4D36-8064-69402E1429CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8756C0E-76BB-4D36-8064-69402E1429CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8756C0E-76BB-4D36-8064-69402E1429CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8756C0E-76BB-4D36-8064-69402E1429CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1770645B-812C-4528-8B66-9A3414850680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1770645B-812C-4528-8B66-9A3414850680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1770645B-812C-4528-8B66-9A3414850680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1770645B-812C-4528-8B66-9A3414850680}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

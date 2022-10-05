@@ -1,0 +1,12 @@
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\bin\Debug\net6.0\GBReaderAuquierC.Presenter.deps.json
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\bin\Debug\net6.0\GBReaderAuquierC.Presenter.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\bin\Debug\net6.0\GBReaderAuquierC.Presenter.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.csproj.AssemblyReference.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.AssemblyInfoInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.AssemblyInfo.cs
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.csproj.CoreCompileInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\refint\GBReaderAuquierC.Presenter.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\GBReaderAuquierC.Presenter.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Presenter\obj\Debug\net6.0\ref\GBReaderAuquierC.Presenter.dll

@@ -1,0 +1,199 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Tests\\GBReaderAuquierC.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
+        "projectName": "GBReaderAuquierC.Domains",
+        "projectPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
+        "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\GBReaderAuquierC.Presenter.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\GBReaderAuquierC.Presenter.csproj",
+        "projectName": "GBReaderAuquierC.Presenter",
+        "projectPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\GBReaderAuquierC.Presenter.csproj",
+        "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Tests\\GBReaderAuquierC.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Tests\\GBReaderAuquierC.Tests.csproj",
+        "projectName": "GBReaderAuquierC.Tests",
+        "projectPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Tests\\GBReaderAuquierC.Tests.csproj",
+        "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
+                "projectPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj"
+              },
+              "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\GBReaderAuquierC.Presenter.csproj": {
+                "projectPath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Presenter\\GBReaderAuquierC.Presenter.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.1.0, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.3, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

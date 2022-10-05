@@ -1,0 +1,12 @@
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\bin\Debug\net6.0\GBReaderAuquierC.Domains.deps.json
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\bin\Debug\net6.0\GBReaderAuquierC.Domains.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\bin\Debug\net6.0\GBReaderAuquierC.Domains.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.csproj.AssemblyReference.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.AssemblyInfoInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.AssemblyInfo.cs
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.csproj.CoreCompileInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\refint\GBReaderAuquierC.Domains.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\GBReaderAuquierC.Domains.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Domains\obj\Debug\net6.0\ref\GBReaderAuquierC.Domains.dll
