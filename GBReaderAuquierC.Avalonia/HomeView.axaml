@@ -1,0 +1,34 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500" Width="500" Height="500"
+             x:Class="GBReaderAuquierC.Avalonia.HomeView">
+    <StackPanel HorizontalAlignment="Center">
+        <Border BorderBrush="Black"
+                Margin="60, 20, 60, 20" 
+                BorderThickness="0, 0, 0, 2">
+            <TextBlock FontSize="24" 
+                       TextAlignment="Center"
+                       Width="300"
+                       FontFamily="Constantia"
+                       FontWeight="ExtraBold"
+                       x:Name="Title">Choissisez un livre-jeu</TextBlock>
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBox KeyDown="On_EnterDown" x:Name="Search" Watermark="Rechercher un titre ou un ISBN" Width="250"/>
+            <Button Content="Rechercher" x:Name="SearchBtn" Click="On_SearchedClicked"/>
+        </StackPanel>
+        <StackPanel x:Name="Books">
+            
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Click="On_PreviousClicked" Width="75">Previous</Button>
+            <TextBlock x:Name="CurrentPage"
+                       Padding="10, 5, 10, 5"
+                       VerticalAlignment="Center">1</TextBlock>
+            <Button Click="On_NextClicked" Width="75">Next</Button>
+        </StackPanel>
+        <TextBlock x:Name="ErrorMsg" TextWrapping="Wrap" IsVisible="False"/>
+    </StackPanel>
+</UserControl>

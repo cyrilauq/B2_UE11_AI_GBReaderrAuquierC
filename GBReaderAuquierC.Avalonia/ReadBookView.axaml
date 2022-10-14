@@ -1,0 +1,21 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="380" d:DesignHeight="150"
+             x:Class="GBReaderAuquierC.Avalonia.CreateBookView">
+    <StackPanel>
+        <StackPanel x:Name="Header">
+            <TextBlock>Lire un livre</TextBlock>
+        </StackPanel>
+        <Grid RowDefinitions="30, 30, 30*" 
+              ColumnDefinitions="60, 60*">
+            <Label Grid.Column="0" Grid.Row="0">Titre</Label>
+            <TextBlock Grid.Column="1" Grid.Row="0"></TextBlock>
+            <Label Grid.Column="0" Grid.Row="1">ISBN</Label>
+            <TextBlock Grid.Column="1" Grid.Row="1"></TextBlock>
+            <Label Grid.Column="0" Grid.Row="2">Résumé</Label>
+            <TextBlock Grid.Column="1" Grid.Row="2"></TextBlock>
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,15 @@
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\bin\Debug\net6.0\GBReaderAuqiuerC.Repository.deps.json
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\bin\Debug\net6.0\GBReaderAuqiuerC.Repository.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\bin\Debug\net6.0\GBReaderAuqiuerC.Repository.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\bin\Debug\net6.0\GBReaderAuquierC.Domains.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\bin\Debug\net6.0\GBReaderAuquierC.Domains.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.csproj.AssemblyReference.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.AssemblyInfoInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.AssemblyInfo.cs
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.csproj.CoreCompileInputs.cache
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.csproj.CopyComplete
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\refint\GBReaderAuqiuerC.Repository.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\GBReaderAuqiuerC.Repository.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuqiuerC.Repository\obj\Debug\net6.0\ref\GBReaderAuqiuerC.Repository.dll

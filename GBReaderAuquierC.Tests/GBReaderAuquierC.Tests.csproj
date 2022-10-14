@@ -17,8 +17,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GBReaderAuqiuerC.Repositories\GBReaderAuqiuerC.Repositories.csproj" />
       <ProjectReference Include="..\GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj" />
-      <ProjectReference Include="..\GBReaderAuquierC.Presenter\GBReaderAuquierC.Presenter.csproj" />
+      <ProjectReference Include="..\GBReaderAuquierC.Presentation\GBReaderAuquierC.Presentation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\FileExists" />
+      <Folder Include="Resources\FileNotFound" />
     </ItemGroup>
 
 </Project>
