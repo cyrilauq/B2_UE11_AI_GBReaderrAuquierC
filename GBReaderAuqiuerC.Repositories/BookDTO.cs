@@ -9,6 +9,8 @@ public class BookDTO
     private readonly string _resume;
     private readonly string _imagePath;
     
+    public string Version { get => _version; }
+    
     public string Title { get => _title; }
     public string Author { get => _author; }
     public string ISBN { get => _isbn; }

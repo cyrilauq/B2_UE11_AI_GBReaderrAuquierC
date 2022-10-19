@@ -1,0 +1,18 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450" Width="200" Height="200"
+             x:Class="GBReaderAuquierC.Avalonia.ExtendedDescriptionBookView">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Image Width="60" x:Name="Image" />
+            <StackPanel>
+                <TextBlock x:Name="Title" Text="Title" />
+                <TextBlock x:Name="Author" Text="Nom Prénom" />
+                <TextBlock x:Name="ISBN" Text="1-234567-89-X" />
+            </StackPanel>
+        </StackPanel>
+        <TextBlock x:Name="Resume" />
+    </StackPanel>
+</UserControl>

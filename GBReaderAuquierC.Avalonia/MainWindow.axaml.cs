@@ -12,18 +12,29 @@ namespace GBReaderAuquierC.Avalonia
         {
             InitializeComponent();
             HomeView homeView = new HomeView();
-            CreateBookView createBookView = new CreateBookView();
+            ReadBookView readBookView = new ReadBookView();
             homeView.Router = GoTo;
-            views.Add("LoginView", homeView);
-            views.Add("CreateBookView", createBookView);
+            views.Add("HomeView", homeView);
+            views.Add("CreateBookView", readBookView);
             Root.Children.Add(homeView);
-            Root.Children.Add(createBookView);
+            Root.Children.Add(readBookView);
         }
 
         private void GoTo(string view)
         {
+            var found = Found(view);
             Root.Children.Clear();
-            Root.Children.Add(views[view]);
+            Root.Children.Add(found);
+        }
+
+        private UserControl Found(string view)
+        {
+            if (!views.ContainsKey(view))
+            {
+                throw new ArgumentException("The view [" + view + "] doesn't exist.");
+            }
+
+            return views[view];
         }
     }
 }

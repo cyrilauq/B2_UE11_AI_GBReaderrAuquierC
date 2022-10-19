@@ -22,32 +22,16 @@ public partial class DescriptionBookView : UserControl
     public DescriptionBookView()
     {
         InitializeComponent();
-        InitComponent();
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
-
-    private void InitComponent()
-    {
-        _title = this.FindControl<TextBlock>("Title");
-        _isbn = this.FindControl<TextBlock>("Isbn");
-        _author = this.FindControl<TextBlock>("Author");
-        _image = this.FindControl<Image>("Image");
-        _resume = this.FindControl<TextBlock>("Resume");
-    }
-
+    
     public void SetBookInfo(string title, string isbn, string author, string resume, string imagePath)
     {
-        _title.Text = title;
-        _author.Text = author;
-        _isbn.Text = isbn;
-        _resumeTxt = resume;
+        Title.Text = title;
+        Author.Text = author;
+        Isbn.Text = isbn;
         if (imagePath != null && isbn.Trim().Length > 0)
         {
-            _image.Source = new Bitmap(imagePath);
+            Image.Source = new Bitmap(imagePath);
         }
     }
 
@@ -62,9 +46,7 @@ public partial class DescriptionBookView : UserControl
     {
         if (_showDetails)
         {
-            var resumeBlock = this.FindControl<TextBlock>("Resume");
-            resumeBlock.IsVisible = false;
-            _showDetails = !_showDetails;
+            
         }
         else
         {

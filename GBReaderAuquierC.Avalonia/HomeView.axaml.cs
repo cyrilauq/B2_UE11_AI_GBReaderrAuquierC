@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using Avalonia;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Repository;
 using GBReaderAuquierC.Presenter;
-using Newtonsoft.Json;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class HomeView : UserControl, IView, IHomeView
+public partial class HomeView : UserControl, IView
 {
-    private readonly int MAX_BOOK_PAGE = 4;
+    private readonly int MAX_BOOK_PAGE = 8;
 
     private int _currentPage = 1;
 
@@ -48,48 +44,37 @@ public partial class HomeView : UserControl, IView, IHomeView
     private Action<string> _router;
     
     public Action<string> Router { set => _router = value; }
-
-    private TextBox _prenom;
-    private TextBox _nom;
-    private Button _connexionBtn;
-    private StackPanel _booksPnl;
-    private TextBlock _currentPageBlock;
-    private TextBox _searchBox;
-    private TextBlock _errorMsg;
     
     private readonly List<Book> _allBooks;
+    private readonly List<Book> _searchBooks = new();
 
-    private HomePresenter _presenter;
-    
-    public HomePresenter HomePresenter { set => _presenter = value; }
+    private IDataRepository _repo;
+
+    private bool _search = false;
 
     public HomeView()
     {
         InitializeComponent();
-        InitComponent();
         try
         {
+            _repo = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE").ToString() + "/ue36",
+                "e200106.json");
             _allBooks = new List<Book>(GetBooks());
             RefreshBookPanel();
         }
         catch (Exception e)
         {
-            _errorMsg.Text = "Error: " + e.Message;
-            _errorMsg.IsVisible = true;
+            ErrorMsg.Text = "Error: " + e.Message;
+            ErrorMsg.IsVisible = true;
         }
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
+        // TODO : uatiliser un NotificationManager pour afficher les erreurs
     }
 
     private List<Book> GetBooks()
     {
         try
         {
-            List<BookDTO> temp = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE").ToString() + "/ue36",
-                "e200106.json").GetData();
+            List<BookDTO> temp = _repo.GetData();
             var result = new List<Book>();
             // TODO : ajouter seulement les livres ayant un ISBN valide et ayant un titre, un auteur et un résumé.
             temp.ForEach(b =>
@@ -120,34 +105,44 @@ public partial class HomeView : UserControl, IView, IHomeView
 
     private void SetErrorMsg(string msg)
     {
-        _errorMsg.Text = msg;
-        _errorMsg.IsVisible = true;
+        ErrorMsg.Text = msg;
+        ErrorMsg.IsVisible = true;
     }
 
     private void RefreshBookPanel()
     {
-        _booksPnl.Children.Clear();
+        Books.Children.Clear();
 
-        for (int i = IndexBegin; i < IndexEnd && i < _allBooks.Count; i++)
-        {
-            var b = _allBooks[i];
-            var temp = new DescriptionBookView();
-            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, resume: b.Resume, imagePath: b.Image);
-            _booksPnl.Children.Add(temp);
-        }
-        _currentPageBlock.Text = "" + NbCurrentPage;
+        DisplayBook(_search ? _searchBooks : _allBooks);
     }
 
-    private void InitComponent()
+    private void DisplayBook(List<Book> books)
     {
-        _prenom = this.FindControl<TextBox>("Prenom");
-        _nom = this.FindControl<TextBox>("Nom");
-        _connexionBtn = this.FindControl<Button>("Connexion");
-        _booksPnl = this.FindControl<StackPanel>("Books");
-        _currentPageBlock = this.FindControl<TextBlock>("CurrentPage");
-        _errorMsg = this.FindControl<TextBlock>("ErrorMsg");
-        _searchBox = this.FindControl<TextBox>("Search");
-        _currentPage = 1;
+        for (int i = IndexBegin; i < IndexEnd && i < books.Count; i++)
+        {
+            var b = books[i];
+            var temp = new DescriptionBookView();
+            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, resume: b.Resume, imagePath: b.Image);
+            temp.PointerPressed += DisplayDetails;
+            Books.Children.Add(temp);
+        }
+        CurrentPage.Text = "" + NbCurrentPage;
+    }
+
+    private void DisplayDetails(object? sender, PointerEventArgs e)
+    {
+        var view = (DescriptionBookView)sender;
+        var result = _repo.Search(view.Isbn.Text);
+        var resumeBlock = this.FindControl<WrapPanel>("Details");
+        resumeBlock.Children.Clear();
+        var descr = new ExtendedDescriptionBookView();
+        descr.SetInfos(new BookExtendedItem(
+            result.Title,
+            result.Author,
+            result.ISBN,
+            result.Image,
+            result.Resume));
+        resumeBlock.Children.Add(descr);
     }
 
     public void GoTo(string toView) 
@@ -167,30 +162,32 @@ public partial class HomeView : UserControl, IView, IHomeView
 
     private void On_SearchedClicked(object? sender, RoutedEventArgs e)
     {
-        List<Book> search = new();
-        string q = _searchBox.Text;
-        if (q.Length == 0)
+        string q = Search.Text;
+        if (q == null || q.Trim().Length == 0)
         {
+            _search = false;
             RefreshBookPanel();
         }
         else
         {
-            _allBooks.ForEach(b =>
-            {
-                if (b.Title.ToLower().Contains(q) || b.ISBN.Contains(q))
-                {
-                    search.Add(b);
-                }
-            });
-            _booksPnl.Children.Clear();
-        
-            search.ForEach(b => 
-            {
-                var temp = new DescriptionBookView();
-                temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, resume: b.Resume, imagePath: b.Image);
-                _booksPnl.Children.Add(temp);
-            });
+            _search = true;
+            _currentPage = 1;
+            _searchBooks.Clear();
+            FindBooksFor(q).ForEach(b => _searchBooks.Add(b));
+            RefreshBookPanel();
         }
+    }
+
+    private List<Book> FindBooksFor(string q)
+    {
+        var result = _allBooks.Where(b => b.Title.ToLower().Contains(q) || b.ISBN.Contains(q)).ToList();
+
+        /*if (result is null)
+        {
+            throw new JsonRepository.NoBooksFindException("No book find for the search: " + q);
+        }*/
+        
+        return result;
     }
 
     private void On_EnterDown(object? sender, KeyEventArgs e)

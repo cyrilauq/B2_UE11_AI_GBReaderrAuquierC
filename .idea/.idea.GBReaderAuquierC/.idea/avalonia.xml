@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="GBReaderAuquierC.Avalonia/App.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/Bidon.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/CreateBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/DescriptionBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/ExtendedDescriptionBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/HomeView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/LoginView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/MainWindow.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/ReadBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

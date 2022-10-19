@@ -1,6 +1,7 @@
 ﻿using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Repository;
 using Newtonsoft.Json;
+using Repository;
 
 namespace GBReaderAuquierC.Presenter;
 
@@ -30,6 +31,7 @@ public class JsonRepository : IDataRepository
                 throw new FileNotFoundException($"Le fichier {_filePath} n'a pas été trouvé dans le répertoir {_filePath}.");
             }
             var result = JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(pathFile));
+            result.ForEach(b => _books.Add(Mapper.convertToBook(b)));
             return result ?? new List<BookDTO>();
         }
         catch(DirectoryNotFoundException e)
@@ -40,5 +42,22 @@ public class JsonRepository : IDataRepository
         {
             throw new FileNotFoundException(e.Message);
         }
+    }
+
+    public Book Search(string isbn)
+    {
+        try
+        {
+            return _books.First(b => b.ISBN.Contains(isbn));
+        }
+        catch (Exception)
+        {
+            throw new NoBooksFindException("No book find for the search: " + isbn);
+        }
+    }
+
+    public class NoBooksFindException : Exception
+    {
+        public NoBooksFindException(string message) : base(message) {}
     }
 }

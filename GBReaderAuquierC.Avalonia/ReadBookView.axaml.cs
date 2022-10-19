@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class CreateBookView : UserControl
+public partial class ReadBookView : UserControl
 {
-    public CreateBookView()
+    public ReadBookView()
     {
         InitializeComponent();
     }

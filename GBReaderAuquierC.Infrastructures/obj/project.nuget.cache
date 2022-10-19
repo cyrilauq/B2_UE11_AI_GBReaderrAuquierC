@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "6OKGn0RHjJoMgyjAZYm0SO3NwPuB5HE0oxx9RedqpD9TCpuLmrplsksWvK4mrMrA1O4lrsjvLv4oG7jlrLbgIw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cyril\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
