@@ -87,12 +87,8 @@ C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuqiuerC.Repository.dll
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Domains.dll
-C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Presenter.dll
-C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuqiuerC.Repository.pdb
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Domains.pdb
-C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Presenter.pdb
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.csproj.AssemblyReference.cache
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.AssemblyInfoInputs.cache
@@ -104,3 +100,7 @@ C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.pdb
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.genruntimeconfig.cache
 C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\obj\Debug\net6.0\ref\GBReaderAuquierC.Tests.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuqiuerC.Repositories.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Presentation.dll
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuqiuerC.Repositories.pdb
+C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Presentation.pdb

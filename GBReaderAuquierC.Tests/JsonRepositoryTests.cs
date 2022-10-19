@@ -6,45 +6,60 @@ namespace GBReaderAuquierC.Tests;
 
 public class JsonRepositoryTests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
+    private readonly string _testResourcesPaht = Path.Join(
+        new DirectoryInfo(
+            new DirectoryInfo(
+                    Directory.GetParent(Path.Join(Environment.CurrentDirectory)).Parent.ToString()).Parent
+                .ToString()).ToString(),
+        "Resources");
+    
     [Test]
-    public void throwErrorIfDirectoryDoesNotExist()
+    public void ThrowErrorIfDirectoryDoesNotExist()
     {
         Assert.Throws(typeof(DirectoryNotFoundException),
-            () => new JsonRepository().getData(
+            () => new JsonRepository(
                 Path.Join(
-                    Environment.CurrentDirectory.ToString(),
+                    Environment.CurrentDirectory,
                     "Resources", 
-                    "RepositoryNotExistTest").ToString(), "test.json"));
+                    "RepositoryNotExistTest"), "test.json").GetData());
     }
 
     [Test]
-    public void throwErrorIfFileNotFound()
+    public void ThrowErrorIfFileNotFound()
     {
         Assert.Throws(typeof(FileNotFoundException),
-            () => new JsonRepository().getData(
-                Environment.GetEnvironmentVariable("USERPROFILE").ToString(),
-                "test.json"));
+            () => new JsonRepository(
+                Environment.GetEnvironmentVariable("USERPROFILE"),
+                "test.json").GetData());
     }
 
     [Test]
-    public void Test1()
+    public void ReadEmptyFile()
     {
-        if (!File.Exists(
-                @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json"))
+        try
         {
-            File.Create(
-                @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json");
+            using var fs = File.OpenRead(
+                Path.Join(_testResourcesPaht, "FileExists", "test.json"));
+            fs.Close();
         }
-        var actual = new JsonRepository().getData(
+        catch (FileNotFoundException)
+        {
+            using var create = File.Create(
+                Path.Join(_testResourcesPaht, "FileExists", "test.json"));
+        }
+        var actual = new JsonRepository(
             @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists",
-            "test.json");
+            "test.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
-        File.Delete(
-            @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json");
+        try
+        {
+            File.Delete(
+                Path.Join(_testResourcesPaht, "FileExists", "test.json"));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

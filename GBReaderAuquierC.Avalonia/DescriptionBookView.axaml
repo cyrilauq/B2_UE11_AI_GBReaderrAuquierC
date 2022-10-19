@@ -2,26 +2,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="90" Width="250" Height="90"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="120" Width="450" Height="120"
              x:Class="GBReaderAuquierC.Avalonia.DescriptionBookView">
     <StackPanel x:Name="Main" 
-                PointerLeave="DisplayDetails" 
-                PointerEnter="DisplayResume"
-                Width="250"
-                Height="90">
-        <StackPanel Orientation="Horizontal">
-            <Image Width="40" Height="80" x:Name="Image" />
-            <Grid x:Name="Details" 
-                  RowDefinitions="25, 25, 25">
-                <TextBlock Grid.Row="0" x:Name="Title">Title</TextBlock>
-                <TextBlock Grid.Row="1" x:Name="Author">Author</TextBlock>
-                <TextBlock Grid.Row="2" x:Name="Isbn">1-23456-78-9</TextBlock>
-            </Grid>
+                Width="450"
+                Height="120">
+        <StackPanel Orientation="Horizontal"
+                    Background="White"
+                    PointerPressed="DisplayDetails"
+                    Width="450" 
+                    Height="90">
+            <Image Width="80" Height="90" x:Name="Image" />
+            <DockPanel x:Name="Details" Height="90">
+                <StackPanel DockPanel.Dock="Left" Width="100" Height="90">
+                    <TextBlock x:Name="Title" TextWrapping="WrapWithOverflow">Title</TextBlock>
+                    <TextBlock x:Name="Author" TextWrapping="WrapWithOverflow">Author</TextBlock>
+                    <TextBlock x:Name="Isbn">1-23456-78-9</TextBlock>
+                </StackPanel>
+                <TextBlock Width="270" DockPanel.Dock="Right" x:Name="Resume" IsVisible="False">The resume of the book...</TextBlock>
+            </DockPanel>
         </StackPanel>
-        <TextBlock x:Name="Resume" 
-                   IsVisible="False"
-                   Width="250"
-                   Height="90"
-                   TextWrapping="Wrap"/>
+        <Button Height="30" HorizontalAlignment="Right" Content="Démarrer ou reprendre la lecture" />
     </StackPanel>
 </UserControl>

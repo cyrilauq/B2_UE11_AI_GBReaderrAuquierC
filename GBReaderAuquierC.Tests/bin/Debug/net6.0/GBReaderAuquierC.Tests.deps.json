@@ -8,9 +8,9 @@
     ".NETCoreApp,Version=v6.0": {
       "GBReaderAuquierC.Tests/1.0.0": {
         "dependencies": {
-          "GBReaderAuqiuerC.Repository": "1.0.0",
+          "GBReaderAuqiuerC.Repositories": "1.0.0",
           "GBReaderAuquierC.Domains": "1.0.0",
-          "GBReaderAuquierC.Presenter": "1.0.0",
+          "GBReaderAuquierC.Presentation": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.1.0",
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.3.0",
@@ -319,13 +319,13 @@
       "NUnit.Analyzers/3.3.0": {},
       "NUnit3TestAdapter/4.2.1": {},
       "System.Reflection.Metadata/1.6.0": {},
-      "GBReaderAuqiuerC.Repository/1.0.0": {
+      "GBReaderAuqiuerC.Repositories/1.0.0": {
         "dependencies": {
           "GBReaderAuquierC.Domains": "1.0.0",
           "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
-          "GBReaderAuqiuerC.Repository.dll": {}
+          "GBReaderAuqiuerC.Repositories.dll": {}
         }
       },
       "GBReaderAuquierC.Domains/1.0.0": {
@@ -333,9 +333,13 @@
           "GBReaderAuquierC.Domains.dll": {}
         }
       },
-      "GBReaderAuquierC.Presenter/1.0.0": {
+      "GBReaderAuquierC.Presentation/1.0.0": {
+        "dependencies": {
+          "GBReaderAuqiuerC.Repositories": "1.0.0",
+          "GBReaderAuquierC.Domains": "1.0.0"
+        },
         "runtime": {
-          "GBReaderAuquierC.Presenter.dll": {}
+          "GBReaderAuquierC.Presentation.dll": {}
         }
       }
     }
@@ -437,7 +441,7 @@
       "path": "system.reflection.metadata/1.6.0",
       "hashPath": "system.reflection.metadata.1.6.0.nupkg.sha512"
     },
-    "GBReaderAuqiuerC.Repository/1.0.0": {
+    "GBReaderAuqiuerC.Repositories/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -447,7 +451,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "GBReaderAuquierC.Presenter/1.0.0": {
+    "GBReaderAuquierC.Presentation/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

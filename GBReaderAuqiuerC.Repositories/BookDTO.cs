@@ -1,5 +1,5 @@
-﻿namespace GBReaderAuquierC.Domains.Repository;
-
+﻿namespace GBReaderAuquierC.Domains.Repository
+{
 public class BookDTO
 {
     private readonly string _title;
@@ -25,9 +25,9 @@ public class BookDTO
         _imagePath = imgPath;
     }
 
-    public Book toBook()
+    public Book ToBook()
     {
-        switch (_version)
+        switch(_version)
         {
             case "1.1":
                 return FromV1_1();
@@ -50,7 +50,8 @@ public class BookDTO
     {
         if(this == obj) { return true; }
         if(obj == null || !GetType().Equals(obj.GetType())) { return false; }
-        BookDTO that = obj as BookDTO;
+        BookDTO that = (BookDTO)obj;
         return ISBN.Equals(that.ISBN);
     }
+}
 }

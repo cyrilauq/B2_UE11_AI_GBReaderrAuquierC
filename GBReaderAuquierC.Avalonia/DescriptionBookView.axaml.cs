@@ -1,5 +1,7 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 
@@ -11,8 +13,11 @@ public partial class DescriptionBookView : UserControl
     private TextBlock _author;
     private TextBlock _isbn;
     private Image _image;
+    private TextBlock _resume;
     
     private string _resumeTxt;
+
+    private bool _showDetails = true;
 
     public DescriptionBookView()
     {
@@ -31,6 +36,7 @@ public partial class DescriptionBookView : UserControl
         _isbn = this.FindControl<TextBlock>("Isbn");
         _author = this.FindControl<TextBlock>("Author");
         _image = this.FindControl<Image>("Image");
+        _resume = this.FindControl<TextBlock>("Resume");
     }
 
     public void SetBookInfo(string title, string isbn, string author, string resume, string imagePath)
@@ -47,18 +53,22 @@ public partial class DescriptionBookView : UserControl
 
     private void DisplayResume(object? sender, PointerEventArgs e)
     {
-        var main = this.FindControl<Grid>("Details");
-        main.IsVisible = false;
         var resumeBlock = this.FindControl<TextBlock>("Resume");
         resumeBlock.Text = _resumeTxt;
         resumeBlock.IsVisible = true;
     }
 
-    private void DisplayDetails(object? sender, PointerEventArgs e)
+    private void DisplayDetails(object? sender, PointerPressedEventArgs e)
     {
-        var main = this.FindControl<Grid>("Details");
-        main.IsVisible = true;
-        var resumeBlock = this.FindControl<TextBlock>("Resume");
-        resumeBlock.IsVisible = false;
+        if (_showDetails)
+        {
+            var resumeBlock = this.FindControl<TextBlock>("Resume");
+            resumeBlock.IsVisible = false;
+            _showDetails = !_showDetails;
+        }
+        else
+        {
+            DisplayResume(sender, e);
+        }
     }
 }

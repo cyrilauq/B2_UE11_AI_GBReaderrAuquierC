@@ -6,28 +6,39 @@ namespace GBReaderAuquierC.Presenter;
 
 public class JsonRepository : IDataRepository
 {
-    public void addBook()
+    private readonly List<Book> _books = new List<Book>();
+    private readonly string _filePath;
+    private readonly string _fileName;
+
+    public JsonRepository(string path, string fileName)
     {
-        throw new NotImplementedException();
+        _filePath = path;
+        _fileName = fileName;
     }
 
-    public List<BookDTO> getData(string path, string file)
+    public List<BookDTO> GetData()
     {
-        var pathFile = Path.Join(path, file);
-        if (!Directory.Exists(path))
+        try
         {
-            throw new DirectoryNotFoundException($"Le dossier {path} n'a pas été trouvé.");
+            var pathFile = Path.Join(_filePath, _fileName);
+            if (!Directory.Exists(_filePath))
+            {
+                throw new DirectoryNotFoundException($"Le dossier {_filePath} n'a pas été trouvé.");
+            }
+            if (!File.Exists(pathFile))
+            {
+                throw new FileNotFoundException($"Le fichier {_filePath} n'a pas été trouvé dans le répertoir {_filePath}.");
+            }
+            var result = JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(pathFile));
+            return result ?? new List<BookDTO>();
         }
-        if (!File.Exists(pathFile))
+        catch(DirectoryNotFoundException e)
         {
-            throw new FileNotFoundException($"Le fichier {file} n'a pas été trouvé dans le répertoir {path}.");
+            throw new DirectoryNotFoundException(e.Message);
         }
-        var result = JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(pathFile));
-        return result ?? new List<BookDTO>();
-    }
-
-    public void remove()
-    {
-        throw new NotImplementedException();
+        catch(FileNotFoundException e)
+        {
+            throw new FileNotFoundException(e.Message);
+        }
     }
 }

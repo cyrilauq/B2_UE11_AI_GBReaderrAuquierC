@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class HomeView : UserControl, View
+public partial class HomeView : UserControl, IView, IHomeView
 {
     private readonly int MAX_BOOK_PAGE = 4;
 
@@ -43,7 +43,7 @@ public partial class HomeView : UserControl, View
         get => _currentPage * MAX_BOOK_PAGE;
     }
 
-    private Session _session;
+    private readonly Session _session;
     
     private Action<string> _router;
     
@@ -59,6 +59,10 @@ public partial class HomeView : UserControl, View
     
     private readonly List<Book> _allBooks;
 
+    private HomePresenter _presenter;
+    
+    public HomePresenter HomePresenter { set => _presenter = value; }
+
     public HomeView()
     {
         InitializeComponent();
@@ -72,10 +76,6 @@ public partial class HomeView : UserControl, View
         {
             _errorMsg.Text = "Error: " + e.Message;
             _errorMsg.IsVisible = true;
-            /*var th = new Thread(this);
-            th.Start();
-            Thread.Sleep(5000);
-            Environment.Exit(0);*/
         }
     }
 
@@ -86,12 +86,42 @@ public partial class HomeView : UserControl, View
 
     private List<Book> GetBooks()
     {
-        List<BookDTO> temp = new JsonRepository().getData(
-            Environment.GetEnvironmentVariable("USERPROFILE").ToString() + "/ue36",
-            "e200106.json");
-        var result = new List<Book>();
-        temp.ForEach(b => result.Add(b.toBook()));
-        return result;
+        try
+        {
+            List<BookDTO> temp = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE").ToString() + "/ue36",
+                "e200106.json").GetData();
+            var result = new List<Book>();
+            // TODO : ajouter seulement les livres ayant un ISBN valide et ayant un titre, un auteur et un résumé.
+            temp.ForEach(b =>
+            {
+                var v = b.ToBook();
+                if (v)
+                {
+                    result.Add(v);
+                }
+            });
+            if (result.Count == 0)
+            {
+                SetErrorMsg("Aucun livre n'a pu être trouvé...");
+            }
+            return result;
+        }
+        catch (FileNotFoundException e)
+        {
+            SetErrorMsg("Le fichier JSON n'a pas été trouvé...");
+            return new List<Book>();
+        }
+        catch (DirectoryNotFoundException e)
+        {
+            SetErrorMsg("Le dossier n'a pas été trouvé...");
+            return new List<Book>();
+        }
+    }
+
+    private void SetErrorMsg(string msg)
+    {
+        _errorMsg.Text = msg;
+        _errorMsg.IsVisible = true;
     }
 
     private void RefreshBookPanel()
