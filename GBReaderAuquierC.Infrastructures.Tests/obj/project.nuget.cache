@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "koUVkqgOF6OG0nzstbr/T0tDCciSTlHG4PFjDgV0Dsoxg2aJkDEIBx0rhuxY7/hedKz6HL6q6XT5MWIT9Aw1Gg==",
+  "dgSpecHash": "AUkFXSimcMeadjjIv6XAyJnuM5JAAL1A3PCuALny9nm7FSvoGe8XCzY+K4L9MZCuPueCpz0QsIfv8mCDFC4HFw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Infrastructures.Tests\\GBReaderAuquierC.Infrastructures.Tests.csproj",
+  "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures.Tests\\GBReaderAuquierC.Infrastructures.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cyril\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",

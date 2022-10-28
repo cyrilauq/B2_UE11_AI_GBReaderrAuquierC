@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {}
+    "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
+    "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
+        "projectUniqueName": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
         "projectName": "GBReaderAuquierC.Domains",
-        "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
+        "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj",
         "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\obj\\",
+        "outputPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",

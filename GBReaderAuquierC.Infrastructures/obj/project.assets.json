@@ -92,11 +92,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
+      "projectUniqueName": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
       "projectName": "GBReaderAuquierC.Infrastructures",
-      "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
+      "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
       "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Infrastructures\\obj\\",
+      "outputPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -113,11 +113,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj": {
-              "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj"
+            "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj": {
+              "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj"
             },
-            "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
-              "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj"
+            "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj": {
+              "projectPath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Domains\\GBReaderAuquierC.Domains.csproj"
             }
           }
         }

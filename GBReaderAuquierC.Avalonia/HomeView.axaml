@@ -20,7 +20,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Padding="5" VerticalAlignment="Center">Filtre par: </TextBlock>
                 <ComboBox SelectedIndex="0">
-                    <ComboBoxItem x:Name="FilterISBN">
+                    <ComboBoxItem IsSelected="True" x:Name="FilterISBN">
                         <TextBlock>ISBN</TextBlock>
                     </ComboBoxItem>
                     <ComboBoxItem x:Name="FilterTitle">

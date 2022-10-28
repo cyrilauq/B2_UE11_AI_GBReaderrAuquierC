@@ -4,13 +4,20 @@ namespace GBReaderAuquierC.Tests;
 
 public class JsonRepositoryTests
 {
+    private readonly string _testResourcesPaht = Path.Join(
+        new DirectoryInfo(
+            new DirectoryInfo(
+                    Directory.GetParent(Path.Join(Environment.CurrentDirectory)).Parent.ToString()).Parent
+                .ToString()).ToString(),
+        "Resources");
+
     [Test]
     public void ThrowErrorIfDirectoryDoesNotExist()
     {
         Assert.Throws(typeof(DirectoryNotFoundException),
             () => new JsonRepository(
                 Path.Join(
-                    "Resources", 
+                    _testResourcesPaht, 
                     "RepositoryNotExistTest"), "test.json").GetData());
     }
     
@@ -18,7 +25,8 @@ public class JsonRepositoryTests
     public void ThrowErrorIfFileDoesNotExist()
     {
         Assert.Throws(typeof(FileNotFoundException),
-            () => new JsonRepository("Resources", "test.json").GetData());
+            () => new JsonRepository(
+                _testResourcesPaht, "test.json").GetData());
     }
     
     [Test]
@@ -27,19 +35,19 @@ public class JsonRepositoryTests
         try
         {
             using var fs = File.OpenRead(
-                Path.Join("Resources", "nullObjects.json"));
+                Path.Join(
+                    _testResourcesPaht, "nullObjects.json"));
             fs.Close();
         }
         catch (FileNotFoundException)
         {
             using var create = File.Create(
-                Path.Join("Resources", "nullObjects.json"));
-            using var write = File.AppendText(
-                Path.Join("Resources", "nullObjects.json"));
-            write.Write("[,]");
+                Path.Join(
+                    _testResourcesPaht, "nullObjects.json"));
+            File.WriteAllText(Path.Join( _testResourcesPaht, "nullObjects.json"), "[,]");
         }
         var actual = new JsonRepository(
-            "Resources",
+            _testResourcesPaht,
             "nullObjects.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
     }
@@ -50,19 +58,22 @@ public class JsonRepositoryTests
         try
         {
             using var fs = File.OpenRead(
-                Path.Join("Resources", "wrongFormatted.json"));
+                Path.Join(
+                    _testResourcesPaht, "wrongFormatted.json"));
             fs.Close();
         }
         catch (FileNotFoundException)
         {
             using var create = File.Create(
-                Path.Join("Resources", "wrongFormatted.json"));
+                Path.Join(
+                    _testResourcesPaht, "wrongFormatted.json"));
             using var write = File.AppendText(
-                Path.Join("Resources", "wrongFormatted.json"));
+                Path.Join(
+                    _testResourcesPaht, "wrongFormatted.json"));
             write.Write("[,{]");
         }
         var actual = new JsonRepository(
-            "Resources",
+            _testResourcesPaht,
             "wrongFormatted.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
     }
@@ -82,16 +93,18 @@ public class JsonRepositoryTests
         try
         {
             using var fs = File.OpenRead(
-                Path.Join("Resources", "emptyFile.json"));
+                Path.Join(
+                    _testResourcesPaht, "emptyFile.json"));
             fs.Close();
         }
         catch (FileNotFoundException)
         {
             using var create = File.Create(
-                Path.Join("Resources", "emptyFile.json"));
+                Path.Join(
+                    _testResourcesPaht, "emptyFile.json"));
         }
         var actual = new JsonRepository(
-            @"Resources",
+            _testResourcesPaht,
             "emptyFile.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
     }

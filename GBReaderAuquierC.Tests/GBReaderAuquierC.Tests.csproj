@@ -31,9 +31,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\emptyFile.json" />
-      <Resource Include="Resources\emptyFile.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Resource>
+        <None Remove="Resources\emptyFile.json" />
+        <Resource Include="Resources\emptyFile.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <None Remove="Resources\wrongFormatted.json" />
+        <Resource Include="Resources\wrongFormatted.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
     </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Resources" />
+    </ItemGroup>
+
 </Project>

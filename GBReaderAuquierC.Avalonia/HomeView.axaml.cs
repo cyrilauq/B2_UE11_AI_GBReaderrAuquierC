@@ -24,7 +24,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
     {
         set
         {
-            if (value > 0 && (value - 1) * MAX_BOOK_PAGE <= _allBooks.Count)
+            if (value > 0 && (value - 1) * MAX_BOOK_PAGE < _allBooks.Count)
             {
                 _currentPage = value;
             }
@@ -56,7 +56,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
     public HomeView()
     {
         InitializeComponent();
-        _repo = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE") + "/ue36",
+        _repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"),
             "e200106.json");
         try
         {
@@ -91,14 +91,14 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
             }
             return result;
         }
-        catch (FileNotFoundException)
+        catch (FileNotFoundException e)
         {
-            SetErrorMsg("Le fichier JSON n'a pas été trouvé...");
+            SetErrorMsg(e.Message);
             return new List<Book>();
         }
-        catch (DirectoryNotFoundException)
+        catch (DirectoryNotFoundException e)
         {
-            SetErrorMsg("Le dossier n'a pas été trouvé...");
+            SetErrorMsg(e.Message);
             return new List<Book>();
         }
     }
@@ -147,7 +147,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         var descr = new ExtendedDescriptionBookView();
         descr.SetInfos(new BookExtendedItem(
             book.Title,
-            book.Author,
+            book.Author + " " + _allBooks.Count,
             book.ISBN,
             book.Image,
             book.Resume));
