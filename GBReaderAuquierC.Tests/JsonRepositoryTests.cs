@@ -1,50 +1,98 @@
-using GBReaderAuquierC.Domains.Repository;
-using GBReaderAuquierC.Presenter;
-using NUnit.Framework.Internal;
+using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests;
 
 public class JsonRepositoryTests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test]
-    public void throwErrorIfDirectoryDoesNotExist()
+    public void ThrowErrorIfDirectoryDoesNotExist()
     {
         Assert.Throws(typeof(DirectoryNotFoundException),
-            () => new JsonRepository().getData(
+            () => new JsonRepository(
                 Path.Join(
-                    Environment.CurrentDirectory.ToString(),
                     "Resources", 
-                    "RepositoryNotExistTest").ToString(), "test.json"));
+                    "RepositoryNotExistTest"), "test.json").GetData());
     }
-
+    
     [Test]
-    public void throwErrorIfFileNotFound()
+    public void ThrowErrorIfFileDoesNotExist()
     {
         Assert.Throws(typeof(FileNotFoundException),
-            () => new JsonRepository().getData(
-                Environment.GetEnvironmentVariable("USERPROFILE").ToString(),
-                "test.json"));
+            () => new JsonRepository("Resources", "test.json").GetData());
+    }
+    
+    [Test]
+    public void DoesNotThrowExceptionIfFileContainsNullObject()
+    {
+        try
+        {
+            using var fs = File.OpenRead(
+                Path.Join("Resources", "nullObjects.json"));
+            fs.Close();
+        }
+        catch (FileNotFoundException)
+        {
+            using var create = File.Create(
+                Path.Join("Resources", "nullObjects.json"));
+            using var write = File.AppendText(
+                Path.Join("Resources", "nullObjects.json"));
+            write.Write("[,]");
+        }
+        var actual = new JsonRepository(
+            "Resources",
+            "nullObjects.json").GetData();
+        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+    }
+    
+    [Test]
+    public void DoesNotThrowExceptionIfHasWrongFarmattedFile()
+    {
+        try
+        {
+            using var fs = File.OpenRead(
+                Path.Join("Resources", "wrongFormatted.json"));
+            fs.Close();
+        }
+        catch (FileNotFoundException)
+        {
+            using var create = File.Create(
+                Path.Join("Resources", "wrongFormatted.json"));
+            using var write = File.AppendText(
+                Path.Join("Resources", "wrongFormatted.json"));
+            write.Write("[,{]");
+        }
+        var actual = new JsonRepository(
+            "Resources",
+            "wrongFormatted.json").GetData();
+        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
     }
 
     [Test]
-    public void Test1()
+    public void ThrowErrorIfFileNotFound()
     {
-        if (!File.Exists(
-                @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json"))
+        Assert.Throws(typeof(FileNotFoundException),
+            () => new JsonRepository(
+                Environment.GetEnvironmentVariable("USERPROFILE"),
+                "test.json").GetData());
+    }
+
+    [Test]
+    public void ReadEmptyFile()
+    {
+        try
         {
-            File.Create(
-                @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json");
+            using var fs = File.OpenRead(
+                Path.Join("Resources", "emptyFile.json"));
+            fs.Close();
         }
-        var actual = new JsonRepository().getData(
-            @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists",
-            "test.json");
+        catch (FileNotFoundException)
+        {
+            using var create = File.Create(
+                Path.Join("Resources", "emptyFile.json"));
+        }
+        var actual = new JsonRepository(
+            @"Resources",
+            "emptyFile.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
-        File.Delete(
-            @"C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests\Resources\FileExists\test.json");
     }
 }

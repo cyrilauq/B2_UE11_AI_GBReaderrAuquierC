@@ -1,33 +1,84 @@
 ﻿using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Domains.Repository;
+using GBReaderAuquierC.Repositories;
 using Newtonsoft.Json;
 
-namespace GBReaderAuquierC.Presenter;
+namespace GBReaderAuquierC.Repositories;
 
 public class JsonRepository : IDataRepository
 {
-    public void addBook()
+    private readonly List<Book> _books = new();
+    private readonly string _filePath;
+    private readonly string _fileName;
+
+    public JsonRepository(string path, string fileName)
     {
-        throw new NotImplementedException();
+        _filePath = path;
+        _fileName = fileName;
     }
 
-    public List<BookDTO> getData(string path, string file)
+    public List<BookDTO> GetData()
     {
-        var pathFile = Path.Join(path, file);
-        if (!Directory.Exists(path))
+        try
         {
-            throw new DirectoryNotFoundException($"Le dossier {path} n'a pas été trouvé.");
+            _books.Clear();
+            var result = new List<BookDTO>();
+            var recup = new List<BookDTO>();
+            var pathFile = Path.Join(_filePath, _fileName);
+            if (!Directory.Exists(_filePath))
+            {
+                // TODO : modifier messages d'erreurs
+                throw new DirectoryNotFoundException($"Le dossier {_filePath} n'a pas été trouvé.");
+            }
+
+            if (!File.Exists(pathFile))
+            {
+                throw new FileNotFoundException(
+                    $"Le fichier {_filePath} n'a pas été trouvé dans le répertoir {_filePath}.");
+            }
+
+            try
+            {
+                recup = JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(pathFile));
+            }
+            catch (JsonReaderException)
+            {
+                return new List<BookDTO>();
+            }
+            recup?.ForEach(b =>
+            {
+                Book get;
+                if (b != null && (get = Mapper.ConvertToBook(b)) != null)
+                {
+                        result.Add(b);
+                        _books.Add(get);
+                }
+            });
+            return result.Count > 0 && recup != null ? result : new List<BookDTO>();
         }
-        if (!File.Exists(pathFile))
+        catch(DirectoryNotFoundException e)
         {
-            throw new FileNotFoundException($"Le fichier {file} n'a pas été trouvé dans le répertoir {path}.");
+            throw new DirectoryNotFoundException(e.Message);
         }
-        var result = JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(pathFile));
-        return result ?? new List<BookDTO>();
+        catch(FileNotFoundException e)
+        {
+            throw new FileNotFoundException(e.Message);
+        }
     }
 
-    public void remove()
+    public Book Search(string isbn)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return _books.First(b => b.ISBN.Contains(isbn));
+        }
+        catch (Exception)
+        {
+            throw new NoBooksFindException("No book find for the search: " + isbn);
+        }
+    }
+
+    public class NoBooksFindException : Exception
+    {
+        public NoBooksFindException(string message) : base(message) {}
     }
 }

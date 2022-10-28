@@ -1,12 +1,11 @@
-﻿using GBReaderAuquierC.Domains.Repository;
+﻿using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Repositories;
 
-namespace GBReaderAuquierC.Presenter;
+namespace GBReaderAuquierC.Repositories;
 
 public interface IDataRepository
 {
-    public void addBook();
+    public List<BookDTO> GetData();
 
-    public List<BookDTO> getData(string path, string file);
-
-    public void remove();
+    public Book Search(string isbn);
 }

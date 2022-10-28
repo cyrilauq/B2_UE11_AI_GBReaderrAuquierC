@@ -1,6 +1,6 @@
-﻿namespace GBReaderAuquierC.Presenter;
+﻿namespace GBReaderAuquierC.Presentation;
 
-public interface View
+public interface IView
 {
     public void GoTo(string toView);
 }

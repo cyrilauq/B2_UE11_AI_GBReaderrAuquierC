@@ -23,8 +23,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\FileExists" />
-      <Folder Include="Resources\FileNotFound" />
+        <AdditionnalFiles Include="../CodeMetricsConfig.txt" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AdditionnalFiles Include="../.editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\emptyFile.json" />
+      <Resource Include="Resources\emptyFile.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
 </Project>

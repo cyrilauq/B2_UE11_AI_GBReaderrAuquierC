@@ -1,0 +1,9 @@
+# Excessive inheritance tree for type threshold
+CA1501: 1
+
+# Excessive CC for method threshold
+CA1502(Method): 5
+
+# Excessive Class coupling for method threshold
+CA1506(Method): 9
+CA1506(Type): 40

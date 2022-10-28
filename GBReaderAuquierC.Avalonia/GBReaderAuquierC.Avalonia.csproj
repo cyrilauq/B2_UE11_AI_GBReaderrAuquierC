@@ -30,4 +30,12 @@
       <ProjectReference Include="..\GBReaderAuquierC.Infrastructures\GBReaderAuquierC.Infrastructures.csproj" />
       <ProjectReference Include="..\GBReaderAuquierC.Presentation\GBReaderAuquierC.Presentation.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+        <AdditionnalFiles Include="../CodeMetricsConfig.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionnalFiles Include="../.editorconfig" />
+    </ItemGroup>
 </Project>
