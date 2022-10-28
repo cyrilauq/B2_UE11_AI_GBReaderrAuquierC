@@ -1,18 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
-using GBReaderAuquierC.Presenter;
+using GBReaderAuquierC.Presentation;
 
 namespace GBReaderAuquierC.Avalonia;
 
 public partial class ExtendedDescriptionBookView : UserControl
 {
-    private TextBlock _title;
-    private TextBlock _author;
-    private TextBlock _isbn;
-    private TextBlock _resume;
-
     public ExtendedDescriptionBookView()
     {
         InitializeComponent();
@@ -24,7 +17,7 @@ public partial class ExtendedDescriptionBookView : UserControl
         Resume.Text = item.Resume;
         ISBN.Text = item.Isbn;
         Author.Text = item.Author;
-        if (item.ImgPath != null)
+        if (item.ImgPath != null && item.ImgPath.Trim().Length > 0)
         {
             Image.Source = new Bitmap(item.ImgPath);
         }

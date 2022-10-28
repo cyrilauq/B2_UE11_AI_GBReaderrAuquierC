@@ -34,7 +34,6 @@ public class Book
 
     public Book(string title, string author, string isbn, string resume)
     {
-        // TODO : Si image nulle ou non existante, mettre une image par défaut.
         _title = title;
         _author = author;
         _isbn = new ISBN(isbn);

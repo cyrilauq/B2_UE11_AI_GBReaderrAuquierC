@@ -1,21 +1,30 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 
 namespace GBReaderAuquierC.Avalonia
 {
-    public partial class MainWindow : Window
+    public interface IDisplayMessages
     {
-        private Dictionary<string, UserControl> views = new Dictionary<string, UserControl>();
+        void DisplayNotification(Notification notification);
+    }
+    public partial class MainWindow : Window, IDisplayMessages
+    {
+        private Dictionary<string, UserControl> _views = new Dictionary<string, UserControl>();
+        private readonly WindowNotificationManager _lala;
 
         public MainWindow()
         {
+            _lala = new WindowNotificationManager(this);
             InitializeComponent();
             HomeView homeView = new HomeView();
+            homeView.AddListener(this);
             ReadBookView readBookView = new ReadBookView();
+            readBookView.AddListener(this);
             homeView.Router = GoTo;
-            views.Add("HomeView", homeView);
-            views.Add("CreateBookView", readBookView);
+            _views.Add("HomeView", homeView);
+            _views.Add("CreateBookView", readBookView);
             Root.Children.Add(homeView);
             Root.Children.Add(readBookView);
         }
@@ -29,12 +38,17 @@ namespace GBReaderAuquierC.Avalonia
 
         private UserControl Found(string view)
         {
-            if (!views.ContainsKey(view))
+            if (!_views.ContainsKey(view))
             {
                 throw new ArgumentException("The view [" + view + "] doesn't exist.");
             }
 
-            return views[view];
+            return _views[view];
+        }
+
+        public void DisplayNotification(Notification notification)
+        {
+            _lala.Show(notification);
         }
     }
 }

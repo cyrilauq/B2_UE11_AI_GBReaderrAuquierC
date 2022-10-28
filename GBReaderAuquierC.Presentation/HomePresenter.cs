@@ -1,4 +1,4 @@
-﻿namespace GBReaderAuquierC.Presenter;
+﻿namespace GBReaderAuquierC.Presentation;
 
 public class HomePresenter
 {

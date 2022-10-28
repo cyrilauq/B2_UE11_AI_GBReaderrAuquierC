@@ -11,4 +11,11 @@
       <ProjectReference Include="..\GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AdditionnalFiles Include="../CodeMetricsConfig.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionnalFiles Include="../.editorconfig" />
+    </ItemGroup>
 </Project>

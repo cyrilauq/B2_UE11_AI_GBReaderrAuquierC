@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mR6jCB3fCDgHKv7DFMiPiqoju/6oFGnAI8j9RerxtZq1ZwoHM1mYwpkFG8eaR4YSuEIvqFSuDQoOnFRkED3sRQ==",
+  "dgSpecHash": "gZ2X4dDrVWqnl2Q9YSDjWEj7dMhgiwGW4GkiG03JpxFxStX0y1WqELZahlJuxH6CqfqJ5UnOEXQyQmcBUcwLdw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cyril\\ue36\\AI\\GBReaderAuquierC\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj",
+  "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GBReaderAuquierC\\GBReaderAuqiuerC.Repositories\\GBReaderAuqiuerC.Repositories.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cyril\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],

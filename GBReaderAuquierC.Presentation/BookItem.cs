@@ -1,4 +1,4 @@
-﻿namespace GBReaderAuquierC.Presenter;
+﻿namespace GBReaderAuquierC.Presentation;
 
 /// <summary>
 /// Contient les informations à donner à une DescriptionBookView

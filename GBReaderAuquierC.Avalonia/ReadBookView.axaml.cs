@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class ReadBookView : UserControl
+public partial class ReadBookView : UserControl, IAskToDisplayMessage
 {
     public ReadBookView()
     {
@@ -14,5 +14,10 @@ public partial class ReadBookView : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    public void AddListener(IDisplayMessages listener)
+    {
+        //throw new System.NotImplementedException();
     }
 }

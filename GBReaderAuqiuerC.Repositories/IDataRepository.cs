@@ -1,7 +1,7 @@
 ﻿using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Domains.Repository;
+using GBReaderAuquierC.Repositories;
 
-namespace GBReaderAuquierC.Presenter;
+namespace GBReaderAuquierC.Repositories;
 
 public interface IDataRepository
 {

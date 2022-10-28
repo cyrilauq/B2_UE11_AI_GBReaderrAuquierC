@@ -1,4 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0d76c406_002Df103_002D491c_002D9165_002Da4cf378a7699/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ReadEmptyFile #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0f548c96_002D3372_002D45fe_002D81cb_002D42fde78f423d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1 #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.JsonRepositoryTests.Test1&lt;/TestId&gt;&#xD;
@@ -19,11 +22,19 @@
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.JsonRepositoryTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=636fe608_002D7839_002D45e4_002Da068_002Da9b5b84d8385/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DoesNotThrowExceptionIfHasWrongFarmattedFile" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a5fb83ab_002D7127_002D4eb0_002Dbdb6_002D50373baa1400/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.JsonRepositoryTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c372df22_002D61da_002D4522_002D81dd_002D070303ec18bc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ReadEmptyFile" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ac4afcdb_002D10d2_002D4ce3_002Dbdd6_002Debc6b780ec3b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ReadEmptyFile #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.JsonRepositoryTests.ReadEmptyFile&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c372df22_002D61da_002D4522_002D81dd_002D070303ec18bc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ReadEmptyFile" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\cyril\ue36\AI\GBReaderAuquierC\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

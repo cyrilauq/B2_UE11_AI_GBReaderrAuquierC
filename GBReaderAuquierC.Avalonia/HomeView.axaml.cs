@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Domains.Repository;
-using GBReaderAuquierC.Presenter;
+using GBReaderAuquierC.Repositories;
+using GBReaderAuquierC.Presentation;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class HomeView : UserControl, IView
+public partial class HomeView : UserControl, IView, IAskToDisplayMessage
 {
     private readonly int MAX_BOOK_PAGE = 8;
 
     private int _currentPage = 1;
 
-    private int NbCurrentPage
+    private HashSet<IDisplayMessages> _listeners = new();
+
+    private int NCurrentPage
     {
         set
         {
-            if (value > 0 && value * MAX_BOOK_PAGE <= _allBooks.Count)
+            if (value > 0 && (value - 1) * MAX_BOOK_PAGE <= _allBooks.Count)
             {
                 _currentPage = value;
             }
@@ -38,8 +41,6 @@ public partial class HomeView : UserControl, IView
     {
         get => _currentPage * MAX_BOOK_PAGE;
     }
-
-    private readonly Session _session;
     
     private Action<string> _router;
     
@@ -55,19 +56,19 @@ public partial class HomeView : UserControl, IView
     public HomeView()
     {
         InitializeComponent();
+        _repo = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE") + "/ue36",
+            "e200106.json");
         try
         {
-            _repo = new JsonRepository(Environment.GetEnvironmentVariable("USERPROFILE").ToString() + "/ue36",
-                "e200106.json");
             _allBooks = new List<Book>(GetBooks());
             RefreshBookPanel();
         }
         catch (Exception e)
         {
+            _allBooks = new List<Book>();
             ErrorMsg.Text = "Error: " + e.Message;
             ErrorMsg.IsVisible = true;
         }
-        // TODO : uatiliser un NotificationManager pour afficher les erreurs
     }
 
     private List<Book> GetBooks()
@@ -76,10 +77,9 @@ public partial class HomeView : UserControl, IView
         {
             List<BookDTO> temp = _repo.GetData();
             var result = new List<Book>();
-            // TODO : ajouter seulement les livres ayant un ISBN valide et ayant un titre, un auteur et un résumé.
             temp.ForEach(b =>
             {
-                var v = b.ToBook();
+                var v = Mapper.ConvertToBook(b);
                 if (v)
                 {
                     result.Add(v);
@@ -91,12 +91,12 @@ public partial class HomeView : UserControl, IView
             }
             return result;
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException)
         {
             SetErrorMsg("Le fichier JSON n'a pas été trouvé...");
             return new List<Book>();
         }
-        catch (DirectoryNotFoundException e)
+        catch (DirectoryNotFoundException)
         {
             SetErrorMsg("Le dossier n'a pas été trouvé...");
             return new List<Book>();
@@ -121,27 +121,36 @@ public partial class HomeView : UserControl, IView
         for (int i = IndexBegin; i < IndexEnd && i < books.Count; i++)
         {
             var b = books[i];
+            if (i == 0)
+            {
+                DiplayBook(b);
+            }
             var temp = new DescriptionBookView();
-            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, resume: b.Resume, imagePath: b.Image);
+            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, imagePath: b.Image);
             temp.PointerPressed += DisplayDetails;
             Books.Children.Add(temp);
         }
-        CurrentPage.Text = "" + NbCurrentPage;
+        CurrentPage.Text = "" + NCurrentPage;
     }
 
     private void DisplayDetails(object? sender, PointerEventArgs e)
     {
-        var view = (DescriptionBookView)sender;
-        var result = _repo.Search(view.Isbn.Text);
+        var view = (DescriptionBookView)sender!;
+        DiplayBook(_repo.Search(view.Isbn.Text));
+    }
+
+    private void DiplayBook(Book book)
+    {
+        if(book == null) { return; }
         var resumeBlock = this.FindControl<WrapPanel>("Details");
         resumeBlock.Children.Clear();
         var descr = new ExtendedDescriptionBookView();
         descr.SetInfos(new BookExtendedItem(
-            result.Title,
-            result.Author,
-            result.ISBN,
-            result.Image,
-            result.Resume));
+            book.Title,
+            book.Author,
+            book.ISBN,
+            book.Image,
+            book.Resume));
         resumeBlock.Children.Add(descr);
     }
 
@@ -150,13 +159,13 @@ public partial class HomeView : UserControl, IView
 
     private void On_PreviousClicked(object? sender, RoutedEventArgs e)
     {
-        NbCurrentPage--;
+        NCurrentPage--;
         RefreshBookPanel();
     }
 
     private void On_NextClicked(object? sender, RoutedEventArgs e)
     {
-        NbCurrentPage++;
+        NCurrentPage++;
         RefreshBookPanel();
     }
 
@@ -178,14 +187,26 @@ public partial class HomeView : UserControl, IView
         }
     }
 
-    private List<Book> FindBooksFor(string q)
+    private List<Book> FindBooksFor(string search)
     {
-        var result = _allBooks.Where(b => b.Title.ToLower().Contains(q) || b.ISBN.Contains(q)).ToList();
-
-        /*if (result is null)
+        search = search.ToLower().Replace("-", "");
+        List<Book> result;
+        if (FilterTitle.IsSelected)
         {
-            throw new JsonRepository.NoBooksFindException("No book find for the search: " + q);
-        }*/
+            result = _allBooks.Where(b => b.Title.ToLower().Replace("-", "").Contains(search)).ToList();
+        } else if (FilterISBN.IsSelected)
+        {
+            result = _allBooks.Where(b => b.ISBN.Replace("-", "").Contains(search)).ToList();
+        }
+        else
+        {
+            result = _allBooks.Where(b => b.Title.Replace("-", "").ToLower().Contains(search) || b.ISBN.Replace("-", "").Contains(search)).ToList();
+        }
+
+        if (result.Count == 0)
+        {
+            NotifyListeners(new Notification("Recherche","Aucun livre correspondant n'a été trouvé.",NotificationType.Error));
+        }
         
         return result;
     }
@@ -195,6 +216,19 @@ public partial class HomeView : UserControl, IView
         if (e.Key == Key.Enter)
         {
             On_SearchedClicked(sender, e);
+        }
+    }
+
+    public void AddListener(IDisplayMessages listener)
+    {
+        _listeners.Add(listener);
+    }
+
+    private void NotifyListeners(Notification notif)
+    {
+        foreach (var l in _listeners)
+        {
+            l.DisplayNotification(notif);
         }
     }
 }

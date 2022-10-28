@@ -7,7 +7,6 @@
     <StackPanel x:Name="Main">
         <StackPanel Orientation="Vertical"
                     Background="White"
-                    PointerPressed="DisplayDetails"
                     Height="90">
             <Image Width="80" Height="90" x:Name="Image" />
             <TextBlock x:Name="Title" TextWrapping="WrapWithOverflow">Title</TextBlock>

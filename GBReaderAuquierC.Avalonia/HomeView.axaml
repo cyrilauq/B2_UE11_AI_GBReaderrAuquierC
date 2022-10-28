@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Width="800" Height="650"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Width="800" Height="650" MaxWidth="800" MaxHeight="650"
              x:Class="GBReaderAuquierC.Avalonia.HomeView">
     <StackPanel HorizontalAlignment="Center">
         <Border BorderBrush="Black"
@@ -17,6 +17,20 @@
         </Border>
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBox KeyDown="On_EnterDown" x:Name="Search" Watermark="Rechercher un titre ou un ISBN" Width="250"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Padding="5" VerticalAlignment="Center">Filtre par: </TextBlock>
+                <ComboBox SelectedIndex="0">
+                    <ComboBoxItem x:Name="FilterISBN">
+                        <TextBlock>ISBN</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="FilterTitle">
+                        <TextBlock>Titre</TextBlock>
+                    </ComboBoxItem>
+                    <ComboBoxItem x:Name="FilterBoth">
+                        <TextBlock>Les deux</TextBlock>
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
             <Button Content="Rechercher" x:Name="SearchBtn" Click="On_SearchedClicked"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
