@@ -18,7 +18,7 @@ public partial class DescriptionBookView : UserControl
 
     private void OnDisplayDetailsRequested(object? sender, RoutedEventArgs args)
     {
-        Display?.Invoke(this, new DescriptionEventArgs(_isbn));
+        Display?.Invoke(this, new DescriptionEventArgs(Isbn.Text));
     }
 
     public void SetBookInfo(BookItem book)

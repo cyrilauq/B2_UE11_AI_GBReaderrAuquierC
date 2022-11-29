@@ -26,6 +26,7 @@
       "GBReaderAuqiuerC.Repositories/1.0.0": {
         "dependencies": {
           "GBReaderAuquierC.Domains": "1.0.0",
+          "GBReaderAuquierC.Infrastructures": "1.0.0",
           "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
@@ -35,6 +36,14 @@
       "GBReaderAuquierC.Domains/1.0.0": {
         "runtime": {
           "GBReaderAuquierC.Domains.dll": {}
+        }
+      },
+      "GBReaderAuquierC.Infrastructures/1.0.0": {
+        "dependencies": {
+          "GBReaderAuquierC.Domains": "1.0.0"
+        },
+        "runtime": {
+          "GBReaderAuquierC.Infrastructures.dll": {}
         }
       }
     }
@@ -58,6 +67,11 @@
       "sha512": ""
     },
     "GBReaderAuquierC.Domains/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GBReaderAuquierC.Infrastructures/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

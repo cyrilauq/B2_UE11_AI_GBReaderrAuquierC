@@ -20,6 +20,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "GBReaderAuquierC.Domains": "1.0.0",
+          "GBReaderAuquierC.Infrastructures": "1.0.0",
           "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
@@ -37,6 +38,19 @@
         },
         "runtime": {
           "bin/placeholder/GBReaderAuquierC.Domains.dll": {}
+        }
+      },
+      "GBReaderAuquierC.Infrastructures/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "GBReaderAuquierC.Domains": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/GBReaderAuquierC.Infrastructures.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GBReaderAuquierC.Infrastructures.dll": {}
         }
       }
     }
@@ -78,6 +92,11 @@
       "type": "project",
       "path": "../GBReaderAuquierC.Domains/GBReaderAuquierC.Domains.csproj",
       "msbuildProject": "../GBReaderAuquierC.Domains/GBReaderAuquierC.Domains.csproj"
+    },
+    "GBReaderAuquierC.Infrastructures/1.0.0": {
+      "type": "project",
+      "path": "../GBReaderAuquierC.Infrastructures/GBReaderAuquierC.Infrastructures.csproj",
+      "msbuildProject": "../GBReaderAuquierC.Infrastructures/GBReaderAuquierC.Infrastructures.csproj"
     }
   },
   "projectFileDependencyGroups": {

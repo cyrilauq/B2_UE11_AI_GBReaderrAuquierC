@@ -30,6 +30,8 @@ namespace GBReaderAuquierC.Avalonia
             HomeView homeView = new();
             homeView.Session = _session;
             homeView.AddListener(this);
+            var homePresenter = new HomePresenter(homeView, this, _session, null);
+            
             ReadBookView readBookView = new();
             readBookView.Session = _session;
             readBookView.AddListener(this);
@@ -42,7 +44,7 @@ namespace GBReaderAuquierC.Avalonia
         public void GoTo(string view)
         {
             var found = Found(view);
-            (found as IView).OnEnter("");
+            (found as IView)?.OnEnter("");
             Content = _views[view];
         }
 
@@ -56,9 +58,6 @@ namespace GBReaderAuquierC.Avalonia
             return _views[view];
         }
 
-        public void DisplayNotification(Notification notification)
-        {
-            _notificationManager.Show(notification);
-        }
+        public void DisplayNotification(Notification notification) => _notificationManager.Show(notification);
     }
 }

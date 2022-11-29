@@ -1,3 +1,5 @@
+using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests;
@@ -26,7 +28,7 @@ public class JsonRepositoryTests
     {
         Assert.Throws(typeof(FileNotFoundException),
             () => new JsonRepository(
-                _testResourcesPaht, "test.json").GetData());
+                _testResourcesPaht, "test.json").GetBooks());
     }
     
     [Test]
@@ -34,18 +36,18 @@ public class JsonRepositoryTests
     {
         var actual = new JsonRepository(
             _testResourcesPaht,
-            "nullObjects.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+            "nullObjects.json").GetBooks();
+        Assert.That(actual, Is.EqualTo(new List<Book>()));
 
     }
     
     [Test]
-    public void DoesNotThrowExceptionIfHasWrongFarmattedFile()
+    public void WhenJsonFormatIsNotValidThenThrowDataManipulationException()
     {
-        var actual = new JsonRepository(
-            _testResourcesPaht,
-            "wrongFormatted.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+        Assert.Throws(typeof(DataManipulationException),
+            () => new JsonRepository(
+                _testResourcesPaht,
+                "wrongFormatted.json").GetBooks());
     }
 
     [Test]
@@ -54,7 +56,7 @@ public class JsonRepositoryTests
         Assert.Throws(typeof(FileNotFoundException),
             () => new JsonRepository(
                 Environment.GetEnvironmentVariable("USERPROFILE"),
-                "test.json").GetData());
+                "test.json").GetBooks());
     }
 
     [Test]
@@ -62,7 +64,7 @@ public class JsonRepositoryTests
     {
         var actual = new JsonRepository(
             _testResourcesPaht,
-            "emptyFile.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+            "emptyFile.json").GetBooks();
+        Assert.That(actual, Is.EqualTo(new List<Book>()));
     }
 }

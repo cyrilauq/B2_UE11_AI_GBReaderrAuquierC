@@ -43,3 +43,5 @@ C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\obj\Debug
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\obj\Debug\net6.0\refint\GBReaderAuqiuerC.Repositories.dll
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\obj\Debug\net6.0\GBReaderAuqiuerC.Repositories.pdb
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\obj\Debug\net6.0\ref\GBReaderAuqiuerC.Repositories.dll
+C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.dll
+C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuqiuerC.Repositories\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.pdb

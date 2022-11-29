@@ -35,9 +35,7 @@ C:\Users\cyril\B2UE11\AI\GBReaderAuquierC\GBReaderAuquierC.Infrastructures\obj\D
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.deps.json
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.dll
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.pdb
-C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuqiuerC.Repositories.dll
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuquierC.Domains.dll
-C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuqiuerC.Repositories.pdb
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\bin\Debug\net6.0\GBReaderAuquierC.Domains.pdb
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\obj\Debug\net6.0\GBReaderAuquierC.Infrastructures.csproj.AssemblyReference.cache
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Infrastructures\obj\Debug\net6.0\GBReaderAuquierC.Infrastructures.GeneratedMSBuildEditorConfig.editorconfig

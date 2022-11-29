@@ -387,6 +387,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "GBReaderAuquierC.Domains": "1.0.0",
+          "GBReaderAuquierC.Infrastructures": "1.0.0",
           "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
@@ -410,7 +411,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "GBReaderAuqiuerC.Repositories": "1.0.0",
           "GBReaderAuquierC.Domains": "1.0.0"
         },
         "compile": {

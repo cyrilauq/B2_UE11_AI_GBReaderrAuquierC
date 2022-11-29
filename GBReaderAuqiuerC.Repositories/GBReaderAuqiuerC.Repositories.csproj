@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj" />
+      <ProjectReference Include="..\GBReaderAuquierC.Infrastructures\GBReaderAuquierC.Infrastructures.csproj" />
     </ItemGroup>
 
     <ItemGroup>

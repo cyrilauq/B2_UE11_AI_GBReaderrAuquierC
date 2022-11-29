@@ -1,5 +1,5 @@
 ﻿using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Repositories;
+using GBReaderAuquierC.Infrastructures;
 using Newtonsoft.Json;
 
 namespace GBReaderAuquierC.Repositories;
@@ -14,6 +14,52 @@ public class JsonRepository : IDataRepository
     {
         _filePath = path;
         _fileName = fileName;
+    }
+
+    private void LoadBooks()
+    {
+        FileAndDirectoryExists();
+        try
+        {
+            _books.Clear();
+            JsonConvert.DeserializeObject<List<BookDTO>>(File.ReadAllText(Path.Join(_filePath, _fileName)))?.ForEach(b =>
+            {
+                if (b != null)
+                {
+                    _books.Add(Mapper.ConvertToBook(b));
+                }
+            });
+        }
+        catch (JsonReaderException e)
+        {
+            throw new DataManipulationException("Une erreur s'est produite lors de la récupération des données.", e);
+        }
+        catch (IOException e)
+        {
+            throw new DataManipulationException("Une erreur s'est produite lors de la récupération des données.", e);
+        }
+    }
+
+    public IList<Book> GetBooks()
+    {
+        LoadBooks();
+        return new List<Book>(_books);
+    }
+
+    private void FileAndDirectoryExists()
+    {
+        string pathFile = Path.Join(_filePath, _fileName);
+        if (!Directory.Exists(_filePath))
+        {
+            // TODO : modifier messages d'erreurs
+            throw new DirectoryNotFoundException($"Le dossier {_filePath} n'a pas été trouvé.");
+        }
+
+        if (!File.Exists(pathFile))
+        {
+            throw new FileNotFoundException(
+                $"Le fichier {_filePath} n'a pas été trouvé dans le répertoir {_filePath}.");
+        }
     }
 
     public List<BookDTO> GetData()

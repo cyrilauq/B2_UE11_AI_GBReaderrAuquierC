@@ -6,15 +6,22 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Repositories;
 using GBReaderAuquierC.Presentation;
+using SearchOption = GBReaderAuquierC.Presentation.SearchOption;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class HomeView : UserControl, IView, IAskToDisplayMessage
+public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeView
 {
+    public event EventHandler<DescriptionEventArgs>? DisplayDetailsRequested;
+    public event EventHandler ReadBookRequested;
+    public event EventHandler<SearchEventArgs>? SearchBookRequested;
+    public event EventHandler<ChangePageEventArgs> ChangePageRequested;
+    
     private readonly int MAX_BOOK_PAGE = 8;
 
     private int _currentPage = 1;
@@ -65,19 +72,6 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
     public HomeView()
     {
         InitializeComponent();
-        _repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"),
-            "e200106.json");
-        try
-        {
-            _allBooks = new List<Book>(GetBooks());
-            RefreshBookPanel();
-        }
-        catch (Exception e)
-        {
-            _allBooks = new List<Book>();
-            ErrorMsg.Text = "Error: " + e.Message;
-            ErrorMsg.IsVisible = true;
-        }
     }
 
     private List<Book> GetBooks()
@@ -112,15 +106,11 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         }
     }
     
-    public void On_DescriptionClicked(object? sender, DescriptionEventArgs args) {
-        DiplayBook(_repo.Search((args.Isbn)));
-    }
+    public void On_DescriptionClicked(object? sender, DescriptionEventArgs args)
+        => DisplayDetailsRequested?.Invoke(this, args);
 
-    public void On_ShowBookClicked(object? sender, DescriptionEventArgs args)
-    {
-        _session.CurrentBook = args.Isbn;
-        GoTo("ReadBookView");
-    }
+    public void On_ShowBookClicked(object? sender, DescriptionEventArgs args) 
+        => ReadBookRequested?.Invoke(this, EventArgs.Empty);
 
     private void SetErrorMsg(string msg)
     {
@@ -135,14 +125,14 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         DisplayBook(_search ? _searchBooks : _allBooks);
     }
 
-    private void DisplayBook(List<Book> books)
+    public void DisplayBook(List<Book> books)
     {
         for (int i = IndexBegin; i < IndexEnd && i < books.Count; i++)
         {
             var b = books[i];
             if (i == 0)
             {
-                DiplayBook(b);
+                //DiplayBook(b);
             }
             var temp = new DescriptionBookView();
             temp.SetBookInfo(new BookItem(b.Title, b.Author, b.ISBN, b.Image));
@@ -161,11 +151,20 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         descr.Show += On_ShowBookClicked;
         descr.SetInfos(new BookExtendedItem(
             book.Title,
-            book.Author + " " + _allBooks.Count,
+            book.Author,
             book.ISBN,
             book.Image,
             book.Resume));
         resumeBlock.Children.Add(descr);
+    }
+
+    public void DisplayDetailsFor(BookExtendedItem item)
+    {
+        var details = new ExtendedDescriptionBookView();
+        details.SetInfos(item);
+        details.Show += On_ShowBookClicked;
+        Details.Children.Clear();
+        Details.Children.Add(details);
     }
 
     public void GoTo(string toView) 
@@ -197,24 +196,27 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
             _currentPage = 1;
             _searchBooks.Clear();
             FindBooksFor(q).ForEach(b => _searchBooks.Add(b));
-            RefreshBookPanel();
+            //RefreshBookPanel();
         }
     }
 
     private List<Book> FindBooksFor(string search)
     {
         search = search.ToLower().Replace("-", "");
-        List<Book> result;
+        List<Book> result = new List<Book>();
         if (FilterTitle.IsSelected)
         {
-            result = _allBooks.Where(b => b.Title.ToLower().Replace("-", "").Contains(search)).ToList();
+            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.FilterTitle));
+            // result = _allBooks.Where(b => b.Title.ToLower().Replace("-", "").Contains(search)).ToList();
         } else if (FilterISBN.IsSelected)
         {
-            result = _allBooks.Where(b => b.ISBN.Replace("-", "").Contains(search)).ToList();
+            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.FilterIsbn));
+            // result = _allBooks.Where(b => b.ISBN.Replace("-", "").Contains(search)).ToList();
         }
         else
         {
-            result = _allBooks.Where(b => b.Title.Replace("-", "").ToLower().Contains(search) || b.ISBN.Replace("-", "").Contains(search)).ToList();
+            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.NoFilter));
+            // result = _allBooks.Where(b => b.Title.Replace("-", "").ToLower().Contains(search) || b.ISBN.Replace("-", "").Contains(search)).ToList();
         }
 
         if (result.Count == 0)

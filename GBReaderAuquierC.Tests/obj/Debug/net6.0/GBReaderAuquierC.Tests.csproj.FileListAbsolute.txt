@@ -210,3 +210,5 @@ C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\obj\Debug\net6.0
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.pdb
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\obj\Debug\net6.0\GBReaderAuquierC.Tests.genruntimeconfig.cache
 C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\obj\Debug\net6.0\ref\GBReaderAuquierC.Tests.dll
+C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.dll
+C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests\bin\Debug\net6.0\GBReaderAuquierC.Infrastructures.pdb

@@ -1,22 +1,35 @@
-﻿namespace GBReaderAuquierC.Domains;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-public class Session
+namespace GBReaderAuquierC.Domains;
+
+public class Session : INotifyPropertyChanged
 {
-    private readonly string _author;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    private string _currentBook;
+    private string? _currentBook;
+    private Book? _book;
 
-    public string Autor
+    public Book Book
     {
-        init => _author = value;
-        get => _author;
+        set
+        {
+            _book = value;
+            NotifyPropertyChanged(nameof(Book));
+        }
+        get => _book;
     }
 
     public string CurrentBook
     {
-        set => _currentBook = value;
+        set
+        {
+            _currentBook = value;
+            NotifyPropertyChanged(nameof(CurrentBook));
+        }
         get => _currentBook;
     }
 
-
+    private void NotifyPropertyChanged(string propertyName)
+    => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
