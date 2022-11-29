@@ -7,6 +7,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Repositories;
 using GBReaderAuquierC.Presentation;
 
@@ -52,6 +53,14 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
     private IDataRepository _repo;
 
     private bool _search = false;
+    
+    private Session _session;
+
+    public Session Session
+    {
+        set => _session = value;
+        get => _session;
+    }
 
     public HomeView()
     {
@@ -102,6 +111,16 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
             return new List<Book>();
         }
     }
+    
+    public void On_DescriptionClicked(object? sender, DescriptionEventArgs args) {
+        DiplayBook(_repo.Search((args.Isbn)));
+    }
+
+    public void On_ShowBookClicked(object? sender, DescriptionEventArgs args)
+    {
+        _session.CurrentBook = args.Isbn;
+        GoTo("ReadBookView");
+    }
 
     private void SetErrorMsg(string msg)
     {
@@ -126,17 +145,11 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
                 DiplayBook(b);
             }
             var temp = new DescriptionBookView();
-            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, imagePath: b.Image);
-            temp.PointerPressed += DisplayDetails;
+            temp.SetBookInfo(new BookItem(b.Title, b.Author, b.ISBN, b.Image));
+            temp.Display += On_DescriptionClicked;
             Books.Children.Add(temp);
         }
         CurrentPage.Text = "" + NCurrentPage;
-    }
-
-    private void DisplayDetails(object? sender, PointerEventArgs e)
-    {
-        var view = (DescriptionBookView)sender!;
-        DiplayBook(_repo.Search(view.Isbn.Text));
     }
 
     private void DiplayBook(Book book)
@@ -145,6 +158,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         var resumeBlock = this.FindControl<WrapPanel>("Details");
         resumeBlock.Children.Clear();
         var descr = new ExtendedDescriptionBookView();
+        descr.Show += On_ShowBookClicked;
         descr.SetInfos(new BookExtendedItem(
             book.Title,
             book.Author + " " + _allBooks.Count,
@@ -230,5 +244,10 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         {
             l.DisplayNotification(notif);
         }
+    }
+
+    public void OnEnter(string fromView)
+    {
+        
     }
 }

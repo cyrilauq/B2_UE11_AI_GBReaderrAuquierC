@@ -1,5 +1,7 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Presentation;
 
 namespace GBReaderAuquierC.Avalonia;
@@ -9,6 +11,7 @@ public partial class ExtendedDescriptionBookView : UserControl
     public ExtendedDescriptionBookView()
     {
         InitializeComponent();
+        
     }
 
     public void SetInfos(BookExtendedItem item)
@@ -22,4 +25,11 @@ public partial class ExtendedDescriptionBookView : UserControl
             Image.Source = new Bitmap(item.ImgPath);
         }
     }
+
+    private void On_Show(object? sender, RoutedEventArgs e)
+    {
+        Show?.Invoke(this, new DescriptionEventArgs(ISBN.Text));
+    }
+
+    public event DescriptionEventHandler Show;
 }

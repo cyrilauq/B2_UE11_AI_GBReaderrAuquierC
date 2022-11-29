@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Presentation;
 
 namespace GBReaderAuquierC.Avalonia
 {
@@ -9,31 +11,39 @@ namespace GBReaderAuquierC.Avalonia
     {
         void DisplayNotification(Notification notification);
     }
-    public partial class MainWindow : Window, IDisplayMessages
+    public partial class MainWindow : Window, IDisplayMessages, IBrowseViews
     {
         private Dictionary<string, UserControl> _views = new Dictionary<string, UserControl>();
-        private readonly WindowNotificationManager _lala;
+        private readonly WindowNotificationManager _notificationManager;
+        private readonly Session _session;
 
         public MainWindow()
         {
-            _lala = new WindowNotificationManager(this);
+            _session = new Session();
+            _notificationManager = new WindowNotificationManager(this);
             InitializeComponent();
-            HomeView homeView = new HomeView();
+            CreateViews();
+        }
+
+        private void CreateViews()
+        {
+            HomeView homeView = new();
+            homeView.Session = _session;
             homeView.AddListener(this);
-            ReadBookView readBookView = new ReadBookView();
+            ReadBookView readBookView = new();
+            readBookView.Session = _session;
             readBookView.AddListener(this);
             homeView.Router = GoTo;
             _views.Add("HomeView", homeView);
-            _views.Add("CreateBookView", readBookView);
-            Root.Children.Add(homeView);
-            Root.Children.Add(readBookView);
+            _views.Add("ReadBookView", readBookView);
+            GoTo("HomeView");
         }
 
-        private void GoTo(string view)
+        public void GoTo(string view)
         {
             var found = Found(view);
-            Root.Children.Clear();
-            Root.Children.Add(found);
+            (found as IView).OnEnter("");
+            Content = _views[view];
         }
 
         private UserControl Found(string view)
@@ -48,7 +58,7 @@ namespace GBReaderAuquierC.Avalonia
 
         public void DisplayNotification(Notification notification)
         {
-            _lala.Show(notification);
+            _notificationManager.Show(notification);
         }
     }
 }

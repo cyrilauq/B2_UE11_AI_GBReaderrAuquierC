@@ -26,7 +26,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\GBReaderAuqiuerC.Repositories\GBReaderAuqiuerC.Repositories.csproj" />
-      <ProjectReference Include="..\GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj" />
       <ProjectReference Include="..\GBReaderAuquierC.Infrastructures\GBReaderAuquierC.Infrastructures.csproj" />
       <ProjectReference Include="..\GBReaderAuquierC.Presentation\GBReaderAuquierC.Presentation.csproj" />
     </ItemGroup>
@@ -37,5 +36,9 @@
 
     <ItemGroup>
         <AdditionnalFiles Include="../.editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages" />
     </ItemGroup>
 </Project>

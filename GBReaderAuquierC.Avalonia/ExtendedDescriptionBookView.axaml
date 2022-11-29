@@ -14,5 +14,6 @@
             </StackPanel>
         </StackPanel>
         <TextBlock x:Name="Resume" />
+        <Button x:Name="ShowBtn" Click="On_Show" Height="30" HorizontalAlignment="Right" Content="Démarrer/reprendre la lecture" />
     </StackPanel>
 </UserControl>

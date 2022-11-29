@@ -6,7 +6,7 @@
              x:Class="GBReaderAuquierC.Avalonia.ReadBookView">
     <StackPanel>
         <StackPanel x:Name="Header">
-            <TextBlock>Lire un livre</TextBlock>
+            <TextBlock x:Name="Title" Text="Lire un livre"/>
         </StackPanel>
         <Grid RowDefinitions="30, 30, 30*" 
               ColumnDefinitions="60, 60*">

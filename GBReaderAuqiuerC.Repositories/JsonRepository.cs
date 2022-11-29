@@ -44,6 +44,10 @@ public class JsonRepository : IDataRepository
             {
                 return new List<BookDTO>();
             }
+            catch (IOException)
+            {
+                return new List<BookDTO>();
+            }
             recup?.ForEach(b =>
             {
                 Book get;

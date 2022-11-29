@@ -32,46 +32,16 @@ public class JsonRepositoryTests
     [Test]
     public void DoesNotThrowExceptionIfFileContainsNullObject()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "nullObjects.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "nullObjects.json"));
-            File.WriteAllText(Path.Join( _testResourcesPaht, "nullObjects.json"), "[,]");
-        }
         var actual = new JsonRepository(
             _testResourcesPaht,
             "nullObjects.json").GetData();
         Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+
     }
     
     [Test]
     public void DoesNotThrowExceptionIfHasWrongFarmattedFile()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            using var write = File.AppendText(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            write.Write("[,{]");
-        }
         var actual = new JsonRepository(
             _testResourcesPaht,
             "wrongFormatted.json").GetData();
@@ -90,19 +60,6 @@ public class JsonRepositoryTests
     [Test]
     public void ReadEmptyFile()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "emptyFile.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "emptyFile.json"));
-        }
         var actual = new JsonRepository(
             _testResourcesPaht,
             "emptyFile.json").GetData();
