@@ -21,6 +21,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
     public event EventHandler<ChangePageEventArgs> ChangePageRequested;
     
     private readonly int MAX_BOOK_PAGE = 8;
+    private int test = 8;
 
     private int _currentPage = 1;
 
