@@ -1,21 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Presentation;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class ReadBookView : UserControl, IView, IAskToDisplayMessage
+public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
 {
-    private Session _session;
-
-    public Session Session
-    {
-        set => _session = value;
-        get => _session;
-    }
-    
     public ReadBookView()
     {
         InitializeComponent();
@@ -26,10 +19,19 @@ public partial class ReadBookView : UserControl, IView, IAskToDisplayMessage
         //throw new System.NotImplementedException();
     }
 
-    public void GoTo(string toView) => throw new System.NotImplementedException();
-
     public void OnEnter(string fromView)
     {
-        Title.Text = _session?.CurrentBook;
+        
+    }
+
+    public void SetTitle(string title)
+    {
+        Title.Text = title;
+    }
+
+    public void SetCurrentPage(int nPage, string content)
+    {
+        NPage.Text = $"Page n° {nPage}:";
+        Content.Text = content;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Infrastructures;
+using GBReaderAuquierC.Infrastructures.Exceptions;
 using Newtonsoft.Json;
 
 namespace GBReaderAuquierC.Repositories;

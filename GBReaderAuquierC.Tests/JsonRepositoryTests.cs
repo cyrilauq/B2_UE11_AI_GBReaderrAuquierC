@@ -1,5 +1,5 @@
 using GBReaderAuquierC.Domains;
-using GBReaderAuquierC.Infrastructures;
+using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests;
@@ -20,7 +20,7 @@ public class JsonRepositoryTests
             () => new JsonRepository(
                 Path.Join(
                     _testResourcesPaht, 
-                    "RepositoryNotExistTest"), "test.json").GetData());
+                    "RepositoryNotExistTest"), "test.json").GetBooks());
     }
     
     [Test]

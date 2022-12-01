@@ -3,6 +3,7 @@ using GBReaderAuquierC.Avalonia;
 using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
+using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Presentation;
@@ -13,60 +14,38 @@ public class HomePresenter
     private IDataRepository _repo;
     private Session _session;
     private IBrowseViews _router;
+    private IDisplayMessages _notificationManager;
 
-    public HomePresenter(IHomeView view, IBrowseViews router, Session session, IDataRepository repo)
+    private int _currentPage = 0;
+
+    public HomePresenter(IHomeView view, IDisplayMessages notificationManager, IBrowseViews router, Session session, IDataRepository repo)
     {
         _view = view ?? throw new ArgumentNullException(nameof(view));
         _router = router ?? throw new ArgumentNullException(nameof(router));
         _session = session ?? throw new ArgumentNullException(nameof(session));
+        _repo = repo ?? throw new ArgumentNullException(nameof(repo));
+        _notificationManager = notificationManager ?? throw new ArgumentNullException(nameof(notificationManager));
         
         _session.PropertyChanged += OnSessionPropertyChanged;
         _view.DisplayDetailsRequested += DisplayDetails;
         _view.ReadBookRequested += OnReadeBookClicked;
         _view.SearchBookRequested += OnSearchRequested;
-
-        _repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"),
-            "e200106.json");
         try
         {
-            _session.Book = GetBooks().First();
-        }
-        catch (Exception e)
-        {
-            
-        }
-        _view.DisplayBook(GetBooks());
-    }
-
-    private List<Book> GetBooks()
-    {
-        try
-        {
-            List<BookDTO> temp = _repo.GetData();
-            var result = new List<Book>();
-            temp.ForEach(b =>
+            var books = _repo.GetBooks();
+            if (books.Count == 0)
             {
-                var v = Mapper.ConvertToBook(b);
-                if (v)
-                {
-                    result.Add(v);
-                }
-            });
-            if (result.Count == 0)
+                _view.DisplayMessage("Aucun livre n'a été trouvé.");
+            } 
+            else
             {
-                
+                _session.Book = _repo.GetBooks().First();
+                _view.DisplayBook(_repo.GetBooks());
             }
-            return result;
         }
-        catch (FileNotFoundException e)
+        catch (DataManipulationException e)
         {
             
-            return new List<Book>();
-        }
-        catch (DirectoryNotFoundException e)
-        {
-            
-            return new List<Book>();
         }
     }
 
@@ -80,22 +59,36 @@ public class HomePresenter
         
     }
 
+    private void OnCurrentPageChanged(object? sender, int move)
+    {
+        
+    }
+
     private void OnSearchRequested(object? sender, SearchEventArgs e)
     {
         List<Book> result;
         if (e.Option.Equals(SearchOption.FilterIsbn))
         {
-            result = GetBooks().Where(b => b.ISBN.ToLower().Replace("-", "").Contains(e.Search)).ToList();
+            result = _repo.GetBooks().Where(b => b.ISBN.ToLower().Replace("-", "").Contains(e.Search)).ToList();
         } 
         else if (e.Option.Equals(SearchOption.FilterTitle))
         {
-            result = GetBooks().Where(b => b.Title.Replace("-", "").Contains(e.Search)).ToList();
+            result = _repo.GetBooks().Where(b => b.Title.Replace("-", "").Contains(e.Search)).ToList();
         }
         else
         {
-            result = GetBooks().Where(b => b.Title.Replace("-", "").ToLower().Contains(e.Search) || b.ISBN.Replace("-", "").Contains(e.Search)).ToList();
+            result = _repo.GetBooks().Where(b => b.Title.Replace("-", "").ToLower().Contains(e.Search) || b.ISBN.Replace("-", "").Contains(e.Search)).ToList();
         }
-        _view.DisplayBook(result);
+
+        if (result.Count == 0)
+        {
+            _notificationManager.DisplayNotification(new NotifInfo("Recherche",
+                "Aucun livre correspondant n'a été trouvé.", NotifSeverity.Error));
+        } 
+        else
+        {
+            _view.DisplayBook(result);
+        }
     }
 
     private void OnReadeBookClicked(object? sender, EventArgs eventArgs) => _router.GoTo("ReadBookView");

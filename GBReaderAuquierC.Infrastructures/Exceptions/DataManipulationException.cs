@@ -1,4 +1,4 @@
-﻿namespace GBReaderAuquierC.Infrastructures
+﻿namespace GBReaderAuquierC.Infrastructures.Exceptions
 {
     public class DataManipulationException : Exception
     {

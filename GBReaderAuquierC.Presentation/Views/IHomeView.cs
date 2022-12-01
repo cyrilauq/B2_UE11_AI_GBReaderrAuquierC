@@ -15,7 +15,9 @@ namespace GBReaderAuquierC.Avalonia.Views
 
         void DisplayDetailsFor(BookExtendedItem item);
 
-        void DisplayBook(List<Book> books);
+        void DisplayBook(IList<Book> books);
+
+        void DisplayMessage(string message);
     }
 
     public record ChangePageEventArgs(int Move);

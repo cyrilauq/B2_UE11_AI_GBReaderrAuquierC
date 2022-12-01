@@ -37,6 +37,7 @@
             <WrapPanel x:Name="Books" Width="550">
             
             </WrapPanel>
+            <TextBlock x:Name="Message" />
             <Border BorderBrush="Black" 
                     BorderThickness="2" 
                     Width="230"

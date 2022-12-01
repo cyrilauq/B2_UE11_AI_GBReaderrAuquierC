@@ -9,27 +9,36 @@ public class Session : INotifyPropertyChanged
 
     private string? _currentBook;
     private Book? _book;
+    private Page _page;
 
     public Book Book
     {
         set
         {
-            _book = value;
-            NotifyPropertyChanged(nameof(Book));
+            if (value != null)
+            {
+                _book = value;
+                NotifyPropertyChanged(nameof(Book));
+            }
         }
         get => _book;
     }
 
-    public string CurrentBook
+    public Page Page
     {
+        get => _page;
         set
         {
-            _currentBook = value;
-            NotifyPropertyChanged(nameof(CurrentBook));
+            if (value != null)
+            {
+                _page = value;
+                NotifyPropertyChanged(nameof(Page));
+            }
         }
-        get => _currentBook;
     }
 
     private void NotifyPropertyChanged(string propertyName)
-    => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

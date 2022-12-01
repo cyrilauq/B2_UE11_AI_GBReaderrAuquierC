@@ -7,6 +7,8 @@ public class Book
     private readonly ISBN _isbn;
     private readonly string _resume;
     private readonly string _imgPath;
+
+    private IList<Page> _pages = new List<Page>();
     
     public string Title { get => _title; }
     public string Author { get => _author; }

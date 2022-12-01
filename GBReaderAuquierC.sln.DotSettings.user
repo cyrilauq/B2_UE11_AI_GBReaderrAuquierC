@@ -14,4 +14,5 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bec21e7a_002D75f4_002D4052_002D960c_002D54c98058be90/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ThrowErrorIfFileDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	</wpf:ResourceDictionary>

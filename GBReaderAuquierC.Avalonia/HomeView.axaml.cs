@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
@@ -73,38 +71,6 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
     {
         InitializeComponent();
     }
-
-    private List<Book> GetBooks()
-    {
-        try
-        {
-            List<BookDTO> temp = _repo.GetData();
-            var result = new List<Book>();
-            temp.ForEach(b =>
-            {
-                var v = Mapper.ConvertToBook(b);
-                if (v)
-                {
-                    result.Add(v);
-                }
-            });
-            if (result.Count == 0)
-            {
-                SetErrorMsg("Aucun livre n'a pu être trouvé...");
-            }
-            return result;
-        }
-        catch (FileNotFoundException e)
-        {
-            SetErrorMsg(e.Message);
-            return new List<Book>();
-        }
-        catch (DirectoryNotFoundException e)
-        {
-            SetErrorMsg(e.Message);
-            return new List<Book>();
-        }
-    }
     
     public void On_DescriptionClicked(object? sender, DescriptionEventArgs args)
         => DisplayDetailsRequested?.Invoke(this, args);
@@ -125,7 +91,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
         DisplayBook(_search ? _searchBooks : _allBooks);
     }
 
-    public void DisplayBook(List<Book> books)
+    public void DisplayBook(IList<Book> books)
     {
         for (int i = IndexBegin; i < IndexEnd && i < books.Count; i++)
         {
@@ -158,6 +124,9 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
         resumeBlock.Children.Add(descr);
     }
 
+    public void DisplayMessage(string message)
+        => Message.Text = message;
+
     public void DisplayDetailsFor(BookExtendedItem item)
     {
         var details = new ExtendedDescriptionBookView();
@@ -188,7 +157,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
         if (q == null || q.Trim().Length == 0)
         {
             _search = false;
-            RefreshBookPanel();
+            //RefreshBookPanel();
         }
         else
         {
@@ -244,7 +213,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
     {
         foreach (var l in _listeners)
         {
-            l.DisplayNotification(notif);
+            // l.DisplayNotification(new NotifInfo("Recherche","Aucun livre correspondant n'a été trouvé.",NotifSeverity.Error));
         }
     }
 
