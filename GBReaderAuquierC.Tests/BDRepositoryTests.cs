@@ -4,7 +4,8 @@ namespace GBReaderAuquierC.Tests
 {
     public class BDRepositoryTests
     {
-        private IDataRepository _repo = new BDRepository("MySql.Data.MySqlClient", "server=192.168.128.13;database=in20b1001;uid=in20b1001;pwd=4918");
+        private IDataRepository _repo = new BDRepository("MySql.Data.MySqlClient",
+            new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
 
         [Test]
         public void WhenTryToGetBookWithCorrectConnectionStringThenDoesNotThrowsException()

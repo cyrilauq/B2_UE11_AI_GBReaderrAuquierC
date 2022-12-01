@@ -26,7 +26,8 @@ namespace GBReaderAuquierC.Avalonia
                 desktop.MainWindow = _mainWindow;
                 
                 // IDataRepository repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), "e200106.json");
-                IDataRepository repo = new BDRepository("MySql.Data.MySqlClient", "server=192.168.128.13;database=in20b1001;uid=in20b1001;pwd=4918");
+                IDataRepository repo = new BDRepository("MySql.Data.MySqlClient", 
+                    new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
                 Session session = new();
             
                 ReadBookView readBookView = new();

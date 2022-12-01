@@ -12,13 +12,16 @@ namespace GBReaderAuquierC.Repositories
 
         private string _connectionString;
         
-        public BDRepository(string providerName, string connection)
+        public BDRepository(string providerName, DbInformations info)
         {
             try
             {
                 _factory = MySqlClientFactory.Instance;
                 // _factory = DbProviderFactories.GetFactory(providerName);
-                _connectionString = connection;
+                _connectionString = $"server={info.DbUrl};" +
+                                    $"database={info.DbName};" +
+                                    $"uid={info.DbUser};" +
+                                    $"pwd={info.DbPassword}";
             }
             catch (ArgumentException e)
             {
