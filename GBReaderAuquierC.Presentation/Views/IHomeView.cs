@@ -8,6 +8,7 @@ namespace GBReaderAuquierC.Avalonia.Views
 {
     public interface IHomeView
     {
+        // TODO : Changer les Display par des attributs dans les vue.
         event EventHandler<DescriptionEventArgs> DisplayDetailsRequested;
         event EventHandler ReadBookRequested;
         event EventHandler<SearchEventArgs> SearchBookRequested;

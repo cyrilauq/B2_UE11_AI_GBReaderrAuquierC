@@ -45,23 +45,13 @@ public class HomePresenter
         }
         catch (DataManipulationException e)
         {
-            
+            _view.DisplayMessage(e.Message);
         }
     }
 
     private void DisplayDetails(object? sender, DescriptionEventArgs e)
     {
         _session.Book = _repo.Search(e.Isbn);
-    }
-
-    private void OnCurrentBookChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        
-    }
-
-    private void OnCurrentPageChanged(object? sender, int move)
-    {
-        
     }
 
     private void OnSearchRequested(object? sender, SearchEventArgs e)
@@ -91,7 +81,11 @@ public class HomePresenter
         }
     }
 
-    private void OnReadeBookClicked(object? sender, EventArgs eventArgs) => _router.GoTo("ReadBookView");
+    private void OnReadeBookClicked(object? sender, EventArgs eventArgs)
+    {
+        _session.Book = _repo.LoadBook(_session.Book.ISBN);
+        _router.GoTo("ReadBookView");
+    }
 
     private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

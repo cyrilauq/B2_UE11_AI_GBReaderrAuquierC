@@ -142,14 +142,12 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
 
     private void On_PreviousClicked(object? sender, RoutedEventArgs e)
     {
-        NCurrentPage--;
-        RefreshBookPanel();
+        ChangePageRequested?.Invoke(this, new ChangePageEventArgs(-1));
     }
 
     private void On_NextClicked(object? sender, RoutedEventArgs e)
     {
-        NCurrentPage++;
-        RefreshBookPanel();
+        ChangePageRequested?.Invoke(this, new ChangePageEventArgs(1));
     }
 
     private void On_SearchedClicked(object? sender, RoutedEventArgs e)
@@ -172,29 +170,19 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
 
     private List<Book> FindBooksFor(string search)
     {
-        search = search.ToLower().Replace("-", "");
-        List<Book> result = new List<Book>();
+        var searchOption = SearchOption.NoFilter;
         if (FilterTitle.IsSelected)
         {
-            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.FilterTitle));
-            // result = _allBooks.Where(b => b.Title.ToLower().Replace("-", "").Contains(search)).ToList();
-        } else if (FilterISBN.IsSelected)
+            searchOption = SearchOption.FilterTitle;
+        } 
+        else if (FilterISBN.IsSelected)
         {
-            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.FilterIsbn));
-            // result = _allBooks.Where(b => b.ISBN.Replace("-", "").Contains(search)).ToList();
-        }
-        else
-        {
-            SearchBookRequested?.Invoke(this, new SearchEventArgs(search, SearchOption.NoFilter));
-            // result = _allBooks.Where(b => b.Title.Replace("-", "").ToLower().Contains(search) || b.ISBN.Replace("-", "").Contains(search)).ToList();
-        }
-
-        if (result.Count == 0)
-        {
-            NotifyListeners(new Notification("Recherche","Aucun livre correspondant n'a été trouvé.",NotificationType.Error));
+            searchOption = SearchOption.FilterIsbn;
         }
         
-        return result;
+        SearchBookRequested?.Invoke(this, new SearchEventArgs(search.ToLower().Replace("-", ""), searchOption));
+        
+        return new();
     }
 
     private void On_EnterDown(object? sender, KeyEventArgs e)
@@ -208,14 +196,6 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeV
     public void AddListener(IDisplayMessages listener)
     {
         _listeners.Add(listener);
-    }
-
-    private void NotifyListeners(Notification notif)
-    {
-        foreach (var l in _listeners)
-        {
-            // l.DisplayNotification(new NotifInfo("Recherche","Aucun livre correspondant n'a été trouvé.",NotifSeverity.Error));
-        }
     }
 
     public void OnEnter(string fromView)

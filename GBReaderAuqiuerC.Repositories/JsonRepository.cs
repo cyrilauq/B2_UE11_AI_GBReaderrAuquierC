@@ -127,6 +127,8 @@ public class JsonRepository : IDataRepository
         }
     }
 
+    public Book LoadBook(string isbn) => Search(isbn);
+
     public class NoBooksFindException : Exception
     {
         public NoBooksFindException(string message) : base(message) {}

@@ -1,16 +1,29 @@
-﻿using GBReaderAuquierC.Repositories;
+﻿using GBReaderAuquierC.Infrastructures.Exceptions;
+using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests
 {
     public class BDRepositoryTests
     {
-        private IDataRepository _repo = new BDRepository("MySql.Data.MySqlClient",
-            new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
+        private IDataRepository _repo;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _repo  = new BDRepository("MySql.Data",
+                new DbInformations("DESKTOP-TCUHOLK", "gbreader", "cyril", "OUI"));
+        }
 
         [Test]
         public void WhenTryToGetBookWithCorrectConnectionStringThenDoesNotThrowsException()
         {
             Assert.DoesNotThrow(() => _repo.GetBooks());
+        }
+
+        [Test]
+        public void WhenDbNotAccessibleThenThrowsDataManipulationException()
+        {
+            Assert.Throws<DataManipulationException>(() => _repo.GetBooks());
         }
     }
 }

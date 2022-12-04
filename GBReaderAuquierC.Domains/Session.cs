@@ -7,8 +7,8 @@ public class Session : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private string? _currentBook;
-    private Book? _book;
+    private string _currentBook;
+    private Book _book;
     private Page _page;
 
     public Book Book
@@ -19,6 +19,7 @@ public class Session : INotifyPropertyChanged
             {
                 _book = value;
                 NotifyPropertyChanged(nameof(Book));
+                Page = _book.First;
             }
         }
         get => _book;

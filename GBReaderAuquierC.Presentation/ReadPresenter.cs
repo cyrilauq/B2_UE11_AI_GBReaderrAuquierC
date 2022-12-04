@@ -3,6 +3,7 @@ using GBReaderAuquierC.Avalonia;
 using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Presentation;
+using GBReaderAuquierC.Presenter.ViewModel;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Presenter
@@ -25,6 +26,7 @@ namespace GBReaderAuquierC.Presenter
             _notificationManager = notificationManager ?? throw new ArgumentNullException(nameof(notificationManager));
 
             _session.PropertyChanged += OnSessionPropertyChanged;
+            _view.GoToPageRequested += GoToPageRequested;
         }
         
         private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -33,16 +35,49 @@ namespace GBReaderAuquierC.Presenter
             {
                 if (_session.Page != null)
                 {
-                    _view.SetCurrentPage(0, _session.Page.Content);
+                    var currentPage = _session.Page;
+                    var currentBook = _session.Book;
+                    _view.CurrentPage = new PageViewModel(
+                        currentPage.Content,
+                        currentBook.GetNPageFor(currentPage),
+                        GetChoiceViewModels(currentPage, _session.Book)
+                    );
+                    _view.ReadingState = ReadingState.Continue;
+                    if (currentBook.IsLastPage(currentPage))
+                    {
+                        _view.ReadingState = ReadingState.Restart;
+                    }
+                    else if (currentBook.CountPage == 0 || !currentPage.HasChoices)
+                    {
+                        _view.ReadingState = ReadingState.Nothing;
+                    }
                 }
             }
             if(e.PropertyName == nameof(_session.Book))
             {
                 if (_session.Book != null)
                 {
-                    _view.SetTitle(_session.Book.Title);
+                    _view.BookTitle = _session.Book.Title;
                 }
             }
+        }
+        
+        private IList<ChoiceViewModel> GetChoiceViewModels(Page page, Book book)
+        {
+            IList<ChoiceViewModel> result = new List<ChoiceViewModel>();
+            foreach (var c in page.Choices.Keys)
+            {
+                result.Add(new ChoiceViewModel(
+                    book.GetNPageFor(page.Choices[c]),
+                    c
+                ));
+            }
+            return result;
+        }
+
+        private void GoToPageRequested(object? sender, GotToPageEventArgs e)
+        {
+            _session.Page = _session.Page.GetPageFor(e.Content);
         }
     }
 }
