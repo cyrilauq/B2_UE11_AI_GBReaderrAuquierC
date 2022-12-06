@@ -25,6 +25,11 @@ public class Book
         get => _pages.Count == 0 ? null : _pages.First();
     }
 
+    public Page this[int key]
+    {
+        get => _pages[key];
+    }
+
     public static bool operator true(Book b)
     { 
         if(b.Author == null || b.Author.Trim().Length == 0) { return false; }

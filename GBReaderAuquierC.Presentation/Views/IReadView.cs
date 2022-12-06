@@ -6,6 +6,8 @@ namespace GBReaderAuquierC.Avalonia.Views
     public interface IReadView
     {
         event EventHandler<GotToPageEventArgs> GoToPageRequested; 
+        event EventHandler RestartRequested;
+        event EventHandler HomeRequested;
 
         string BookTitle { set; }
         PageViewModel CurrentPage { set; }

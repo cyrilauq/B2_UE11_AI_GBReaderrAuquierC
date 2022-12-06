@@ -11,6 +11,8 @@ namespace GBReaderAuquierC.Repositories
     public class BDRepository : IDataRepository
     {
         private MySqlClientFactory _factory;
+
+        private IDataRepository _sessionRepo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), "e200106-session.json");
         // private DbProviderFactory _factory;
 
         private string _connectionString;
@@ -217,6 +219,11 @@ namespace GBReaderAuquierC.Repositories
                 return Mapper.ConvertToBook(dto);
             }
             return null;
+        }
+
+        public void SaveSession(Session session)
+        {
+            
         }
     }
 }

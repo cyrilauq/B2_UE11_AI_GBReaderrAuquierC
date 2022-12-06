@@ -17,7 +17,8 @@
                 </ComboBox>
             </StackPanel>
             <Button x:Name="ContinueTo" Click="OnValidClicked" IsVisible="False">Valider</Button>
-            <Button x:Name="Restart" Click="OnRestartClicked" IsVisible="False">Valider</Button>
+            <Button x:Name="Restart" Click="OnRestartClicked" IsVisible="False">Recommencer la lecture</Button>
+            <Button x:Name="Home" Click="OnHomeClicked" IsVisible="False">Revenir sur la page d'accueil</Button>
             <TextBlock x:Name="Message" IsVisible="False"></TextBlock>
         </StackPanel>
     </StackPanel>

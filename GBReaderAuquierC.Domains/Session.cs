@@ -10,6 +10,7 @@ public class Session : INotifyPropertyChanged
     private string _currentBook;
     private Book _book;
     private Page _page;
+    private IList<int> _history = new List<int>();
 
     public Book Book
     {
@@ -19,7 +20,7 @@ public class Session : INotifyPropertyChanged
             {
                 _book = value;
                 NotifyPropertyChanged(nameof(Book));
-                Page = _book.First;
+                Page = _history.Count == 0 ? _book.First : _book[_history.Last() - 1];
             }
         }
         get => _book;
@@ -33,6 +34,7 @@ public class Session : INotifyPropertyChanged
             if (value != null)
             {
                 _page = value;
+                _history.Add(_book.GetNPageFor(_page));
                 NotifyPropertyChanged(nameof(Page));
             }
         }

@@ -43,10 +43,5 @@ namespace GBReaderAuquierC.Avalonia
 
             base.OnFrameworkInitializationCompleted();
         }
-
-        public void OnWindowOpened(object? sender, EventArgs args)
-        {
-            
-        }
     }
 }

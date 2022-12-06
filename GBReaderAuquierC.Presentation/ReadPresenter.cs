@@ -27,8 +27,10 @@ namespace GBReaderAuquierC.Presenter
 
             _session.PropertyChanged += OnSessionPropertyChanged;
             _view.GoToPageRequested += GoToPageRequested;
+            _view.RestartRequested += RestartRequested;
+            _view.HomeRequested += HomeRequested;
         }
-        
+
         private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(_session.Page))
@@ -43,11 +45,11 @@ namespace GBReaderAuquierC.Presenter
                         GetChoiceViewModels(currentPage, _session.Book)
                     );
                     _view.ReadingState = ReadingState.Continue;
-                    if (currentBook.IsLastPage(currentPage))
+                    if (currentBook.CountPage > 1 && !currentPage.HasChoices)
                     {
                         _view.ReadingState = ReadingState.Restart;
                     }
-                    else if (currentBook.CountPage == 0 || !currentPage.HasChoices)
+                    else if (currentBook.CountPage == 1 || !currentPage.HasChoices)
                     {
                         _view.ReadingState = ReadingState.Nothing;
                     }
@@ -78,6 +80,16 @@ namespace GBReaderAuquierC.Presenter
         private void GoToPageRequested(object? sender, GotToPageEventArgs e)
         {
             _session.Page = _session.Page.GetPageFor(e.Content);
+        }
+
+        private void RestartRequested(object? sender, EventArgs e)
+        {
+            _session.Page = _session.Book.First;
+        }
+
+        private void HomeRequested(object? sender, EventArgs e)
+        {
+            _router.GoTo("HomeView");
         }
     }
 }

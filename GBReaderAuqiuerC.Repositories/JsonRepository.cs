@@ -133,4 +133,9 @@ public class JsonRepository : IDataRepository
     {
         public NoBooksFindException(string message) : base(message) {}
     }
+
+    public void SaveSession(Session session)
+    {
+        
+    }
 }

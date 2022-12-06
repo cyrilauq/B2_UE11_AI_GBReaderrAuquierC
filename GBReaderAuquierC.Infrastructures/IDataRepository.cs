@@ -11,4 +11,6 @@ public interface IDataRepository
     
     // TODO : Créer un méthode loadBook(string isbn) qui chargera toutes les données du livre ayant l'isbn donné.
     public Book LoadBook(string isbn);
+
+    public void SaveSession(Session session);
 }

@@ -16,6 +16,8 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
     private ReadingState _state = ReadingState.Continue;
 
     public event EventHandler<GotToPageEventArgs>? GoToPageRequested;
+    public event EventHandler RestartRequested;
+    public event EventHandler HomeRequested;
 
     public string BookTitle
     {
@@ -105,11 +107,13 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
         else if (_state == ReadingState.Restart)
         {
             Restart.IsVisible = true;
+            Home.IsVisible = true;
         }
         else
         {
             Message.IsVisible = true;
-            Message.Text = "Cette page est la seule page du livre.";
+            Home.IsVisible = true;
+            Message.Text = "Aucune action ne peut être réalisée à partir de cette page...";
         }
     }
 
@@ -118,6 +122,7 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
         ContinueTo.IsVisible = false;
         Restart.IsVisible = false;
         Message.IsVisible = false;
+        Home.IsVisible = false;
     }
 
     private void OnValidClicked(object? sender, RoutedEventArgs e)
@@ -130,6 +135,11 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
 
     private void OnRestartClicked(object? sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        RestartRequested?.Invoke(this, e);
+    }
+
+    private void OnHomeClicked(object? sender, RoutedEventArgs e)
+    {
+        HomeRequested?.Invoke(this, e);
     }
 }
