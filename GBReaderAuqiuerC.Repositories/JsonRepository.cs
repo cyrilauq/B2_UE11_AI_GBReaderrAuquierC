@@ -40,7 +40,7 @@ public class JsonRepository : IDataRepository
         }
     }
 
-    public IList<Book> GetBooks()
+    public IList<Book> GetBooks(int begin = 0, int end = 0)
     {
         LoadBooks();
         return new List<Book>(_books);
@@ -134,7 +134,13 @@ public class JsonRepository : IDataRepository
         public NoBooksFindException(string message) : base(message) {}
     }
 
+
     public void SaveSession(Session session)
+    {
+        
+    }
+    
+    public void LoadSession(Session session)
     {
         
     }

@@ -11,12 +11,8 @@
         <StackPanel Orientation="Vertical" Width="750">
             <TextBlock x:Name="NPage" />
             <TextBlock x:Name="Content" TextWrapping="WrapWithOverflow" />
-            <StackPanel>
-                <ComboBox x:Name="Choices">
-                
-                </ComboBox>
+            <StackPanel x:Name="Choices">
             </StackPanel>
-            <Button x:Name="ContinueTo" Click="OnValidClicked" IsVisible="False">Valider</Button>
             <Button x:Name="Restart" Click="OnRestartClicked" IsVisible="False">Recommencer la lecture</Button>
             <Button x:Name="Home" Click="OnHomeClicked" IsVisible="False">Revenir sur la page d'accueil</Button>
             <TextBlock x:Name="Message" IsVisible="False"></TextBlock>

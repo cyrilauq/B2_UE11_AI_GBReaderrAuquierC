@@ -1,6 +1,9 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Presenter.ViewModel;
 
 namespace GBReaderAuquierC.Avalonia.Pages
@@ -12,13 +15,21 @@ namespace GBReaderAuquierC.Avalonia.Pages
         public int NumTarget { get => _choice.NTarget; }
         public string ContentTarget { get => _choice.Text; }
 
+        public event EventHandler<GotToPageEventArgs> Click;
+
         public ChoiceViewModel Choice
         {
             set
             {
                 _choice = value;
-                Content.Text = $"{value.Text}: aller vers la page {value.NTarget}.";
+                Content.Content = $"{value.Text}: aller vers la page {value.NTarget}.";
+                Content.Click += OnClick;
             }
+        }
+
+        private void OnClick(object? sender, RoutedEventArgs e)
+        {
+            Click?.Invoke(this, new GotToPageEventArgs(_choice.NTarget, _choice.Text));
         }
 
         public PageChoiceView()

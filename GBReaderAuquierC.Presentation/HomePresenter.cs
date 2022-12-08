@@ -15,8 +15,11 @@ public class HomePresenter
     private Session _session;
     private IBrowseViews _router;
     private IDisplayMessages _notificationManager;
+    private Book _currentBook;
 
     private int _currentPage = 0;
+    
+    private readonly int MAX_BOOK_PAGE = 8;
 
     public HomePresenter(IHomeView view, IDisplayMessages notificationManager, IBrowseViews router, Session session, IDataRepository repo)
     {
@@ -30,6 +33,8 @@ public class HomePresenter
         _view.DisplayDetailsRequested += DisplayDetails;
         _view.ReadBookRequested += OnReadeBookClicked;
         _view.SearchBookRequested += OnSearchRequested;
+        _view.ChangePageRequested += ChangePageRequested;
+        
         try
         {
             var books = _repo.GetBooks();
@@ -39,9 +44,10 @@ public class HomePresenter
             } 
             else
             {
-                _session.Book = _repo.GetBooks().First();
+                _currentBook = books.First();
                 _view.DisplayBook(_repo.GetBooks());
             }
+            _repo.LoadSession(_session);
         }
         catch (DataManipulationException e)
         {
@@ -49,9 +55,23 @@ public class HomePresenter
         }
     }
 
+    private void ChangePageRequested(object? sender, ChangePageEventArgs e)
+    {
+        if (_currentPage + e.Move > -1 && _currentPage + e.Move < (_repo.GetBooks().Count / MAX_BOOK_PAGE))
+        {
+            // _view.DisplayBook(_repo.GetBooks()[new Range(_currentPage, MAX_BOOK_PAGE)]);
+        }
+    }
+
     private void DisplayDetails(object? sender, DescriptionEventArgs e)
     {
-        _session.Book = _repo.Search(e.Isbn);
+        _currentBook = _repo.Search(e.Isbn);
+        _view.DisplayDetailsFor(new BookExtendedItem(
+            _currentBook.Title,
+            _currentBook.Author,
+            _currentBook.ISBN,
+            _currentBook.Image,
+            _currentBook.Resume));
     }
 
     private void OnSearchRequested(object? sender, SearchEventArgs e)
@@ -83,7 +103,7 @@ public class HomePresenter
 
     private void OnReadeBookClicked(object? sender, EventArgs eventArgs)
     {
-        _session.Book = _repo.LoadBook(_session.Book.ISBN);
+        _session.Book = _repo.LoadBook(_currentBook.ISBN);
         _router.GoTo("ReadBookView");
     }
 

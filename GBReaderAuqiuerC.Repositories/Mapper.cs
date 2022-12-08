@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GBReaderAuquierC.Repositories.DTO;
 
 namespace GBReaderAuquierC.Repositories
 {
@@ -140,6 +141,19 @@ namespace GBReaderAuquierC.Repositories
             }
 
             return null;
+        }
+
+        public static Session ConvertToSession(SessionDTO dto)
+        {
+            Session result = new();
+            result.History = dto.History;
+            return result;
+        }
+
+        public static SessionDTO ConvertToDTO(Session session)
+        {
+            Dictionary<string, IList<int>> result = new();
+            return new SessionDTO(session.History);
         }
     }
 }

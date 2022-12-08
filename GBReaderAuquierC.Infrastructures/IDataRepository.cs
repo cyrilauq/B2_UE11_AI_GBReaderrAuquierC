@@ -5,7 +5,7 @@ namespace GBReaderAuquierC.Repositories;
 public interface IDataRepository
 {
     // TODO : Créer base de données MySQL server ==> pour les tests
-    public IList<Book> GetBooks();
+    public IList<Book> GetBooks(int begin = 0, int end = 0);
 
     public Book Search(string isbn);
     
@@ -13,4 +13,6 @@ public interface IDataRepository
     public Book LoadBook(string isbn);
 
     public void SaveSession(Session session);
+
+    public void LoadSession(Session sission);
 }

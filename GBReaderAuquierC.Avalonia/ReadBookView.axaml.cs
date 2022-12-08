@@ -13,7 +13,13 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
 {
     private string _bookTitle;
     private PageViewModel _currentPage;
-    private ReadingState _state = ReadingState.Continue;
+    private ReadingState _state = ReadingState.Continue; 
+    private IList<PageChoiceView> _items = new List<PageChoiceView>();
+
+    public IList<PageChoiceView> Items
+    {
+        get => _items;
+    }
 
     public event EventHandler<GotToPageEventArgs>? GoToPageRequested;
     public event EventHandler RestartRequested;
@@ -74,17 +80,18 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
 
     private void Refresh()
     {
-        IList<PageChoiceView> items = new List<PageChoiceView>();
         Title.Text = _bookTitle;
         if (_currentPage != null)
         {
+            Choices.Children.Clear();
             NPage.Text = $"Page n° {_currentPage.Num}:";
             Content.Text = _currentPage.Text;
             foreach (var c in _currentPage.Choices)
             {
                 var item = new PageChoiceView();
                 item.Choice = c;
-                items.Add(item);
+                item.Click += OnValidClicked;
+                Choices.Children.Add(item);
             }
         }
 
@@ -95,16 +102,10 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
         else
         {
             Choices.IsVisible = true;
-            Choices.Items = items;
-            Choices.SelectedIndex = 0;
         }
 
         HideButtons();
-        if (_state == ReadingState.Continue)
-        {
-            ContinueTo.IsVisible = true;
-        }
-        else if (_state == ReadingState.Restart)
+        if (_state == ReadingState.Restart)
         {
             Restart.IsVisible = true;
             Home.IsVisible = true;
@@ -119,18 +120,16 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
 
     private void HideButtons()
     {
-        ContinueTo.IsVisible = false;
         Restart.IsVisible = false;
         Message.IsVisible = false;
         Home.IsVisible = false;
     }
 
-    private void OnValidClicked(object? sender, RoutedEventArgs e)
+    private void OnValidClicked(object? sender, GotToPageEventArgs e)
     {
         // TODO : Voir avec le prof si je peux laisser à la vue la gestion d'afficher bouton valider/recommencer ou alors le fait de ne pas mettre de bouton si il n'y as pas de page.
         // TODO : Voir si je peux pas utiliser le combobox avec un bouton valider plutôt que de mettre plusieurs boutons
-        PageChoiceView sld = Choices.SelectedItem as PageChoiceView;
-        GoToPageRequested?.Invoke(this, new GotToPageEventArgs(sld.NumTarget, sld.ContentTarget));
+        GoToPageRequested?.Invoke(this, e);
     }
 
     private void OnRestartClicked(object? sender, RoutedEventArgs e)

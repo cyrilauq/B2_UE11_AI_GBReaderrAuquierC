@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -12,6 +13,8 @@ namespace GBReaderAuquierC.Avalonia
     public partial class App : Application
     {
         private MainWindow _mainWindow;
+        Session _session;
+        private IDataRepository _repo;
         
         public override void Initialize()
         {
@@ -23,18 +26,19 @@ namespace GBReaderAuquierC.Avalonia
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 _mainWindow = new MainWindow();
+                _session = new();
+                _repo = new BDRepository("MySql.Data.MySqlClient", 
+                    new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
                 desktop.MainWindow = _mainWindow;
+                desktop.MainWindow.Closing += OnClose;
                 
                 // IDataRepository repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), "e200106.json");
-                IDataRepository repo = new BDRepository("MySql.Data.MySqlClient", 
-                    new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
-                Session session = new();
             
                 ReadBookView readBookView = new();
-                var readPresenter = new ReadPresenter(readBookView, _mainWindow, _mainWindow, session, repo);
+                var readPresenter = new ReadPresenter(readBookView, _mainWindow, _mainWindow, _session, _repo);
                 
                 HomeView homeView = new();
-                var homePresenter = new HomePresenter(homeView, _mainWindow, _mainWindow, session, repo);
+                var homePresenter = new HomePresenter(homeView, _mainWindow, _mainWindow, _session, _repo);
 
                 _mainWindow.RegisterView("HomeView", homeView);
                 _mainWindow.RegisterView("ReadBookView", readBookView);
@@ -42,6 +46,11 @@ namespace GBReaderAuquierC.Avalonia
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private void OnClose(object? sender, CancelEventArgs e)
+        {
+            _repo.SaveSession(_session);
         }
     }
 }

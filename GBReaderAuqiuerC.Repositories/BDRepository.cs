@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Data;
-using System.Data.Common;
+﻿using System.Data;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories.Exceptions;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace GBReaderAuquierC.Repositories
 {
@@ -12,7 +11,7 @@ namespace GBReaderAuquierC.Repositories
     {
         private MySqlClientFactory _factory;
 
-        private IDataRepository _sessionRepo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), "e200106-session.json");
+        private readonly string _sessionRepo = Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36", "e200106-session.json");
         // private DbProviderFactory _factory;
 
         private string _connectionString;
@@ -34,7 +33,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        public IList<Book> GetBooks()
+        public IList<Book> GetBooks(int begin = 0, int end = 0)
         {
             IList<Book> result = new List<Book>();
             try
@@ -222,6 +221,44 @@ namespace GBReaderAuquierC.Repositories
         }
 
         public void SaveSession(Session session)
+        {
+            try
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
+                {
+                    // TODO : modifier messages d'erreurs
+                    throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
+                }
+
+                if (!File.Exists(_sessionRepo))
+                {
+                    throw new FileNotFoundException(
+                        $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
+                }
+
+                try
+                {
+                    File.WriteAllText(_sessionRepo, 
+                        JsonConvert.SerializeObject(Mapper.ConvertToDTO(session)));
+                }
+                catch (JsonReaderException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+            }
+            catch(DirectoryNotFoundException e)
+            {
+                throw new DirectoryNotFoundException(e.Message);
+            }
+            catch(FileNotFoundException e)
+            {
+                throw new FileNotFoundException(e.Message);
+            }
+        }
+        
+        public void LoadSession(Session session)
         {
             
         }

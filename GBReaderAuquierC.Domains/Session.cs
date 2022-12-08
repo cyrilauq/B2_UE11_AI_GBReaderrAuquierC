@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace GBReaderAuquierC.Domains;
 
@@ -10,7 +9,18 @@ public class Session : INotifyPropertyChanged
     private string _currentBook;
     private Book _book;
     private Page _page;
-    private IList<int> _history = new List<int>();
+    private Dictionary<string, IList<int>> _history = new ();
+
+    public Dictionary<string, IList<int>> History { get => new(_history);
+        set
+        {
+            if (_history != null)
+            {
+                throw new ArgumentException("The session cannot be initialized twice.");
+            }
+            _history = value;
+        }
+    }
 
     public Book Book
     {
@@ -20,7 +30,11 @@ public class Session : INotifyPropertyChanged
             {
                 _book = value;
                 NotifyPropertyChanged(nameof(Book));
-                Page = _history.Count == 0 ? _book.First : _book[_history.Last() - 1];
+                if (!_history.ContainsKey(_book.ISBN))
+                {
+                    _history[_book.ISBN] = new List<int>();
+                }
+                Page = _history.Count == 0 || _history[_book.ISBN].Count == 0 ? _book.First : _book[_history[_book.ISBN].Last() - 1];
             }
         }
         get => _book;
@@ -34,7 +48,7 @@ public class Session : INotifyPropertyChanged
             if (value != null)
             {
                 _page = value;
-                _history.Add(_book.GetNPageFor(_page));
+                _history[_book.ISBN].Add(_book.GetNPageFor(_page));
                 NotifyPropertyChanged(nameof(Page));
             }
         }
