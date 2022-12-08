@@ -2,20 +2,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="380" d:DesignHeight="150"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="150" Width="800"
              x:Class="GBReaderAuquierC.Avalonia.ReadBookView">
     <StackPanel>
         <StackPanel x:Name="Header">
-            <TextBlock>Lire un livre</TextBlock>
+            <TextBlock x:Name="Title"/>
         </StackPanel>
-        <Grid RowDefinitions="30, 30, 30*" 
-              ColumnDefinitions="60, 60*">
-            <Label Grid.Column="0" Grid.Row="0">Titre</Label>
-            <TextBlock Grid.Column="1" Grid.Row="0"></TextBlock>
-            <Label Grid.Column="0" Grid.Row="1">ISBN</Label>
-            <TextBlock Grid.Column="1" Grid.Row="1"></TextBlock>
-            <Label Grid.Column="0" Grid.Row="2">Résumé</Label>
-            <TextBlock Grid.Column="1" Grid.Row="2"></TextBlock>
-        </Grid>
+        <StackPanel Orientation="Vertical" Width="750">
+            <TextBlock x:Name="NPage" />
+            <TextBlock x:Name="Content" TextWrapping="WrapWithOverflow" />
+            <StackPanel x:Name="Choices">
+            </StackPanel>
+            <Button x:Name="Restart" Click="OnRestartClicked" IsVisible="False">Recommencer la lecture</Button>
+            <Button x:Name="Home" Click="OnHomeClicked" IsVisible="False">Revenir sur la page d'accueil</Button>
+            <TextBlock x:Name="Message" IsVisible="False"></TextBlock>
+        </StackPanel>
     </StackPanel>
 </UserControl>

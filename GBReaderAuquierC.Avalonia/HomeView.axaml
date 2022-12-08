@@ -37,6 +37,7 @@
             <WrapPanel x:Name="Books" Width="550">
             
             </WrapPanel>
+            <TextBlock x:Name="Message" />
             <Border BorderBrush="Black" 
                     BorderThickness="2" 
                     Width="230"
@@ -54,7 +55,6 @@
                     <WrapPanel x:Name="Details">
                 
                     </WrapPanel>
-                    <Button Height="30" HorizontalAlignment="Right" Content="Démarrer/reprendre la lecture" />
                 </StackPanel>
             </Border>
         </StackPanel>

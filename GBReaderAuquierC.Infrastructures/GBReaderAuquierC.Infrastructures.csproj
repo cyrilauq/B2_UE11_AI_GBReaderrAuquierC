@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GBReaderAuqiuerC.Repositories\GBReaderAuqiuerC.Repositories.csproj" />
       <ProjectReference Include="..\GBReaderAuquierC.Domains\GBReaderAuquierC.Domains.csproj" />
     </ItemGroup>
 

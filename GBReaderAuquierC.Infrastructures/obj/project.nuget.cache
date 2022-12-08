@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yQiqtIFMDBZIqCtNfO+mU9MCC8529thgzBAEXhEVLcFzJ44+GuZMpsRoONK9KJoaZwGeLbAnpRFQhkE4lTjWuA==",
+  "dgSpecHash": "TgiMfHFf1uqT2S37HNPSm46IAYw+XlysYXnfVrDr5mmH9eyctvIxKxDTst8kkLKxL20DuGfatnAA11BaegFbHA==",
   "success": true,
   "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\cyril\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

@@ -1,39 +1,34 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Presentation;
+using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Avalonia
 {
-    public interface IDisplayMessages
-    {
-        void DisplayNotification(Notification notification);
-    }
-    public partial class MainWindow : Window, IDisplayMessages
+    public partial class MainWindow : Window, IDisplayMessages, IBrowseViews
     {
         private Dictionary<string, UserControl> _views = new Dictionary<string, UserControl>();
-        private readonly WindowNotificationManager _lala;
+        private readonly WindowNotificationManager _notificationManager;
+        private readonly Session _session;
 
         public MainWindow()
         {
-            _lala = new WindowNotificationManager(this);
             InitializeComponent();
-            HomeView homeView = new HomeView();
-            homeView.AddListener(this);
-            ReadBookView readBookView = new ReadBookView();
-            readBookView.AddListener(this);
-            homeView.Router = GoTo;
-            _views.Add("HomeView", homeView);
-            _views.Add("CreateBookView", readBookView);
-            Root.Children.Add(homeView);
-            Root.Children.Add(readBookView);
+            _session = new Session();
+            _notificationManager = new WindowNotificationManager(this);
         }
 
-        private void GoTo(string view)
+        public void RegisterView(string viewName, UserControl view) 
+            => _views[viewName] = view;
+
+        public void GoTo(string view)
         {
             var found = Found(view);
-            Root.Children.Clear();
-            Root.Children.Add(found);
+            Content = _views[view];
         }
 
         private UserControl Found(string view)
@@ -48,7 +43,16 @@ namespace GBReaderAuquierC.Avalonia
 
         public void DisplayNotification(Notification notification)
         {
-            _lala.Show(notification);
+            if (IsVisible)
+            {
+                _notificationManager.Show(notification);
+            }
         }
+
+        public void DisplayNotification(NotifInfo info) =>
+            DisplayNotification(new Notification(
+                info.Title,
+                info.Content
+            ));
     }
 }

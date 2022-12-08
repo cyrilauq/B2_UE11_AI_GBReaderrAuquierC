@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Repositories;
 using GBReaderAuquierC.Presentation;
+using SearchOption = GBReaderAuquierC.Presentation.SearchOption;
 
 namespace GBReaderAuquierC.Avalonia;
 
-public partial class HomeView : UserControl, IView, IAskToDisplayMessage
+public partial class HomeView : UserControl, IView, IAskToDisplayMessage, IHomeView
 {
+    public event EventHandler<DescriptionEventArgs>? DisplayDetailsRequested;
+    public event EventHandler ReadBookRequested;
+    public event EventHandler<SearchEventArgs>? SearchBookRequested;
+    public event EventHandler<ChangePageEventArgs> ChangePageRequested;
+    
     private readonly int MAX_BOOK_PAGE = 8;
+    private int test = 8;
 
     private int _currentPage = 1;
 
@@ -52,56 +59,25 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
     private IDataRepository _repo;
 
     private bool _search = false;
+    
+    private Session _session;
+
+    public Session Session
+    {
+        set => _session = value;
+        get => _session;
+    }
 
     public HomeView()
     {
         InitializeComponent();
-        _repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"),
-            "e200106.json");
-        try
-        {
-            _allBooks = new List<Book>(GetBooks());
-            RefreshBookPanel();
-        }
-        catch (Exception e)
-        {
-            _allBooks = new List<Book>();
-            ErrorMsg.Text = "Error: " + e.Message;
-            ErrorMsg.IsVisible = true;
-        }
     }
+    
+    public void On_DescriptionClicked(object? sender, DescriptionEventArgs args)
+        => DisplayDetailsRequested?.Invoke(this, args);
 
-    private List<Book> GetBooks()
-    {
-        try
-        {
-            List<BookDTO> temp = _repo.GetData();
-            var result = new List<Book>();
-            temp.ForEach(b =>
-            {
-                var v = Mapper.ConvertToBook(b);
-                if (v)
-                {
-                    result.Add(v);
-                }
-            });
-            if (result.Count == 0)
-            {
-                SetErrorMsg("Aucun livre n'a pu être trouvé...");
-            }
-            return result;
-        }
-        catch (FileNotFoundException e)
-        {
-            SetErrorMsg(e.Message);
-            return new List<Book>();
-        }
-        catch (DirectoryNotFoundException e)
-        {
-            SetErrorMsg(e.Message);
-            return new List<Book>();
-        }
-    }
+    public void On_ShowBookClicked(object? sender, DescriptionEventArgs args) 
+        => ReadBookRequested?.Invoke(this, EventArgs.Empty);
 
     private void SetErrorMsg(string msg)
     {
@@ -116,27 +92,21 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         DisplayBook(_search ? _searchBooks : _allBooks);
     }
 
-    private void DisplayBook(List<Book> books)
+    public void DisplayBook(IList<Book> books)
     {
         for (int i = IndexBegin; i < IndexEnd && i < books.Count; i++)
         {
             var b = books[i];
             if (i == 0)
             {
-                DiplayBook(b);
+                //DiplayBook(b);
             }
             var temp = new DescriptionBookView();
-            temp.SetBookInfo(title: b.Title, author: b.Author, isbn: b.ISBN, imagePath: b.Image);
-            temp.PointerPressed += DisplayDetails;
+            temp.SetBookInfo(new BookItem(b.Title, b.Author, b.ISBN, b.Image));
+            temp.Display += On_DescriptionClicked;
             Books.Children.Add(temp);
         }
         CurrentPage.Text = "" + NCurrentPage;
-    }
-
-    private void DisplayDetails(object? sender, PointerEventArgs e)
-    {
-        var view = (DescriptionBookView)sender!;
-        DiplayBook(_repo.Search(view.Isbn.Text));
     }
 
     private void DiplayBook(Book book)
@@ -145,13 +115,26 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         var resumeBlock = this.FindControl<WrapPanel>("Details");
         resumeBlock.Children.Clear();
         var descr = new ExtendedDescriptionBookView();
+        descr.Show += On_ShowBookClicked;
         descr.SetInfos(new BookExtendedItem(
             book.Title,
-            book.Author + " " + _allBooks.Count,
+            book.Author,
             book.ISBN,
             book.Image,
             book.Resume));
         resumeBlock.Children.Add(descr);
+    }
+
+    public void DisplayMessage(string message)
+        => Message.Text = message;
+
+    public void DisplayDetailsFor(BookExtendedItem item)
+    {
+        var details = new ExtendedDescriptionBookView();
+        details.SetInfos(item);
+        details.Show += On_ShowBookClicked;
+        Details.Children.Clear();
+        Details.Children.Add(details);
     }
 
     public void GoTo(string toView) 
@@ -159,14 +142,12 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
 
     private void On_PreviousClicked(object? sender, RoutedEventArgs e)
     {
-        NCurrentPage--;
-        RefreshBookPanel();
+        ChangePageRequested?.Invoke(this, new ChangePageEventArgs(-1));
     }
 
     private void On_NextClicked(object? sender, RoutedEventArgs e)
     {
-        NCurrentPage++;
-        RefreshBookPanel();
+        ChangePageRequested?.Invoke(this, new ChangePageEventArgs(1));
     }
 
     private void On_SearchedClicked(object? sender, RoutedEventArgs e)
@@ -175,7 +156,7 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         if (q == null || q.Trim().Length == 0)
         {
             _search = false;
-            RefreshBookPanel();
+            //RefreshBookPanel();
         }
         else
         {
@@ -183,32 +164,25 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
             _currentPage = 1;
             _searchBooks.Clear();
             FindBooksFor(q).ForEach(b => _searchBooks.Add(b));
-            RefreshBookPanel();
+            //RefreshBookPanel();
         }
     }
 
     private List<Book> FindBooksFor(string search)
     {
-        search = search.ToLower().Replace("-", "");
-        List<Book> result;
+        var searchOption = SearchOption.NoFilter;
         if (FilterTitle.IsSelected)
         {
-            result = _allBooks.Where(b => b.Title.ToLower().Replace("-", "").Contains(search)).ToList();
-        } else if (FilterISBN.IsSelected)
+            searchOption = SearchOption.FilterTitle;
+        } 
+        else if (FilterISBN.IsSelected)
         {
-            result = _allBooks.Where(b => b.ISBN.Replace("-", "").Contains(search)).ToList();
-        }
-        else
-        {
-            result = _allBooks.Where(b => b.Title.Replace("-", "").ToLower().Contains(search) || b.ISBN.Replace("-", "").Contains(search)).ToList();
-        }
-
-        if (result.Count == 0)
-        {
-            NotifyListeners(new Notification("Recherche","Aucun livre correspondant n'a été trouvé.",NotificationType.Error));
+            searchOption = SearchOption.FilterIsbn;
         }
         
-        return result;
+        SearchBookRequested?.Invoke(this, new SearchEventArgs(search.ToLower().Replace("-", ""), searchOption));
+        
+        return new();
     }
 
     private void On_EnterDown(object? sender, KeyEventArgs e)
@@ -224,11 +198,8 @@ public partial class HomeView : UserControl, IView, IAskToDisplayMessage
         _listeners.Add(listener);
     }
 
-    private void NotifyListeners(Notification notif)
+    public void OnEnter(string fromView)
     {
-        foreach (var l in _listeners)
-        {
-            l.DisplayNotification(notif);
-        }
+        
     }
 }

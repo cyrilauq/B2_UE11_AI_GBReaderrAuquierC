@@ -1,3 +1,5 @@
+using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests;
@@ -18,7 +20,7 @@ public class JsonRepositoryTests
             () => new JsonRepository(
                 Path.Join(
                     _testResourcesPaht, 
-                    "RepositoryNotExistTest"), "test.json").GetData());
+                    "RepositoryNotExistTest"), "test.json").GetBooks());
     }
     
     [Test]
@@ -26,56 +28,26 @@ public class JsonRepositoryTests
     {
         Assert.Throws(typeof(FileNotFoundException),
             () => new JsonRepository(
-                _testResourcesPaht, "test.json").GetData());
+                _testResourcesPaht, "test.json").GetBooks());
     }
     
     [Test]
     public void DoesNotThrowExceptionIfFileContainsNullObject()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "nullObjects.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "nullObjects.json"));
-            File.WriteAllText(Path.Join( _testResourcesPaht, "nullObjects.json"), "[,]");
-        }
         var actual = new JsonRepository(
             _testResourcesPaht,
-            "nullObjects.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+            "nullObjects.json").GetBooks();
+        Assert.That(actual, Is.EqualTo(new List<Book>()));
+
     }
     
     [Test]
-    public void DoesNotThrowExceptionIfHasWrongFarmattedFile()
+    public void WhenJsonFormatIsNotValidThenThrowDataManipulationException()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            using var write = File.AppendText(
-                Path.Join(
-                    _testResourcesPaht, "wrongFormatted.json"));
-            write.Write("[,{]");
-        }
-        var actual = new JsonRepository(
-            _testResourcesPaht,
-            "wrongFormatted.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+        Assert.Throws(typeof(DataManipulationException),
+            () => new JsonRepository(
+                _testResourcesPaht,
+                "wrongFormatted.json").GetBooks());
     }
 
     [Test]
@@ -84,28 +56,15 @@ public class JsonRepositoryTests
         Assert.Throws(typeof(FileNotFoundException),
             () => new JsonRepository(
                 Environment.GetEnvironmentVariable("USERPROFILE"),
-                "test.json").GetData());
+                "test.json").GetBooks());
     }
 
     [Test]
     public void ReadEmptyFile()
     {
-        try
-        {
-            using var fs = File.OpenRead(
-                Path.Join(
-                    _testResourcesPaht, "emptyFile.json"));
-            fs.Close();
-        }
-        catch (FileNotFoundException)
-        {
-            using var create = File.Create(
-                Path.Join(
-                    _testResourcesPaht, "emptyFile.json"));
-        }
         var actual = new JsonRepository(
             _testResourcesPaht,
-            "emptyFile.json").GetData();
-        Assert.That(actual, Is.EqualTo(new List<BookDTO>()));
+            "emptyFile.json").GetBooks();
+        Assert.That(actual, Is.EqualTo(new List<Book>()));
     }
 }
