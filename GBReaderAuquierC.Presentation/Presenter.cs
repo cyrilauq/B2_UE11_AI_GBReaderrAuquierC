@@ -1,4 +1,5 @@
 ﻿using GBReaderAuquierC.Avalonia;
+using GBReaderAuquierC.Presenter.Views;
 
 namespace GBReaderAuquierC.Presenter
 {

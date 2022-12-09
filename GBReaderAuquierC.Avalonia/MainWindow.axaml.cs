@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Presentation;
+using GBReaderAuquierC.Presenter.Views;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Avalonia

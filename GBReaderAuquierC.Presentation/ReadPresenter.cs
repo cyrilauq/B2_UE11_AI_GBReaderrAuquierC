@@ -4,6 +4,7 @@ using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Presentation;
 using GBReaderAuquierC.Presenter.ViewModel;
+using GBReaderAuquierC.Presenter.Views;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Presenter

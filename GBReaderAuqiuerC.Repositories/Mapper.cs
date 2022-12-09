@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GBReaderAuquierC.Repositories.DTO;
+using Org.BouncyCastle.Security;
 
 namespace GBReaderAuquierC.Repositories
 {
@@ -145,15 +146,49 @@ namespace GBReaderAuquierC.Repositories
 
         public static Session ConvertToSession(SessionDTO dto)
         {
+            var history = new Dictionary<string, BookSave>();
+            foreach (var bsd in dto.History)
+            {
+                history.Add(bsd.Key, ConvertDTOToSave(bsd.Value));
+            }
             Session result = new();
-            result.History = dto.History;
+            result.History = history;
             return result;
         }
 
         public static SessionDTO ConvertToDTO(Session session)
         {
-            Dictionary<string, IList<int>> result = new();
-            return new SessionDTO(session.History);
+            return new SessionDTO(ConvertHistoryToDTO(session.History));
+        }
+
+        private static Dictionary<string, BookSaveDTO> ConvertHistoryToDTO(Dictionary<string, BookSave> history)
+        {
+            var result = new Dictionary<string, BookSaveDTO>();
+
+            foreach (var bs in history)
+            {
+                result.Add(bs.Key, ConvertSaveToDTO(bs.Value));
+            }
+
+            return result;
+        }
+
+        private static BookSaveDTO ConvertSaveToDTO(BookSave bookSave)
+        {
+            return new BookSaveDTO(
+                bookSave.Begin.ToString("dd/MM/yyyy hh:mm:ss"), 
+                bookSave.LastUpdate.ToString("dd/MM/yyyy hh:mm:ss"), 
+                bookSave.History
+            );
+        }
+
+        private static BookSave ConvertDTOToSave(BookSaveDTO dto)
+        {
+            return BookSave.Get(
+                dto.BeginDate == null || dto.BeginDate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.BeginDate), 
+                dto.LastUpdate == null || dto.LastUpdate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.LastUpdate), 
+                dto.History 
+            );
         }
     }
 }

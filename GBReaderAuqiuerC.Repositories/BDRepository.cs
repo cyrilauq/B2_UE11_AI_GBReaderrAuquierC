@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Infrastructures.Exceptions;
+using GBReaderAuquierC.Repositories.DTO;
 using GBReaderAuquierC.Repositories.Exceptions;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -260,7 +261,39 @@ namespace GBReaderAuquierC.Repositories
         
         public void LoadSession(Session session)
         {
-            
+            try
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
+                {
+                    // TODO : modifier messages d'erreurs
+                    throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
+                }
+
+                if (!File.Exists(_sessionRepo))
+                {
+                    throw new FileNotFoundException(
+                        $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
+                }
+
+                try
+                {
+                    session.History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(_sessionRepo))).History;
+                }
+                catch (JsonReaderException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+            }
+            catch(DirectoryNotFoundException e)
+            {
+                throw new DirectoryNotFoundException(e.Message);
+            }
+            catch(FileNotFoundException e)
+            {
+                throw new FileNotFoundException(e.Message);
+            }
         }
     }
 }

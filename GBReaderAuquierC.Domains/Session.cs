@@ -9,12 +9,14 @@ public class Session : INotifyPropertyChanged
     private string _currentBook;
     private Book _book;
     private Page _page;
-    private Dictionary<string, IList<int>> _history = new ();
+    private Dictionary<string, BookSave> _history = new ();
 
-    public Dictionary<string, IList<int>> History { get => new(_history);
+    public Dictionary<string, BookSave> History
+    {
+        get => _history;
         set
         {
-            if (_history != null)
+            if (_history != null && _history.Count > 0)
             {
                 throw new ArgumentException("The session cannot be initialized twice.");
             }
@@ -32,9 +34,9 @@ public class Session : INotifyPropertyChanged
                 NotifyPropertyChanged(nameof(Book));
                 if (!_history.ContainsKey(_book.ISBN))
                 {
-                    _history[_book.ISBN] = new List<int>();
+                    _history[_book.ISBN] = new BookSave();
                 }
-                Page = _history.Count == 0 || _history[_book.ISBN].Count == 0 ? _book.First : _book[_history[_book.ISBN].Last() - 1];
+                Page = _history.Count == 0 || _history[_book.ISBN].Count == 0 ? _book.First : _book[_history[_book.ISBN].Last - 1];
             }
         }
         get => _book;
@@ -48,7 +50,14 @@ public class Session : INotifyPropertyChanged
             if (value != null)
             {
                 _page = value;
-                _history[_book.ISBN].Add(_book.GetNPageFor(_page));
+                if (_page.IsTerminal)
+                {
+                    _history.Remove(_book.ISBN);
+                }
+                else
+                {
+                    _history[_book.ISBN].Add(_book.GetNPageFor(_page));
+                }
                 NotifyPropertyChanged(nameof(Page));
             }
         }

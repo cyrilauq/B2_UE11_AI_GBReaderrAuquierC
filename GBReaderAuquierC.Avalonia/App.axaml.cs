@@ -30,7 +30,6 @@ namespace GBReaderAuquierC.Avalonia
                 _repo = new BDRepository("MySql.Data.MySqlClient", 
                     new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
                 desktop.MainWindow = _mainWindow;
-                desktop.MainWindow.Closing += OnClose;
                 
                 // IDataRepository repo = new JsonRepository(Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), "e200106.json");
             
@@ -43,14 +42,11 @@ namespace GBReaderAuquierC.Avalonia
                 _mainWindow.RegisterView("HomeView", homeView);
                 _mainWindow.RegisterView("ReadBookView", readBookView);
                 _mainWindow.GoTo("HomeView");
+                
+                desktop.MainWindow.Closing += homePresenter.OnSessionSaved;
             }
 
             base.OnFrameworkInitializationCompleted();
-        }
-
-        private void OnClose(object? sender, CancelEventArgs e)
-        {
-            _repo.SaveSession(_session);
         }
     }
 }

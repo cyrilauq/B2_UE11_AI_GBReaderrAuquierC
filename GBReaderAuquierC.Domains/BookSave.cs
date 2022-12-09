@@ -25,6 +25,10 @@
             private set => _begin = value;
         }
         
+        public int Count { get => _history.Count; }
+
+        public int Last { get => _history.Last(); }
+        
         public static BookSave operator +(BookSave s, int b)
         {
             s.History.Add(b);
@@ -36,6 +40,11 @@
         {
             _begin = DateTime.Now;
             _lastUpdate = DateTime.Now;
+        }
+
+        public void Add(int nPage)
+        {
+            _history.Add(nPage);
         }
 
         public static BookSave Get(DateTime begin, DateTime lastUpdate, IList<int> history)

@@ -4,6 +4,7 @@ using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Infrastructures.Exceptions;
+using GBReaderAuquierC.Presenter.Views;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Presentation;
@@ -121,6 +122,18 @@ public class HomePresenter
                     _session.Book.Resume)
                 );
             }
+        }
+    }
+
+    public void OnSessionSaved(object? sender, CancelEventArgs e)
+    {
+        try
+        {
+            _repo.SaveSession(_session);
+        }
+        catch (Exception)
+        {
+            _router.GoTo("HomeView");
         }
     }
 }
