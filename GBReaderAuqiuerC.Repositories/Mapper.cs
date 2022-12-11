@@ -146,6 +146,10 @@ namespace GBReaderAuquierC.Repositories
 
         public static Session ConvertToSession(SessionDTO dto)
         {
+            if (dto == null)
+            {
+                return new Session();
+            }
             var history = new Dictionary<string, BookSave>();
             foreach (var bsd in dto.History)
             {

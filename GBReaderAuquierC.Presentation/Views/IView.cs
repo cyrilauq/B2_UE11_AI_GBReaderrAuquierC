@@ -1,6 +1,6 @@
 ﻿using GBReaderAuquierC.Domains;
 
-namespace GBReaderAuquierC.Presentation;
+namespace GBReaderAuquierC.Presenter.Views;
 
 public interface IView
 {

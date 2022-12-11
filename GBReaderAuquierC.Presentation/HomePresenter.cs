@@ -3,9 +3,12 @@ using GBReaderAuquierC.Avalonia;
 using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
+using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Infrastructures.Exceptions;
+using GBReaderAuquierC.Presentation.Views;
 using GBReaderAuquierC.Presenter.Views;
 using GBReaderAuquierC.Repositories;
+using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
 
 namespace GBReaderAuquierC.Presentation;
 
@@ -16,11 +19,10 @@ public class HomePresenter
     private Session _session;
     private IBrowseViews _router;
     private IDisplayMessages _notificationManager;
-    private Book _currentBook;
 
     private int _currentPage = 0;
-    
-    private readonly int MAX_BOOK_PAGE = 8;
+
+    private const int MAX_BOOK_PAGE = 8;
 
     public HomePresenter(IHomeView view, IDisplayMessages notificationManager, IBrowseViews router, Session session, IDataRepository repo)
     {
@@ -38,15 +40,14 @@ public class HomePresenter
         
         try
         {
-            var books = _repo.GetBooks();
+            var books = new List<Book>(_repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
             if (books.Count == 0)
             {
                 _view.DisplayMessage("Aucun livre n'a été trouvé.");
             } 
             else
             {
-                _currentBook = books.First();
-                _view.DisplayBook(_repo.GetBooks());
+                Refresh();
             }
             _repo.LoadSession(_session);
         }
@@ -58,38 +59,47 @@ public class HomePresenter
 
     private void ChangePageRequested(object? sender, ChangePageEventArgs e)
     {
-        if (_currentPage + e.Move > -1 && _currentPage + e.Move < (_repo.GetBooks().Count / MAX_BOOK_PAGE))
+        var books = new List<Book>(_repo.GetBooks((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
+        if (_currentPage + e.Move > -1 && books.Count > 0)
         {
-            // _view.DisplayBook(_repo.GetBooks()[new Range(_currentPage, MAX_BOOK_PAGE)]);
+            _currentPage += +e.Move;
+            Refresh(books);
         }
+    }
+
+    private void Refresh(IEnumerable<Book> toDisplay = null)
+    {
+        IList<Book> books = toDisplay == null ? new List<Book>(_repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE)) : new List<Book>(toDisplay);
+        _session.CurrentBook = books.First();
+        _view.Books = GetBookItems(books);
+        _view.BookDetails = GetExtendedItem(books.First());
+        _view.ActualPage = _currentPage + 1;
+    }
+
+    private IEnumerable<BookItem> GetBookItems(IEnumerable<Book> books)
+    {
+        IList<BookItem> result = new List<BookItem>();
+        foreach (Book b in books)
+        {
+            result.Add(new BookItem(b.Title, b.Author, b.ISBN, b.Image));
+        }
+        return result;
     }
 
     private void DisplayDetails(object? sender, DescriptionEventArgs e)
     {
-        _currentBook = _repo.Search(e.Isbn);
-        _view.DisplayDetailsFor(new BookExtendedItem(
-            _currentBook.Title,
-            _currentBook.Author,
-            _currentBook.ISBN,
-            _currentBook.Image,
-            _currentBook.Resume));
+        _session.CurrentBook = _repo.Search(e.Isbn);
     }
 
     private void OnSearchRequested(object? sender, SearchEventArgs e)
     {
-        List<Book> result;
-        if (e.Option.Equals(SearchOption.FilterIsbn))
-        {
-            result = _repo.GetBooks().Where(b => b.ISBN.ToLower().Replace("-", "").Contains(e.Search)).ToList();
-        } 
-        else if (e.Option.Equals(SearchOption.FilterTitle))
-        {
-            result = _repo.GetBooks().Where(b => b.Title.Replace("-", "").Contains(e.Search)).ToList();
-        }
-        else
-        {
-            result = _repo.GetBooks().Where(b => b.Title.Replace("-", "").ToLower().Contains(e.Search) || b.ISBN.Replace("-", "").Contains(e.Search)).ToList();
-        }
+        IList<Book> result = new List<Book>(_repo.SearchBooks(e.Search,
+                e.Filer.IsIsbn ? SearchOption.FilterIsbn :
+                e.Filer.IsTitle ? SearchOption.FilterTitle :
+                SearchOption.FilterBoth,
+                new RangeArg(_currentPage, MAX_BOOK_PAGE)
+            )
+        );
 
         if (result.Count == 0)
         {
@@ -98,31 +108,34 @@ public class HomePresenter
         } 
         else
         {
-            _view.DisplayBook(result);
+            _view.Books = GetBookItems(result);
+            _view.BookDetails = GetExtendedItem(result.First());
         }
     }
 
     private void OnReadeBookClicked(object? sender, EventArgs eventArgs)
     {
-        _session.Book = _repo.LoadBook(_currentBook.ISBN);
+        _session.Book = _repo.LoadBook(_session.CurrentBook.ISBN);
         _router.GoTo("ReadBookView");
     }
 
     private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(_session.Book))
+        if (e.PropertyName == nameof(_session.CurrentBook))
         {
-            if (_session.Book != null)
-            {
-                _view.DisplayDetailsFor(new BookExtendedItem(
-                    _session.Book.Title,
-                    _session.Book.Author,
-                    _session.Book.ISBN,
-                    _session.Book.Image,
-                    _session.Book.Resume)
-                );
-            }
+            _view.BookDetails = GetExtendedItem(_session.CurrentBook);
         }
+    }
+
+    private BookExtendedItem GetExtendedItem(Book book)
+    {
+        return new BookExtendedItem(
+            book.Title,
+            book.Author,
+            book.ISBN,
+            book.Image,
+            book.Resume
+        );
     }
 
     public void OnSessionSaved(object? sender, CancelEventArgs e)

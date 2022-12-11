@@ -16,7 +16,7 @@
                        x:Name="Title">Choissisez un livre-jeu</TextBlock>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBox KeyDown="On_EnterDown" x:Name="Search" Watermark="Rechercher un titre ou un ISBN" Width="250"/>
+            <TextBox KeyUp="On_EnterDown" x:Name="Search" Watermark="Rechercher un titre ou un ISBN" Width="250"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Padding="5" VerticalAlignment="Center">Filtre par: </TextBlock>
                 <ComboBox SelectedIndex="0">
@@ -34,7 +34,7 @@
             <Button Content="Rechercher" x:Name="SearchBtn" Click="On_SearchedClicked"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <WrapPanel x:Name="Books" Width="550">
+            <WrapPanel x:Name="BooksPanel" Width="550">
             
             </WrapPanel>
             <TextBlock x:Name="Message" />

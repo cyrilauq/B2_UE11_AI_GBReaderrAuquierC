@@ -6,10 +6,23 @@ public class Session : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private string _currentBook;
+    private Book _currentBook;
     private Book _book;
     private Page _page;
     private Dictionary<string, BookSave> _history = new ();
+
+    public Book CurrentBook
+    {
+        get => _currentBook;
+        set
+        {
+            if (value != null)
+            {
+                _currentBook = value;
+                NotifyPropertyChanged(nameof(CurrentBook));
+            }
+        }
+    }
 
     public Dictionary<string, BookSave> History
     {
@@ -63,8 +76,6 @@ public class Session : INotifyPropertyChanged
         }
     }
 
-    private void NotifyPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    private void NotifyPropertyChanged(string propertyName) 
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
