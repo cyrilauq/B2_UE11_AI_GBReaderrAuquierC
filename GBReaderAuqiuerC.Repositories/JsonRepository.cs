@@ -147,7 +147,7 @@ public class JsonRepository : IDataRepository
         
     }
 
-    public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg Arg = null)
+    public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg arg = null)
     {
         // TODO : Créer le corps de la méthode
         IList<Book> result = new List<Book>();

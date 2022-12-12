@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Presentation;
 using GBReaderAuquierC.Presentation.Views;
-using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
 
 namespace GBReaderAuquierC.Avalonia;
 
@@ -17,6 +14,7 @@ public partial class HomeView : UserControl, IHomeView
     public event EventHandler<DescriptionEventArgs>? DisplayDetailsRequested;
     public event EventHandler ReadBookRequested;
     public event EventHandler<SearchEventArgs>? SearchBookRequested;
+    public event EventHandler ViewStatRequested;
     public event EventHandler<ChangePageEventArgs> ChangePageRequested;
 
     public int ActualPage
@@ -90,20 +88,22 @@ public partial class HomeView : UserControl, IHomeView
     }
 
     private void On_PreviousClicked(object? sender, RoutedEventArgs e) 
-        => ChangePageRequested?.Invoke(this, new ChangePageEventArgs(-1));
+        => ChangePageRequested?.Invoke(this, new ChangePageEventArgs(-1, GetSearchArgs()));
 
     private void On_NextClicked(object? sender, RoutedEventArgs e) 
-        => ChangePageRequested?.Invoke(this, new ChangePageEventArgs(1));
+        => ChangePageRequested?.Invoke(this, new ChangePageEventArgs(1, GetSearchArgs()));
 
     private void On_SearchedClicked(object? sender, RoutedEventArgs e)
     {
-        string q = Search.Text;
-        SearchBookRequested?.Invoke(this, new SearchEventArgs(
-                q.ToLower().Replace("-", ""), 
-                new Filter(
-                    FilterISBN.IsSelected,
-                    FilterTitle.IsSelected
-                )
+        SearchBookRequested?.Invoke(this, GetSearchArgs());
+    }
+
+    private SearchEventArgs GetSearchArgs()
+    {
+        return new SearchEventArgs(Search.Text?.ToLower().Replace("-", ""),
+            new Filter(
+                FilterISBN.IsSelected,
+                FilterTitle.IsSelected
             )
         );
     }
@@ -128,5 +128,10 @@ public partial class HomeView : UserControl, IHomeView
     public void OnEnter(string fromView)
     {
         
+    }
+
+    private void On_ViewStatClicked(object? sender, RoutedEventArgs e)
+    {
+        ViewStatRequested?.Invoke(this, EventArgs.Empty);
     }
 }

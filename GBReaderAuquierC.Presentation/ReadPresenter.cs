@@ -85,7 +85,7 @@ namespace GBReaderAuquierC.Presenter
 
         private void RestartRequested(object? sender, EventArgs e)
         {
-            _session.Page = _session.Book.First;
+            _session.Book = _session.Book;
         }
 
         private void HomeRequested(object? sender, EventArgs e)

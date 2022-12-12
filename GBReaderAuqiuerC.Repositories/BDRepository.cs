@@ -310,10 +310,11 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        public IEnumerable<Book> SearchBooks(string search, SearchOption option, RangeArg Arg = null)
+        public IEnumerable<Book> SearchBooks(string search, SearchOption option, RangeArg arg)
         {
             // TODO : Créer le corps de la méthode
             IList<Book> result = new List<Book>();
+            if(arg.Begin < 0 || arg.End < 0) { return result; }
             string query = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
                                   "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
                                   "FROM book b " +
@@ -345,8 +346,8 @@ namespace GBReaderAuquierC.Repositories
                     using var selectCmd = con.CreateCommand();
                     selectCmd.CommandText = query;
                     AddParameter(selectCmd, "@search", $"%{search}%", DbType.String);
-                    AddParameter(selectCmd, "@begin", Arg.Begin, DbType.Int32);
-                    AddParameter(selectCmd, "@end", Arg.End, DbType.Int32);
+                    AddParameter(selectCmd, "@begin", arg.Begin, DbType.Int32);
+                    AddParameter(selectCmd, "@end", arg.End, DbType.Int32);
                     using (IDataReader reader = selectCmd.ExecuteReader())
                     {
                         while (reader.Read())

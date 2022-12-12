@@ -36,11 +36,15 @@ namespace GBReaderAuquierC.Avalonia
                 ReadBookView readBookView = new();
                 var readPresenter = new ReadPresenter(readBookView, _mainWindow, _mainWindow, _session, _repo);
                 
+                StatisticsView statisticsView = new();
+                var statisticsPresenter = new StatisticsPresenter(statisticsView, _mainWindow, _mainWindow, _session);
+                
                 HomeView homeView = new();
                 var homePresenter = new HomePresenter(homeView, _mainWindow, _mainWindow, _session, _repo);
 
                 _mainWindow.RegisterView("HomeView", homeView);
                 _mainWindow.RegisterView("ReadBookView", readBookView);
+                _mainWindow.RegisterView("StatisticsView", statisticsView);
                 _mainWindow.GoTo("HomeView");
                 
                 desktop.MainWindow.Closing += homePresenter.OnSessionSaved;

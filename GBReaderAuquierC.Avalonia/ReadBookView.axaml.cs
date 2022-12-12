@@ -110,7 +110,7 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
             Restart.IsVisible = true;
             Home.IsVisible = true;
         }
-        else
+        else if (_state == ReadingState.Nothing)
         {
             Message.IsVisible = true;
             Home.IsVisible = true;

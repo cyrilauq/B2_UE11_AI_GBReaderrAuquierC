@@ -1,0 +1,17 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GBReaderAuquierC.Avalonia.Pages.StatBookView">
+    <StackPanel>
+        <TextBlock x:Name="Title"/>
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="Cover"/>
+            <StackPanel>
+                <TextBlock x:Name="Begin"></TextBlock>
+                <TextBlock x:Name="LastUpdate"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -5,15 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Width="800" Height="650" MaxWidth="800" MaxHeight="650"
              x:Class="GBReaderAuquierC.Avalonia.HomeView">
     <StackPanel HorizontalAlignment="Center">
-        <Border BorderBrush="Black"
-                Margin="60, 20, 60, 20" 
-                BorderThickness="0, 0, 0, 2">
-            <TextBlock FontSize="24" 
-                       TextAlignment="Center"
-                       Width="300"
-                       FontFamily="Constantia"
-                       FontWeight="ExtraBold"
-                       x:Name="Title">Choissisez un livre-jeu</TextBlock>
+        <Border Classes="titleBorder">
+            <TextBlock x:Name="Title" Classes="title">Choissisez un livre-jeu</TextBlock>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="5">
             <TextBox KeyUp="On_EnterDown" x:Name="Search" Watermark="Rechercher un titre ou un ISBN" Width="250"/>
@@ -33,6 +26,7 @@
             </StackPanel>
             <Button Content="Rechercher" x:Name="SearchBtn" Click="On_SearchedClicked"/>
         </StackPanel>
+        <Button Content="Consulter les statistiques" Click="On_ViewStatClicked"/>
         <StackPanel Orientation="Horizontal">
             <WrapPanel x:Name="BooksPanel" Width="550">
             

@@ -37,6 +37,7 @@ public class HomePresenter
         _view.ReadBookRequested += OnReadeBookClicked;
         _view.SearchBookRequested += OnSearchRequested;
         _view.ChangePageRequested += ChangePageRequested;
+        _view.ViewStatRequested += OnViewStatRequested;
         
         try
         {
@@ -59,7 +60,18 @@ public class HomePresenter
 
     private void ChangePageRequested(object? sender, ChangePageEventArgs e)
     {
-        var books = new List<Book>(_repo.GetBooks((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
+        IList<Book> books = new List<Book>();
+        if (e.SearchArg == null)
+        {
+            books = new List<Book>(_repo.GetBooks((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
+        }
+        else
+        {
+            books = new List<Book>(_repo.SearchBooks(e.SearchArg.Search, 
+                e.SearchArg.Filer.IsIsbn ? SearchOption.FilterIsbn :
+                e.SearchArg.Filer.IsTitle ? SearchOption.FilterTitle :
+                SearchOption.FilterBoth, new RangeArg((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE)));            
+        }
         if (_currentPage + e.Move > -1 && books.Count > 0)
         {
             _currentPage += +e.Move;
@@ -93,7 +105,9 @@ public class HomePresenter
 
     private void OnSearchRequested(object? sender, SearchEventArgs e)
     {
-        IList<Book> result = new List<Book>(_repo.SearchBooks(e.Search,
+        IList<Book> result =  new List<Book>(
+            (e.Search is null || e.Search.Trim().Length == 0) ? _repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE) : 
+            _repo.SearchBooks(e.Search,
                 e.Filer.IsIsbn ? SearchOption.FilterIsbn :
                 e.Filer.IsTitle ? SearchOption.FilterTitle :
                 SearchOption.FilterBoth,
@@ -136,6 +150,11 @@ public class HomePresenter
             book.Image,
             book.Resume
         );
+    }
+
+    private void OnViewStatRequested(object? sender, EventArgs e)
+    {
+        _router.GoTo("StatisticsView");
     }
 
     public void OnSessionSaved(object? sender, CancelEventArgs e)

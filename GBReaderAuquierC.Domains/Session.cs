@@ -34,6 +34,10 @@ public class Session : INotifyPropertyChanged
                 throw new ArgumentException("The session cannot be initialized twice.");
             }
             _history = value;
+            if (value.Count > 0)
+            {
+                NotifyPropertyChanged(nameof(Book));
+            }
         }
     }
 

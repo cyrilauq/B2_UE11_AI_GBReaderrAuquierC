@@ -22,5 +22,5 @@ public interface IDataRepository
 
     public void LoadSession(Session sission);
 
-    public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg Arg = null);
+    public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg arg = null);
 }

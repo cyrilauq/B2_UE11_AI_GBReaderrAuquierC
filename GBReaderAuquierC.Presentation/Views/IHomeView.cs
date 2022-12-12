@@ -8,6 +8,7 @@ namespace GBReaderAuquierC.Presentation.Views
         // TODO : Changer les Display par des attributs dans les vue.
         event EventHandler<DescriptionEventArgs> DisplayDetailsRequested;
         event EventHandler ReadBookRequested;
+        event EventHandler ViewStatRequested;
         event EventHandler<SearchEventArgs> SearchBookRequested;
         event EventHandler<ChangePageEventArgs> ChangePageRequested;
         
@@ -18,7 +19,7 @@ namespace GBReaderAuquierC.Presentation.Views
         void DisplayMessage(string message);
     }
 
-    public record ChangePageEventArgs(int Move);
+    public record ChangePageEventArgs(int Move, SearchEventArgs SearchArg = null);
     
     public record Filter(bool IsIsbn, bool IsTitle);
     
