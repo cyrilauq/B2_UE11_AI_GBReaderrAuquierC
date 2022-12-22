@@ -1,11 +1,33 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "Lcom.Analyzer/1.0.0.1": {
+        "type": "package"
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Lcom.Analyzer/1.0.0.1": {
+      "sha512": "F714fD5x9gX0WkX+bFYgapB8lZEer8F82QtPrqoOIoeFZkmCuP3tgsSfbIQ0rwdmmasK3zkakcdecbILcH4OLg==",
+      "type": "package",
+      "path": "lcom.analyzer/1.0.0.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/Lcom.Analyzer.dll",
+        "lcom.analyzer.1.0.0.1.nupkg.sha512",
+        "lcom.analyzer.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "Lcom.Analyzer >= 1.0.0.1"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\cyril\\.nuget\\packages\\": {}
@@ -45,6 +67,14 @@
     "frameworks": {
       "net6.0": {
         "targetAlias": "net6.0",
+        "dependencies": {
+          "Lcom.Analyzer": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.0.0.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

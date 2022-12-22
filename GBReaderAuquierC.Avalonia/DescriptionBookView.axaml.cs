@@ -8,8 +8,6 @@ namespace GBReaderAuquierC.Avalonia;
 
 public partial class DescriptionBookView : UserControl
 {
-    private string _isbn;
-
     public DescriptionBookView()
     {
         InitializeComponent();
@@ -25,7 +23,7 @@ public partial class DescriptionBookView : UserControl
     {
         Title.Text = book.Title;
         Author.Text = book.Author;
-        Isbn.Text = _isbn = book.Isbn;
+        Isbn.Text = book.Isbn;
         if (book.ImgPath != null && book.ImgPath.Trim().Length > 0)
         {
             Image.Source = new Bitmap(book.ImgPath);

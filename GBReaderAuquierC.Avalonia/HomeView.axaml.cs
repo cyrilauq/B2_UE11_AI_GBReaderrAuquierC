@@ -20,6 +20,7 @@ public partial class HomeView : UserControl, IHomeView
     public int ActualPage
     {
         set => CurrentPage.Text = "" + value;
+        get => Int32.Parse(CurrentPage.Text);
     }
 
     public IEnumerable<BookItem> Books
@@ -108,26 +109,12 @@ public partial class HomeView : UserControl, IHomeView
         );
     }
 
-    private void FindBooksFor(string search)
-    {
-        SearchBookRequested?.Invoke(this, new SearchEventArgs(
-                search.ToLower().Replace("-", ""), 
-                new Filter(
-                    FilterISBN.IsSelected,
-                    FilterTitle.IsSelected
-                )
-            )
-        );
-    }
-
     private void On_EnterDown(object? sender, KeyEventArgs e)
     {
-        On_SearchedClicked(sender, e);
-    }
-
-    public void OnEnter(string fromView)
-    {
-        
+        if (e.Key == Key.Enter)
+        {
+            On_SearchedClicked(sender, e);
+        }
     }
 
     private void On_ViewStatClicked(object? sender, RoutedEventArgs e)

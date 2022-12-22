@@ -13,4 +13,11 @@
     <ItemGroup>
         <AdditionnalFiles Include="../.editorconfig" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Lcom.Analyzer" Version="1.0.0.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
 </Project>

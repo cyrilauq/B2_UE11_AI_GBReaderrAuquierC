@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using GBReaderAuquierC.Avalonia;
 using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Presentation.Views;
 using GBReaderAuquierC.Presenter.ViewModel;
 using GBReaderAuquierC.Presenter.Views;
@@ -12,10 +13,10 @@ namespace GBReaderAuquierC.Presentation
         private IStatisticsView _view;
         private IBrowseViews _router;
         private IDisplayMessages _notification;
-        private Session _session;
+        private ISessionRepository _session;
 
         public StatisticsPresenter(IStatisticsView view, IBrowseViews router, IDisplayMessages notification,
-            Session sessions)
+            ISessionRepository sessions)
         {
             _view = view;
             _router = router;
@@ -42,7 +43,7 @@ namespace GBReaderAuquierC.Presentation
                 svms.Add(new StatViewModel(
                         null,
                         he.Value.Begin.ToString("Le dd MMMM yyyy à hh:mm:ss"),
-                        he.Value.Begin.ToString("Le dd month yyyy à hh:mm:ss"),
+                        he.Value.Begin.ToString("Le dd MMMM yyyy à hh:mm:ss"),
                         he.Key
                     )
                 );
@@ -53,7 +54,7 @@ namespace GBReaderAuquierC.Presentation
 
         private void NotifyPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_session.Book))
+            if (e.PropertyName == nameof(_session.ReadingPage) || e.PropertyName == nameof(_session.History))
             {
                 Refresh();
             }

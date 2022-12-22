@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel;
 using GBReaderAuquierC.Avalonia;
-using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
 using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Presentation.Views;
 using GBReaderAuquierC.Presenter.Views;
-using GBReaderAuquierC.Repositories;
 using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
 
 namespace GBReaderAuquierC.Presentation;
@@ -16,15 +14,15 @@ public class HomePresenter
 {
     private IHomeView _view;
     private IDataRepository _repo;
-    private Session _session;
+    private ISessionRepository _session;
     private IBrowseViews _router;
     private IDisplayMessages _notificationManager;
 
-    private int _currentPage = 0;
-
     private const int MAX_BOOK_PAGE = 8;
+    
+    private int CurrentPage { get => _view.ActualPage - 1; }
 
-    public HomePresenter(IHomeView view, IDisplayMessages notificationManager, IBrowseViews router, Session session, IDataRepository repo)
+    public HomePresenter(IHomeView view, IDisplayMessages notificationManager, IBrowseViews router, ISessionRepository session, IDataRepository repo)
     {
         _view = view ?? throw new ArgumentNullException(nameof(view));
         _router = router ?? throw new ArgumentNullException(nameof(router));
@@ -41,7 +39,7 @@ public class HomePresenter
         
         try
         {
-            var books = new List<Book>(_repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
+            var books = new List<Book>(_repo.GetBooks(0, MAX_BOOK_PAGE));
             if (books.Count == 0)
             {
                 _view.DisplayMessage("Aucun livre n'a été trouvé.");
@@ -50,7 +48,7 @@ public class HomePresenter
             {
                 Refresh();
             }
-            _repo.LoadSession(_session);
+            _session.LoadSession();
         }
         catch (DataManipulationException e)
         {
@@ -63,29 +61,28 @@ public class HomePresenter
         IList<Book> books = new List<Book>();
         if (e.SearchArg == null)
         {
-            books = new List<Book>(_repo.GetBooks((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
+            books = new List<Book>(_repo.GetBooks((CurrentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE));
         }
         else
         {
             books = new List<Book>(_repo.SearchBooks(e.SearchArg.Search, 
                 e.SearchArg.Filer.IsIsbn ? SearchOption.FilterIsbn :
                 e.SearchArg.Filer.IsTitle ? SearchOption.FilterTitle :
-                SearchOption.FilterBoth, new RangeArg((_currentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE)));            
+                SearchOption.FilterBoth, new RangeArg((CurrentPage + e.Move) * MAX_BOOK_PAGE, MAX_BOOK_PAGE)));            
         }
-        if (_currentPage + e.Move > -1 && books.Count > 0)
+        if (CurrentPage + e.Move > -1 && books.Count > 0)
         {
-            _currentPage += +e.Move;
-            Refresh(books);
+            Refresh(books, CurrentPage + e.Move);
         }
     }
 
-    private void Refresh(IEnumerable<Book> toDisplay = null)
+    private void Refresh(IEnumerable<Book> toDisplay = null, int numPage = 1)
     {
-        IList<Book> books = toDisplay == null ? new List<Book>(_repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE)) : new List<Book>(toDisplay);
+        IList<Book> books = toDisplay == null ? new List<Book>(_repo.GetBooks(CurrentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE)) : new List<Book>(toDisplay);
         _session.CurrentBook = books.First();
         _view.Books = GetBookItems(books);
         _view.BookDetails = GetExtendedItem(books.First());
-        _view.ActualPage = _currentPage + 1;
+        _view.ActualPage = numPage;
     }
 
     private IEnumerable<BookItem> GetBookItems(IEnumerable<Book> books)
@@ -93,7 +90,11 @@ public class HomePresenter
         IList<BookItem> result = new List<BookItem>();
         foreach (Book b in books)
         {
-            result.Add(new BookItem(b.Title, b.Author, b.ISBN, b.Image));
+            result.Add(new BookItem(
+                b[BookAttribute.Title], 
+                b[BookAttribute.Author], 
+                b[BookAttribute.Isbn], 
+                b[BookAttribute.Image]));
         }
         return result;
     }
@@ -106,12 +107,12 @@ public class HomePresenter
     private void OnSearchRequested(object? sender, SearchEventArgs e)
     {
         IList<Book> result =  new List<Book>(
-            (e.Search is null || e.Search.Trim().Length == 0) ? _repo.GetBooks(_currentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE) : 
+            (e.Search is null || e.Search.Trim().Length == 0) ? _repo.GetBooks(CurrentPage * MAX_BOOK_PAGE, MAX_BOOK_PAGE) : 
             _repo.SearchBooks(e.Search,
                 e.Filer.IsIsbn ? SearchOption.FilterIsbn :
                 e.Filer.IsTitle ? SearchOption.FilterTitle :
                 SearchOption.FilterBoth,
-                new RangeArg(_currentPage, MAX_BOOK_PAGE)
+                new RangeArg(CurrentPage, MAX_BOOK_PAGE)
             )
         );
 
@@ -129,7 +130,7 @@ public class HomePresenter
 
     private void OnReadeBookClicked(object? sender, EventArgs eventArgs)
     {
-        _session.Book = _repo.LoadBook(_session.CurrentBook.ISBN);
+        _session.ReadingBook = _repo.LoadBook(_session.CurrentBook[BookAttribute.Isbn]);
         _router.GoTo("ReadBookView");
     }
 
@@ -144,11 +145,11 @@ public class HomePresenter
     private BookExtendedItem GetExtendedItem(Book book)
     {
         return new BookExtendedItem(
-            book.Title,
-            book.Author,
-            book.ISBN,
-            book.Image,
-            book.Resume
+            book[BookAttribute.Title],
+            book[BookAttribute.Author],
+            book[BookAttribute.Isbn],
+            book[BookAttribute.Image],
+            book[BookAttribute.Resume]
         );
     }
 
@@ -161,7 +162,7 @@ public class HomePresenter
     {
         try
         {
-            _repo.SaveSession(_session);
+            _session.SaveSession();
         }
         catch (Exception)
         {

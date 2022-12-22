@@ -49,11 +49,11 @@ public class Session : INotifyPropertyChanged
             {
                 _book = value;
                 NotifyPropertyChanged(nameof(Book));
-                if (!_history.ContainsKey(_book.ISBN))
+                if (!_history.ContainsKey(_book[BookAttribute.Isbn]))
                 {
-                    _history[_book.ISBN] = new BookSave();
+                    _history[_book[BookAttribute.Isbn]] = new BookSave();
                 }
-                Page = _history.Count == 0 || _history[_book.ISBN].Count == 0 ? _book.First : _book[_history[_book.ISBN].Last - 1];
+                Page = _history.Count == 0 || _history[_book[BookAttribute.Isbn]].Count == 0 ? _book.First : _book[_history[_book[BookAttribute.Isbn]].Last - 1];
             }
         }
         get => _book;
@@ -69,11 +69,11 @@ public class Session : INotifyPropertyChanged
                 _page = value;
                 if (_page.IsTerminal)
                 {
-                    _history.Remove(_book.ISBN);
+                    _history.Remove(_book[BookAttribute.Isbn]);
                 }
                 else
                 {
-                    _history[_book.ISBN].Add(_book.GetNPageFor(_page));
+                    _history[_book[BookAttribute.Isbn]].Add(_book.GetNPageFor(_page));
                 }
                 NotifyPropertyChanged(nameof(Page));
             }

@@ -1,4 +1,5 @@
-﻿using GBReaderAuquierC.Infrastructures.Exceptions;
+﻿using GBReaderAuquierC.Infrastructures;
+using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories;
 
 namespace GBReaderAuquierC.Tests

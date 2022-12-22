@@ -9,7 +9,8 @@
       "GBReaderAuquierC.Presentation/1.0.0": {
         "dependencies": {
           "GBReaderAuqiuerC.Repositories": "1.0.0",
-          "GBReaderAuquierC.Domains": "1.0.0"
+          "GBReaderAuquierC.Domains": "1.0.0",
+          "Lcom.Analyzer": "1.0.0.1"
         },
         "runtime": {
           "GBReaderAuquierC.Presentation.dll": {}
@@ -57,6 +58,7 @@
           }
         }
       },
+      "Lcom.Analyzer/1.0.0.1": {},
       "Microsoft.NETCore.Platforms/3.1.0": {},
       "Microsoft.Win32.Registry/4.7.0": {
         "dependencies": {
@@ -341,6 +343,13 @@
       "sha512": "sha512-jCfNP0inx1sGcP3KSbpiDEH3km2e1sVBjMfKo+V92jr1dL4ZYgA1uhRMl1wAtdGZcbObXIikKqtVlgx3j/CW6g==",
       "path": "k4os.hash.xxhash/1.0.6",
       "hashPath": "k4os.hash.xxhash.1.0.6.nupkg.sha512"
+    },
+    "Lcom.Analyzer/1.0.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-F714fD5x9gX0WkX+bFYgapB8lZEer8F82QtPrqoOIoeFZkmCuP3tgsSfbIQ0rwdmmasK3zkakcdecbILcH4OLg==",
+      "path": "lcom.analyzer/1.0.0.1",
+      "hashPath": "lcom.analyzer.1.0.0.1.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",

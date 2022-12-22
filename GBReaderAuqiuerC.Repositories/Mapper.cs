@@ -37,7 +37,7 @@ namespace GBReaderAuquierC.Repositories
             return new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 ""
             );
@@ -52,7 +52,7 @@ namespace GBReaderAuquierC.Repositories
             return new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 dto.ImagePath
             );
@@ -67,7 +67,7 @@ namespace GBReaderAuquierC.Repositories
             var result = new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 dto.ImagePath
             );
@@ -117,20 +117,6 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private static string ConvertDtoISBNToBook(string isbn)
-        {
-            if (isbn.Replace("-", "").Length == 11)
-            {
-                
-                if (isbn.EndsWith("10"))
-                {
-                    return isbn.Substring(0, isbn.Length - 2) + "X";
-                }
-                return isbn.Substring(0, isbn.Length - 2) + "0";
-            }
-            return isbn;
-        }
-
         private static Page GetPageForContent(string content, IList<Page> pages)
         {
             foreach (Page dto in pages)
@@ -164,6 +150,9 @@ namespace GBReaderAuquierC.Repositories
         {
             return new SessionDTO(ConvertHistoryToDTO(session.History));
         }
+
+        public static SessionDTO ConvertToDTO(Dictionary<string, BookSave> historique)
+            => new(ConvertHistoryToDTO(historique));
 
         private static Dictionary<string, BookSaveDTO> ConvertHistoryToDTO(Dictionary<string, BookSave> history)
         {

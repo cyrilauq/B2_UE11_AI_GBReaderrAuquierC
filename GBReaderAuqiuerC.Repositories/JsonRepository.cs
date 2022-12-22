@@ -121,7 +121,7 @@ public class JsonRepository : IDataRepository
     {
         try
         {
-            return _books.First(b => b.ISBN.Contains(isbn));
+            return _books.First(b => b[BookAttribute.Isbn].Contains(isbn));
         }
         catch (Exception)
         {

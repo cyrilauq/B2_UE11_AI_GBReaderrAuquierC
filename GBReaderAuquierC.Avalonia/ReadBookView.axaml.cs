@@ -95,25 +95,13 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
             }
         }
 
-        if (_currentPage == null || _currentPage.Choices.Count == 0)
-        {
-            Choices.IsVisible = false;
-        }
-        else
-        {
-            Choices.IsVisible = true;
-        }
+        ChoicePnl.IsVisible = _currentPage != null && _currentPage.Choices.Count > 0;
 
         HideButtons();
-        if (_state == ReadingState.Restart)
-        {
-            Restart.IsVisible = true;
-            Home.IsVisible = true;
-        }
-        else if (_state == ReadingState.Nothing)
+        Restart.IsVisible = _state == ReadingState.Nothing || _state == ReadingState.Restart;
+        if (_state == ReadingState.Nothing)
         {
             Message.IsVisible = true;
-            Home.IsVisible = true;
             Message.Text = "Aucune action ne peut être réalisée à partir de cette page...";
         }
     }
@@ -122,7 +110,7 @@ public partial class ReadBookView : UserControl, IAskToDisplayMessage, IReadView
     {
         Restart.IsVisible = false;
         Message.IsVisible = false;
-        Home.IsVisible = false;
+        Home.IsVisible = true;
     }
 
     private void OnValidClicked(object? sender, GotToPageEventArgs e)

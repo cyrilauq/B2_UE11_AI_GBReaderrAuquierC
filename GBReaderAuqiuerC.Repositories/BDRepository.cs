@@ -4,6 +4,7 @@ using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Infrastructures.Exceptions;
 using GBReaderAuquierC.Repositories.DTO;
 using GBReaderAuquierC.Repositories.Exceptions;
+using GBReaderAuquierC.Repositories.SQL;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
@@ -49,6 +50,7 @@ namespace GBReaderAuquierC.Repositories
                     selectCmd.CommandText = "SELECT b.id_book, b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
                                             "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author " +
                                             "FROM book b " +
+                                            "WHERE b.datePublication IS NOT NULL " +
                                             "LIMIT @begin, @end";
                     var beginParam = selectCmd.CreateParameter();
                     beginParam.ParameterName = "@begin";
@@ -71,7 +73,11 @@ namespace GBReaderAuquierC.Repositories
                                 reader["isbn"] != null ? reader["isbn"] as string : null,
                                 reader["imgPath"] != null ? reader["imgPath"] as string : null
                             );
-                            result.Add(Mapper.ConvertToBook(book));
+                            Book convertedBook = Mapper.ConvertToBook(book);
+                            if (convertedBook)
+                            {
+                                result.Add(convertedBook);
+                            }
                         }
                     }
                     con.Close();
@@ -146,11 +152,7 @@ namespace GBReaderAuquierC.Repositories
                                             "FROM choice p " +
                                             "JOIN page c ON c.id_page = p.id_target " +
                                             "WHERE p.id_page = @id_page";
-                    var param = selectCmd.CreateParameter();
-                    param.ParameterName = "@id_page";
-                    param.Value = idPage;
-                    param.DbType = DbType.Int32;
-                    selectCmd.Parameters.Add(param);
+                    AddParameter(selectCmd, "@id_page", idPage, DbType.Int32);
                     using (IDataReader reader = selectCmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -190,12 +192,8 @@ namespace GBReaderAuquierC.Repositories
                     selectCmd.CommandText = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
                                             "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
                                             "FROM book b " +
-                                            "WHERE b.isbn = @isbn";
-                    var param = selectCmd.CreateParameter();
-                    param.ParameterName = "@isbn";
-                    param.Value = isbn;
-                    param.DbType = DbType.String;
-                    selectCmd.Parameters.Add(param);
+                                            "WHERE b.isbn = @isbn && datePublication IS NOT NULL";
+                    AddParameter(selectCmd, "@isbn", isbn, DbType.String);
                     using (IDataReader reader = selectCmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -230,111 +228,79 @@ namespace GBReaderAuquierC.Repositories
             if (dto != null)
             {
                 dto.Pages = GetPages(dto.Id);
-                return Mapper.ConvertToBook(dto);
+                Book convertedBook = Mapper.ConvertToBook(dto);
+                return convertedBook ? convertedBook : null;
             }
             return null;
         }
 
         public void SaveSession(Session session)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
+            {
+                // TODO : modifier messages d'erreurs
+                throw new DataManipulationException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
+            }
+
+            if (!File.Exists(_sessionRepo))
+            {
+                throw new DataManipulationException(
+                    $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
+            }
+
             try
             {
-                if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
-                {
-                    // TODO : modifier messages d'erreurs
-                    throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
-                }
-
-                if (!File.Exists(_sessionRepo))
-                {
-                    throw new FileNotFoundException(
-                        $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
-                }
-
-                try
-                {
-                    File.WriteAllText(_sessionRepo, 
-                        JsonConvert.SerializeObject(Mapper.ConvertToDTO(session)));
-                }
-                catch (JsonReaderException)
-                {
-                }
-                catch (IOException)
-                {
-                }
+                File.WriteAllText(_sessionRepo, 
+                    JsonConvert.SerializeObject(Mapper.ConvertToDTO(session)));
             }
-            catch(DirectoryNotFoundException e)
+            catch (JsonReaderException)
             {
-                throw new DirectoryNotFoundException(e.Message);
             }
-            catch(FileNotFoundException e)
+            catch (IOException)
             {
-                throw new FileNotFoundException(e.Message);
             }
         }
         
         public void LoadSession(Session session)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
+            {
+                // TODO : modifier messages d'erreurs
+                throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
+            }
+
+            if (!File.Exists(_sessionRepo))
+            {
+                throw new FileNotFoundException(
+                    $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
+            }
+
             try
             {
-                if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
-                {
-                    // TODO : modifier messages d'erreurs
-                    throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
-                }
-
-                if (!File.Exists(_sessionRepo))
-                {
-                    throw new FileNotFoundException(
-                        $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
-                }
-
-                try
-                {
-                    session.History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(_sessionRepo))).History;
-                }
-                catch (JsonReaderException)
-                {
-                }
-                catch (IOException)
-                {
-                }
+                session.History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(_sessionRepo))).History;
             }
-            catch(DirectoryNotFoundException e)
+            catch (JsonReaderException e)
             {
-                throw new DirectoryNotFoundException(e.Message);
+                throw new DataManipulationException("Une erreur est survenue lors de la récupération des données", e);
             }
-            catch(FileNotFoundException e)
+            catch (IOException e)
             {
-                throw new FileNotFoundException(e.Message);
+                throw new DataManipulationException("Une erreur est survenue lors de la récupération des données", e);
             }
         }
 
         public IEnumerable<Book> SearchBooks(string search, SearchOption option, RangeArg arg)
         {
-            // TODO : Créer le corps de la méthode
             IList<Book> result = new List<Book>();
             if(arg.Begin < 0 || arg.End < 0) { return result; }
-            string query = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
-                                  "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
-                                  "FROM book b " +
-                                  "WHERE b.isbn LIKE @search OR b.title LIKE @search " +
-                                  "LIMIT @begin, @end";
+            string query = SqlInstructions.SEARCH_BOOKS_WITH_BOTH_FILTER;
             switch (option)
             {
                 case SearchOption.FilterIsbn:
-                    query = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
-                            "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
-                            "FROM book b " +
-                            "WHERE b.isbn LIKE @search " +
-                            "LIMIT @begin, @end";
+                    query = SqlInstructions.SEARCH_BOOKS_WITH_ISBN_FILTER;
                     break;
                 case SearchOption.FilterTitle:
-                    query = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
-                            "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
-                            "FROM book b " +
-                            "WHERE b.title LIKE @search " +
-                            "LIMIT @begin, @end";
+                    query = SqlInstructions.SEARCH_BOOKS_WITH_TITLE_FILTER;
                     break;
             }
             try
@@ -359,7 +325,11 @@ namespace GBReaderAuquierC.Repositories
                                 reader["isbn"] != null ? reader["isbn"] as string : null,
                                 reader["imgPath"] != null ? reader["imgPath"] as string : null
                             );
-                            result.Add(Mapper.ConvertToBook(book));
+                            Book convertedBook = Mapper.ConvertToBook(book);
+                            if (convertedBook)
+                            {
+                                result.Add(convertedBook);
+                            }
                         }
                     }
                     con.Close();

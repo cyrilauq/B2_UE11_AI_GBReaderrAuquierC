@@ -14,7 +14,7 @@
                 <TextBlock x:Name="NPage" />
             </StackPanel>
             <TextBlock x:Name="Content" TextWrapping="WrapWithOverflow" />
-            <StackPanel>
+            <StackPanel x:Name="ChoicePnl">
                 <TextBlock Text="Choix disponibles:"/>
                 <StackPanel x:Name="Choices">
                 </StackPanel>

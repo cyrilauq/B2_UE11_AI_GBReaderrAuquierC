@@ -12,7 +12,7 @@ namespace GBReaderAuquierC.Presentation.Views
         event EventHandler<SearchEventArgs> SearchBookRequested;
         event EventHandler<ChangePageEventArgs> ChangePageRequested;
         
-        int ActualPage { set; }
+        int ActualPage { set; get; }
         BookExtendedItem BookDetails { set; }
         IEnumerable<BookItem> Books { set; }
 

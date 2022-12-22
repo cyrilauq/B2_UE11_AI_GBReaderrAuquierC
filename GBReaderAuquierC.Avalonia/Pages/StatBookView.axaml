@@ -8,10 +8,12 @@
         <TextBlock x:Name="Title"/>
         <StackPanel Orientation="Horizontal">
             <Image x:Name="Cover"/>
-            <StackPanel>
-                <TextBlock x:Name="Begin"></TextBlock>
-                <TextBlock x:Name="LastUpdate"></TextBlock>
-            </StackPanel>
+            <Grid ColumnDefinitions="50*, 50*" RowDefinitions="50*, 50*">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Commencé: " />
+                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Begin"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Dernière lecture: " />
+                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="LastUpdate"></TextBlock>
+            </Grid>
         </StackPanel>
     </StackPanel>
 </UserControl>

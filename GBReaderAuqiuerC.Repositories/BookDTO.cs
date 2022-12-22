@@ -15,7 +15,7 @@
         
         public string Title { get => _title; }
         public string Author { get => _author; }
-        public string ISBN { get => _isbn; }
+        public string Isbn { get => _isbn; }
         public string Resume { get => _resume; }
         public string ImagePath { get => _imagePath; }
         public IList<PageDTO> Pages { get => _pages; set => _pages = value; }
@@ -45,7 +45,7 @@
         
         public override string ToString()
         {
-            return $"{Title}, {ISBN}, {Resume}, {Author}";
+            return $"{Title}, {Isbn}, {Resume}, {Author}";
         }
     }
 }
