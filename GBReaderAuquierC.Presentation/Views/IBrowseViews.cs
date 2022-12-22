@@ -1,4 +1,4 @@
-﻿namespace GBReaderAuquierC.Avalonia
+﻿namespace GBReaderAuquierC.Presenter.Views
 {
     public interface IBrowseViews
     {

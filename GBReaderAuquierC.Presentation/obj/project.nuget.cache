@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TFAEA33zqZ4LjQjG4d9LhpCA60bhXiwUs2ccJnRz8yM3qRA368QhErbt+06GZAZ1b7r1aWpATJh54Lbycp7Vyw==",
+  "dgSpecHash": "BNc91tcA0jr0yYYNotB8bXiXEN0BduqOXtY9raqeWTpCTJqWzLxiyXN6Ks4m5+8x2xXy4+KMShfSZXFwbcjCjw==",
   "success": true,
   "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Presentation\\GBReaderAuquierC.Presentation.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\cyril\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
+    "C:\\Users\\cyril\\.nuget\\packages\\lcom.analyzer\\1.0.0.1\\lcom.analyzer.1.0.0.1.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\cyril\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",

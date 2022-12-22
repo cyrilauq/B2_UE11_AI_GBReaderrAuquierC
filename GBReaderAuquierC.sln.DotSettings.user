@@ -1,18 +1,41 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">INFO</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Avalonia\bin\Debug\net6.0\GBReaderAuqiuerC.Repositories.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bec21e7a_002D75f4_002D4052_002D960c_002D54c98058be90/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ThrowErrorIfFileDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\cyril\AppData\Local\JetBrains\Rider2022.2\resharper-host\temp\Rider\vAny\CoverageData\_GBReaderAuquierC.1091790667\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c103d7f3_002Dbf5e_002D4831_002Da5b8_002Dcb87c8ccad82/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;And&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.IsbnTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
+    &lt;Namespace&gt;GBReaderAuquierC.Tests&lt;/Namespace&gt;&#xD;
+  &lt;/And&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb55f526_002Dfe68_002D491f_002Db7da_002D2c667088a3f5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Session #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;And&gt;&#xD;
+      &lt;TestAncestor&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.IsbnTests&lt;/TestId&gt;&#xD;
+      &lt;/TestAncestor&gt;&#xD;
+      &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
+      &lt;Namespace&gt;GBReaderAuquierC.Tests&lt;/Namespace&gt;&#xD;
+    &lt;/And&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	</wpf:ResourceDictionary>

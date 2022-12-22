@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "TgiMfHFf1uqT2S37HNPSm46IAYw+XlysYXnfVrDr5mmH9eyctvIxKxDTst8kkLKxL20DuGfatnAA11BaegFbHA==",
+  "dgSpecHash": "wJ5hAqDaZeGvvnbTX+Bb+YaXe47Tgele9E4gHs+lpaRyw3u9oc9lhyWItItMjHvfijfKDmCpACz7s3R73QCHBw==",
   "success": true,
   "projectFilePath": "C:\\Users\\cyril\\B2UE11\\AI\\GameBook.Reader\\GBReaderAuquierC.Infrastructures\\GBReaderAuquierC.Infrastructures.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\cyril\\.nuget\\packages\\lcom.analyzer\\1.0.0.1\\lcom.analyzer.1.0.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

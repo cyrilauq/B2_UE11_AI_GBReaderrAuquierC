@@ -2,27 +2,25 @@
 using GBReaderAuquierC.Avalonia;
 using GBReaderAuquierC.Avalonia.Views;
 using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Presentation;
 using GBReaderAuquierC.Presenter.ViewModel;
-using GBReaderAuquierC.Repositories;
+using GBReaderAuquierC.Presenter.Views;
 
 namespace GBReaderAuquierC.Presenter
 {
     public class ReadPresenter
     {
         private IReadView _view;
-        private IDataRepository _repo;
-        private Session _session;
+        private ISessionRepository _session;
         private IBrowseViews _router;
         private IDisplayMessages _notificationManager;
         
-        public ReadPresenter(IReadView view, IDisplayMessages notificationManager, IBrowseViews router, Session session,
-            IDataRepository repo)
+        public ReadPresenter(IReadView view, IDisplayMessages notificationManager, IBrowseViews router, ISessionRepository session)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _router = router ?? throw new ArgumentNullException(nameof(router));
             _session = session ?? throw new ArgumentNullException(nameof(session));
-            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _notificationManager = notificationManager ?? throw new ArgumentNullException(nameof(notificationManager));
 
             _session.PropertyChanged += OnSessionPropertyChanged;
@@ -33,16 +31,16 @@ namespace GBReaderAuquierC.Presenter
 
         private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_session.Page))
+            if (e.PropertyName == nameof(_session.ReadingPage))
             {
-                if (_session.Page != null)
+                if (_session.ReadingPage != null)
                 {
-                    var currentPage = _session.Page;
-                    var currentBook = _session.Book;
+                    var currentPage = _session.ReadingPage;
+                    var currentBook = _session.ReadingBook;
                     _view.CurrentPage = new PageViewModel(
                         currentPage.Content,
                         currentBook.GetNPageFor(currentPage),
-                        GetChoiceViewModels(currentPage, _session.Book)
+                        GetChoiceViewModels(currentPage, _session.ReadingBook)
                     );
                     _view.ReadingState = ReadingState.Continue;
                     if (currentBook.CountPage > 1 && !currentPage.HasChoices)
@@ -55,11 +53,11 @@ namespace GBReaderAuquierC.Presenter
                     }
                 }
             }
-            if(e.PropertyName == nameof(_session.Book))
+            if(e.PropertyName == nameof(_session.ReadingBook))
             {
-                if (_session.Book != null)
+                if (_session.ReadingBook != null)
                 {
-                    _view.BookTitle = _session.Book.Title;
+                    _view.BookTitle = _session.ReadingBook[BookAttribute.Title];
                 }
             }
         }
@@ -79,12 +77,12 @@ namespace GBReaderAuquierC.Presenter
 
         private void GoToPageRequested(object? sender, GotToPageEventArgs e)
         {
-            _session.Page = _session.Page.GetPageFor(e.Content);
+            _session.ReadingPage = _session.ReadingPage.GetPageFor(e.Content);
         }
 
         private void RestartRequested(object? sender, EventArgs e)
         {
-            _session.Page = _session.Book.First;
+            _session.ReadingBook = _session.ReadingBook;
         }
 
         private void HomeRequested(object? sender, EventArgs e)

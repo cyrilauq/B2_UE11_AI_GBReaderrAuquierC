@@ -5,13 +5,19 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="150" Width="800"
              x:Class="GBReaderAuquierC.Avalonia.ReadBookView">
     <StackPanel>
-        <StackPanel x:Name="Header">
-            <TextBlock x:Name="Title"/>
-        </StackPanel>
+        <Border Classes="titleBorder">
+            <TextBlock x:Name="Title" Classes="title"></TextBlock>
+        </Border>
         <StackPanel Orientation="Vertical" Width="750">
-            <TextBlock x:Name="NPage" />
+            <StackPanel>
+                <TextBlock Text="Vous êtes à la page: "/>
+                <TextBlock x:Name="NPage" />
+            </StackPanel>
             <TextBlock x:Name="Content" TextWrapping="WrapWithOverflow" />
-            <StackPanel x:Name="Choices">
+            <StackPanel x:Name="ChoicePnl">
+                <TextBlock Text="Choix disponibles:"/>
+                <StackPanel x:Name="Choices">
+                </StackPanel>
             </StackPanel>
             <Button x:Name="Restart" Click="OnRestartClicked" IsVisible="False">Recommencer la lecture</Button>
             <Button x:Name="Home" Click="OnHomeClicked" IsVisible="False">Revenir sur la page d'accueil</Button>

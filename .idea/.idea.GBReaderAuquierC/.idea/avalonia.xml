@@ -12,7 +12,9 @@
         <entry key="GBReaderAuquierC.Avalonia/LoginView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
         <entry key="GBReaderAuquierC.Avalonia/MainWindow.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
         <entry key="GBReaderAuquierC.Avalonia/Pages/PageChoiceView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/Pages/StatBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
         <entry key="GBReaderAuquierC.Avalonia/ReadBookView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
+        <entry key="GBReaderAuquierC.Avalonia/StatisticsView.axaml" value="GBReaderAuquierC.Avalonia/GBReaderAuquierC.Avalonia.csproj" />
       </map>
     </option>
   </component>

@@ -1,6 +1,8 @@
 ﻿using GBReaderAuquierC.Domains;
+using GBReaderAuquierC.Infrastructures;
 using GBReaderAuquierC.Infrastructures.Exceptions;
 using Newtonsoft.Json;
+using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
 
 namespace GBReaderAuquierC.Repositories;
 
@@ -40,10 +42,10 @@ public class JsonRepository : IDataRepository
         }
     }
 
-    public IList<Book> GetBooks(int begin = 0, int end = 0)
+    public IEnumerable<Book> GetBooks(int begin = 0, int end = 0)
     {
         LoadBooks();
-        return new List<Book>(_books);
+        return new List<Book>(_books).GetRange(begin, Math.Min(end, _books.Count));
     }
 
     private void FileAndDirectoryExists()
@@ -119,7 +121,7 @@ public class JsonRepository : IDataRepository
     {
         try
         {
-            return _books.First(b => b.ISBN.Contains(isbn));
+            return _books.First(b => b[BookAttribute.Isbn].Contains(isbn));
         }
         catch (Exception)
         {
@@ -143,5 +145,12 @@ public class JsonRepository : IDataRepository
     public void LoadSession(Session session)
     {
         
+    }
+
+    public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg arg = null)
+    {
+        // TODO : Créer le corps de la méthode
+        IList<Book> result = new List<Book>();
+        return result;
     }
 }

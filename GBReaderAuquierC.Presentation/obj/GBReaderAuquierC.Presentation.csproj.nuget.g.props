@@ -12,4 +12,7 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\cyril\.nuget\packages\" />
   </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgLcom_Analyzer Condition=" '$(PkgLcom_Analyzer)' == '' ">C:\Users\cyril\.nuget\packages\lcom.analyzer\1.0.0.1</PkgLcom_Analyzer>
+  </PropertyGroup>
 </Project>

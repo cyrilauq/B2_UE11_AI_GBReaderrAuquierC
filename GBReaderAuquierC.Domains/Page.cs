@@ -17,6 +17,8 @@
         }
         
         public bool HasChoices { get => _choices.Count > 0; }
+        
+        public bool IsTerminal { get => _choices.Count == 0; }
 
         public Page(string content)
         {

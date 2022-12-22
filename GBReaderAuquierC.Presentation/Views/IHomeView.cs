@@ -1,27 +1,27 @@
-﻿using System;
-using GBReaderAuquierC.Domains;
+﻿using GBReaderAuquierC.Domains;
 using GBReaderAuquierC.Domains.Events;
-using GBReaderAuquierC.Presentation;
-using SearchOption = GBReaderAuquierC.Presentation.SearchOption;
 
-namespace GBReaderAuquierC.Avalonia.Views
+namespace GBReaderAuquierC.Presentation.Views
 {
     public interface IHomeView
     {
         // TODO : Changer les Display par des attributs dans les vue.
         event EventHandler<DescriptionEventArgs> DisplayDetailsRequested;
         event EventHandler ReadBookRequested;
+        event EventHandler ViewStatRequested;
         event EventHandler<SearchEventArgs> SearchBookRequested;
         event EventHandler<ChangePageEventArgs> ChangePageRequested;
-
-        void DisplayDetailsFor(BookExtendedItem item);
-
-        void DisplayBook(IList<Book> books);
+        
+        int ActualPage { set; get; }
+        BookExtendedItem BookDetails { set; }
+        IEnumerable<BookItem> Books { set; }
 
         void DisplayMessage(string message);
     }
 
-    public record ChangePageEventArgs(int Move);
-
-    public record SearchEventArgs(string Search, SearchOption Option);
+    public record ChangePageEventArgs(int Move, SearchEventArgs SearchArg = null);
+    
+    public record Filter(bool IsIsbn, bool IsTitle);
+    
+    public record SearchEventArgs(string Search, Filter Filer);
 }

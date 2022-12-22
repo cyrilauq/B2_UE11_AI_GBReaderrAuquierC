@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GBReaderAuquierC.Repositories.DTO;
+using Org.BouncyCastle.Security;
 
 namespace GBReaderAuquierC.Repositories
 {
@@ -36,7 +37,7 @@ namespace GBReaderAuquierC.Repositories
             return new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 ""
             );
@@ -51,7 +52,7 @@ namespace GBReaderAuquierC.Repositories
             return new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 dto.ImagePath
             );
@@ -66,7 +67,7 @@ namespace GBReaderAuquierC.Repositories
             var result = new Book(
                 dto.Title,
                 dto.Author,
-                ConvertDtoISBNToBook(dto.ISBN),
+                Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 dto.ImagePath
             );
@@ -116,20 +117,6 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private static string ConvertDtoISBNToBook(string isbn)
-        {
-            if (isbn.Replace("-", "").Length == 11)
-            {
-                
-                if (isbn.EndsWith("10"))
-                {
-                    return isbn.Substring(0, isbn.Length - 2) + "X";
-                }
-                return isbn.Substring(0, isbn.Length - 2) + "0";
-            }
-            return isbn;
-        }
-
         private static Page GetPageForContent(string content, IList<Page> pages)
         {
             foreach (Page dto in pages)
@@ -145,15 +132,56 @@ namespace GBReaderAuquierC.Repositories
 
         public static Session ConvertToSession(SessionDTO dto)
         {
+            if (dto == null)
+            {
+                return new Session();
+            }
+            var history = new Dictionary<string, BookSave>();
+            foreach (var bsd in dto.History)
+            {
+                history.Add(bsd.Key, ConvertDTOToSave(bsd.Value));
+            }
             Session result = new();
-            result.History = dto.History;
+            result.History = history;
             return result;
         }
 
         public static SessionDTO ConvertToDTO(Session session)
         {
-            Dictionary<string, IList<int>> result = new();
-            return new SessionDTO(session.History);
+            return new SessionDTO(ConvertHistoryToDTO(session.History));
+        }
+
+        public static SessionDTO ConvertToDTO(Dictionary<string, BookSave> historique)
+            => new(ConvertHistoryToDTO(historique));
+
+        private static Dictionary<string, BookSaveDTO> ConvertHistoryToDTO(Dictionary<string, BookSave> history)
+        {
+            var result = new Dictionary<string, BookSaveDTO>();
+
+            foreach (var bs in history)
+            {
+                result.Add(bs.Key, ConvertSaveToDTO(bs.Value));
+            }
+
+            return result;
+        }
+
+        private static BookSaveDTO ConvertSaveToDTO(BookSave bookSave)
+        {
+            return new BookSaveDTO(
+                bookSave.Begin.ToString("dd/MM/yyyy hh:mm:ss"), 
+                bookSave.LastUpdate.ToString("dd/MM/yyyy hh:mm:ss"), 
+                bookSave.History
+            );
+        }
+
+        private static BookSave ConvertDTOToSave(BookSaveDTO dto)
+        {
+            return BookSave.Get(
+                dto.BeginDate == null || dto.BeginDate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.BeginDate), 
+                dto.LastUpdate == null || dto.LastUpdate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.LastUpdate), 
+                dto.History 
+            );
         }
     }
 }
