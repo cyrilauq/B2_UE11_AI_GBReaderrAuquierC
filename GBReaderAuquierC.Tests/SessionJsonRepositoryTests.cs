@@ -34,6 +34,7 @@ namespace GBReaderAuquierC.Tests
             Assert.Null(session.ReadingPage);
             Assert.Null(session.CurrentBook);
             Assert.NotNull(session.History);
+            File.Delete(Path.Join(_testResourcesPaht, file));
         }
         
         [Test]
