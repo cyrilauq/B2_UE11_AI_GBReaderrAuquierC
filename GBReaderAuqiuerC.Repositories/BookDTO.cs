@@ -9,7 +9,7 @@
         private readonly string _version;
         private readonly string _resume;
         private readonly string _imagePath;
-        private IList<PageDTO> _pages = new List<PageDTO>();
+        private IList<PageDto> _pages = new List<PageDto>();
 
         public string Version { get => _version; }
         
@@ -18,7 +18,7 @@
         public string Isbn { get => _isbn; }
         public string Resume { get => _resume; }
         public string ImagePath { get => _imagePath; }
-        public IList<PageDTO> Pages { get => _pages; set => _pages = value; }
+        public IList<PageDto> Pages { get => _pages; set => _pages = value; }
 
         public int Id { get => _id; set => _id = value; }
 
@@ -32,7 +32,7 @@
             _imagePath = imgPath;
         }
 
-        public BookDTO(string title, string resume, string author, string isbn, string imgPath, IList<PageDTO> pages, string version = "1.1")
+        public BookDTO(string title, string resume, string author, string isbn, string imgPath, IList<PageDto> pages, string version = "1.1")
         {
             _title = title;
             _author = author;

@@ -56,16 +56,6 @@
             return result;
         }
 
-        public override bool Equals(object? obj)
-        {
-            if(this == obj) { return true; }
-            if(this.GetType() != obj.GetType()) { return false; }
-            var that = obj as BookSave;
-            return that._begin.Equals(_begin) 
-                   && ((that._lastUpdate == null && _lastUpdate == null) || that._lastUpdate.Equals(_lastUpdate))
-                && that._history.SequenceEqual(_history);
-        }
-
         public override string ToString()
             => $"Debut: {_begin}, LastEdit: {_lastUpdate}, Historique: {_history}";
     }

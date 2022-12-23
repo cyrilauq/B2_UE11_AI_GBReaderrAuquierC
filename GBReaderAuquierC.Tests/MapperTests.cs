@@ -16,11 +16,11 @@ namespace GBReaderAuquierC.Tests
                 "imgPath",
                 "1.2"
             );
-            PageDTO p1 = new PageDTO("Helloé");
+            PageDto p1 = new PageDto("Helloé");
             p1.Choices.Add("coucou", "p2");
-            PageDTO p2 = new PageDTO("Halloé");
+            PageDto p2 = new PageDto("Halloé");
             p2.Choices.Add("coucou", "p1");
-            var pages = new List<PageDTO>();
+            var pages = new List<PageDto>();
             pages.Add(p1);
             pages.Add(p2);
             dto.Pages = pages;

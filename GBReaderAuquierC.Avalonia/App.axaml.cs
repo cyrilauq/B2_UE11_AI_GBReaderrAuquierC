@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -34,7 +33,7 @@ namespace GBReaderAuquierC.Avalonia
                     Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36"), 
                     "e200106-session.json"
                 );
-                _repo = new BDRepository("MySql.Data.MySqlClient", 
+                _repo = new BdRepository("MySql.Data.MySqlClient", 
                     new DbInformations("192.168.128.13", "in20b1001", "in20b1001", "4918"));
                 desktop.MainWindow = _mainWindow;
                 

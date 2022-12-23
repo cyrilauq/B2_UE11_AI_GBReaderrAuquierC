@@ -15,8 +15,8 @@ namespace GBReaderAuquierC.Repositories
         private Page _page;
         private Dictionary<string, BookSave> _history = new ();
         
-        private string _path;
-        private string _fileName;
+        private readonly string _path;
+        private readonly string _fileName;
 
         public Book CurrentBook
         {
@@ -79,7 +79,7 @@ namespace GBReaderAuquierC.Repositories
         private set
         {
             _history = value;
-            NotifyPropertyChanged(nameof(History));
+            NotifyPropertyChanged();
         }
     }
 
@@ -93,11 +93,11 @@ namespace GBReaderAuquierC.Repositories
 
         public void LoadSession()
         {
-            createIfNotExist();
+            CreateIfNotExist();
 
             try
             {
-                History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(Path.Join(_path, _fileName)))).History;
+                History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDto>(File.ReadAllText(Path.Join(_path, _fileName)))).History;
             }
             catch (JsonSerializationException e)
             {
@@ -111,11 +111,11 @@ namespace GBReaderAuquierC.Repositories
 
         public void SaveSession()
         {
-            createIfNotExist();
+            CreateIfNotExist();
             try
             {
                 File.WriteAllText(Path.Join(_path, _fileName),
-                    JsonConvert.SerializeObject(Mapper.ConvertToDTO(_history)));
+                    JsonConvert.SerializeObject(Mapper.ConvertToDto(_history)));
             }
             catch (JsonSerializationException e)
             {
@@ -127,7 +127,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        private void createIfNotExist()
+        private void CreateIfNotExist()
         {
             try
             {
@@ -146,7 +146,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        private void verifyFileAndDirectory()
+        private void VerifyFileAndDirectory()
         {
             if (!Directory.Exists(_path))
             {
@@ -161,8 +161,6 @@ namespace GBReaderAuquierC.Repositories
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

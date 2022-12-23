@@ -11,7 +11,7 @@ namespace GBReaderAuquierC.Tests
         [SetUp]
         public void SetUp()
         {
-            _repo  = new BDRepository("MySql.Data",
+            _repo  = new BdRepository("MySql.Data",
                 new DbInformations("DESKTOP-TCUHOLK", "gbreader", "cyril", "OUI"));
         }
 

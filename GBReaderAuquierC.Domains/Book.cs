@@ -55,12 +55,4 @@ public class Book
 
     public int GetNPageFor(Page page)
         => _pages.IndexOf(page) + 1;
-
-    public override bool Equals(object? obj)
-    {
-        if(this == obj) { return true; }
-        if(this.GetType() != obj.GetType()) { return false; }
-        Book that = obj as Book;
-        return this[BookAttribute.Isbn].Equals(that[BookAttribute.Isbn]) && this._pages.SequenceEqual(that._pages);
-    }
 }

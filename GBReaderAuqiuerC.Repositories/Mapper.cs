@@ -1,62 +1,50 @@
 ﻿using GBReaderAuquierC.Domains;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GBReaderAuquierC.Repositories.DTO;
-using Org.BouncyCastle.Security;
 
 namespace GBReaderAuquierC.Repositories
 {
-    public class Mapper
+    public static class Mapper
     {
         /// <summary>
         /// Convertit un BookDTO en Book
         /// </summary>
         /// <param name="dto">BookDTO qu'on veut convertir</param>
         /// <returns>L'équivalent Book du BookDTO donné.</returns>
-        public static Book ConvertToBook(BookDTO dto) {
-            switch (dto.Version) {
-                case "1.1":
-                    return FromV1_1(dto);
-                case "1.2":
-                    return FromV1_2(dto);
-                case "1":
-                default:
-                    return FromV1(dto);
-            }
-        }
+        public static Book ConvertToBook(BookDTO dto) =>
+            dto.Version switch
+            {
+                "1.1" => FromV1_1(dto),
+                "1.2" => FromV1_2(dto),
+                _ => FromV1(dto)
+            };
 
         /**
      * Convertit un BookDTO de version 1 vers un objet Book.
      *
      * @return  Un objet Book représentant l'équivalent du BookDTO courant.
      */
-        private static Book FromV1(BookDTO dto) {
-            return new Book(
+        private static Book FromV1(BookDTO dto) 
+            => new (
                 dto.Title,
                 dto.Author,
                 Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 ""
             );
-        }
 
         /**
      * Convertit un BookDTO de version 1.1 vers un objet Book.
      *
      * @return  Un objet Book représentant l'équivalent du BookDTO courant.
      */
-        private static Book FromV1_1(BookDTO dto) {
-            return new Book(
+        private static Book FromV1_1(BookDTO dto) 
+            => new (
                 dto.Title,
                 dto.Author,
                 Isbn.ConvertForUser(dto.Isbn),
                 dto.Resume,
                 dto.ImagePath
             );
-        }
 
         /**
      * Convertit un BookDTO de version 1.1 vers un objet Book.
@@ -75,11 +63,11 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private static IList<Page> ConvertPages(IList<PageDTO> dto)
+        private static IList<Page> ConvertPages(IList<PageDto> dto)
         {
             IList<Page> result = new List<Page>();
             
-            foreach (PageDTO d in dto)
+            foreach (PageDto d in dto)
             {
                 result.Add(new Page(d.Content));
             }
@@ -94,7 +82,7 @@ namespace GBReaderAuquierC.Repositories
             
             foreach (Page p in result)
             {
-                foreach (PageDTO d in dto)
+                foreach (PageDto d in dto)
                 {
                     if (d.Content.Equals(p.Content))
                     {
@@ -117,20 +105,10 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private static Page GetPageForContent(string content, IList<Page> pages)
-        {
-            foreach (Page dto in pages)
-            {
-                if (dto.Content.Equals(content))
-                {
-                    return dto;
-                }
-            }
+        private static Page GetPageForContent(string content, IList<Page> pages) 
+            => pages.FirstOrDefault(dto => dto.Content.Equals(content));
 
-            return null;
-        }
-
-        public static Session ConvertToSession(SessionDTO dto)
+        public static Session ConvertToSession(SessionDto dto)
         {
             if (dto == null)
             {
@@ -139,49 +117,42 @@ namespace GBReaderAuquierC.Repositories
             var history = new Dictionary<string, BookSave>();
             foreach (var bsd in dto.History)
             {
-                history.Add(bsd.Key, ConvertDTOToSave(bsd.Value));
+                history.Add(bsd.Key, ConvertDtoToSave(bsd.Value));
             }
-            Session result = new();
-            result.History = history;
+            Session result = new() { History = history };
             return result;
         }
 
-        public static SessionDTO ConvertToDTO(Session session)
-        {
-            return new SessionDTO(ConvertHistoryToDTO(session.History));
-        }
+        public static SessionDto ConvertToDto(Session session) 
+            => new (ConvertHistoryToDto(session.History));
 
-        public static SessionDTO ConvertToDTO(Dictionary<string, BookSave> historique)
-            => new(ConvertHistoryToDTO(historique));
+        public static SessionDto ConvertToDto(Dictionary<string, BookSave> historique)
+            => new(ConvertHistoryToDto(historique));
 
-        private static Dictionary<string, BookSaveDTO> ConvertHistoryToDTO(Dictionary<string, BookSave> history)
+        private static Dictionary<string, BookSaveDto> ConvertHistoryToDto(Dictionary<string, BookSave> history)
         {
-            var result = new Dictionary<string, BookSaveDTO>();
+            var result = new Dictionary<string, BookSaveDto>();
 
             foreach (var bs in history)
             {
-                result.Add(bs.Key, ConvertSaveToDTO(bs.Value));
+                result.Add(bs.Key, ConvertSaveToDto(bs.Value));
             }
 
             return result;
         }
 
-        private static BookSaveDTO ConvertSaveToDTO(BookSave bookSave)
-        {
-            return new BookSaveDTO(
+        private static BookSaveDto ConvertSaveToDto(BookSave bookSave) 
+            => new (
                 bookSave.Begin.ToString("dd/MM/yyyy hh:mm:ss"), 
                 bookSave.LastUpdate.ToString("dd/MM/yyyy hh:mm:ss"), 
                 bookSave.History
             );
-        }
 
-        private static BookSave ConvertDTOToSave(BookSaveDTO dto)
-        {
-            return BookSave.Get(
-                dto.BeginDate == null || dto.BeginDate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.BeginDate), 
-                dto.LastUpdate == null || dto.LastUpdate.Length == 0 ? DateTime.Now : DateTime.Parse(dto.LastUpdate), 
+        private static BookSave ConvertDtoToSave(BookSaveDto dto) 
+            => BookSave.Get(
+                string.IsNullOrEmpty(dto.BeginDate) ? DateTime.Now : DateTime.Parse(dto.BeginDate), 
+                string.IsNullOrEmpty(dto.LastUpdate) ? DateTime.Now : DateTime.Parse(dto.LastUpdate), 
                 dto.History 
             );
-        }
     }
 }
