@@ -9,53 +9,19 @@
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests.whenSaveSessionWithANonExistingFileTheSaveSessionAndCreateFile&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4fa6c71d_002De8eb_002D4cbc_002Da859_002D5f7f25c2e2eb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Session #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;And&gt;&#xD;
-      &lt;TestAncestor&gt;&#xD;
-        &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.IsbnTests&lt;/TestId&gt;&#xD;
-      &lt;/TestAncestor&gt;&#xD;
-      &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
-      &lt;Namespace&gt;GBReaderAuquierC.Tests&lt;/Namespace&gt;&#xD;
-    &lt;/And&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-  &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ee23b46_002D3bce_002D454e_002D98a4_002Deb10866564a1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="whenSaveSessionWithANonExistingFileTheSaveSessionAndCreateFile" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c103d7f3_002Dbf5e_002D4831_002Da5b8_002Dcb87c8ccad82/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;And&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.IsbnTests&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-    &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
-    &lt;Namespace&gt;GBReaderAuquierC.Tests&lt;/Namespace&gt;&#xD;
-  &lt;/And&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f89e9bc9_002D4fc4_002D4b21_002D90f0_002Dd08de21821b3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="whenSaveSessionWithANonExistingFileTheSaveSessionAndCreateFile #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests.whenSaveSessionWithANonExistingFileTheSaveSessionAndCreateFile&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb55f526_002Dfe68_002D491f_002Db7da_002D2c667088a3f5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Session #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;And&gt;&#xD;
-      &lt;TestAncestor&gt;&#xD;
-        &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.IsbnTests&lt;/TestId&gt;&#xD;
-      &lt;/TestAncestor&gt;&#xD;
-      &lt;Project Location="C:\Users\cyril\B2UE11\AI\GameBook.Reader\GBReaderAuquierC.Tests" Presentation="&amp;lt;GBReaderAuquierC.Tests&amp;gt;" /&gt;&#xD;
-      &lt;Namespace&gt;GBReaderAuquierC.Tests&lt;/Namespace&gt;&#xD;
-    &lt;/And&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::1770645B-812C-4528-8B66-9A3414850680::net6.0::GBReaderAuquierC.Tests.SessionJsonRepositoryTests&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-  &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
 	
 	
 	

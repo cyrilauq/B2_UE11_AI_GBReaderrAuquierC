@@ -140,7 +140,7 @@ namespace GBReaderAuquierC.Repositories
                     File.Create(Path.Join(_path, _fileName)).Close();
                 }
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 throw new DataManipulationException("Erreur lors de la création de la ressource.", e);
             }

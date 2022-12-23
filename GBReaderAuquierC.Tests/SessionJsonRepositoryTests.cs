@@ -43,12 +43,12 @@ namespace GBReaderAuquierC.Tests
             Assert.Throws<DataManipulationException>(() 
                 => (session = new SessionJsonRepository(_testResourcesPaht, "wrong_formatted.json")).LoadSession());
         }
-        
+
         [Test]
         public void whenFileWithMissingDataThenDontThrowExceptionAndReturnSessionWithGivenDataFromFile()
         {
             Assert.DoesNotThrow(() 
-                => new SessionJsonRepository(_testResourcesPaht, "missingData.json"));
+                => new SessionJsonRepository(_testResourcesPaht, "missingData.json").LoadSession());
         }
         
         [Test]
@@ -124,6 +124,79 @@ namespace GBReaderAuquierC.Tests
             Assert.DoesNotThrow(() => session.SaveSession());
             Assert.That(session.History.Count, Is.EqualTo(1));
             Assert.That(session.History, Is.EquivalentTo(history));
+        }
+
+        [Test]
+        public void whenCurrentPageIsTerminalThenTheBookIsDeletedFromTheSession()
+        {
+            var fileName = "emptyFile.json";
+            ISessionRepository session = new SessionJsonRepository(_testResourcesPaht, fileName);
+            var page2 = new Page("Test");
+            session.ReadingBook = new Book("Test", "You", "2200106092", "Je me meurs.")
+            {
+                Pages = new List<Page>()
+                {
+                    new ("Test")
+                    {
+                        Choices = new Dictionary<string, Page>()
+                        {
+                            { "Mange", page2 }
+                        }
+                    },
+                    page2
+                }
+            };
+            session.ReadingPage = page2;
+            session.ReadingPage = null;
+            Assert.DoesNotThrow(() => session.SaveSession());
+            Assert.That(session.History.Count, Is.EqualTo(0));
+            Assert.That(session.ReadingPage.Content, Is.EqualTo("Test"));
+        }
+
+        [Test]
+        public void whenAddedBookIsNullThenDoNotAddIt()
+        {
+            ISessionRepository session = new SessionJsonRepository(_testResourcesPaht, "");
+            var page2 = new Page("Test");
+            session.ReadingBook = new Book("Test", "You", "2200106092", "Je me meurs.")
+            {
+                Pages = new List<Page>()
+                {
+                    new ("Test")
+                    {
+                        Choices = new Dictionary<string, Page>()
+                        {
+                            { "Mange", page2 }
+                        }
+                    },
+                    page2
+                }
+            };
+            session.ReadingBook = null;
+            Assert.That(session.History.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void whenAddedCurrentBookIsNullThenCurrentBookIsNotModified()
+        {
+            ISessionRepository session = new SessionJsonRepository(_testResourcesPaht, "");
+            var page2 = new Page("Test");
+            session.CurrentBook = new Book("Test", "You", "2200106092", "Je me meurs.")
+            {
+                Pages = new List<Page>()
+                {
+                    new ("Test")
+                    {
+                        Choices = new Dictionary<string, Page>()
+                        {
+                            { "Mange", page2 }
+                        }
+                    },
+                    page2
+                }
+            };
+            session.CurrentBook = null;
+            Assert.That(session.CurrentBook[BookAttribute.Isbn], Is.EqualTo("2200106092"));
         }
     }
 }
