@@ -13,7 +13,7 @@ namespace GBReaderAuquierC.Repositories
         private Book _currentBook;
         private Book _book;
         private Page _page;
-        private Dictionary<string, BookSave> _history = new ();
+        private Dictionary<string, ReadingSession> _history = new ();
         
         private readonly string _path;
         private readonly string _fileName;
@@ -39,11 +39,11 @@ namespace GBReaderAuquierC.Repositories
                 {
                     _book = value;
                     NotifyPropertyChanged();
-                    if (_book.CountPage > 0)
+                    if (_book.CountPage > 1)
                     {
                         if (!_history.ContainsKey(_book[BookAttribute.Isbn]))
                         {
-                            _history[_book[BookAttribute.Isbn]] = new BookSave();
+                            _history[_book[BookAttribute.Isbn]] = new ReadingSession();
                         }
                         ReadingPage = _history.Count == 0 || _history[_book[BookAttribute.Isbn]].Count == 0 ? _book.First : _book[_history[_book[BookAttribute.Isbn]].Last - 1];
                     }
@@ -73,7 +73,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-    public Dictionary<string, BookSave> History
+    public Dictionary<string, ReadingSession> History
     {
         get => _history;
         private set
@@ -146,7 +146,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        private void VerifyFileAndDirectory()
+        /*private void VerifyFileAndDirectory()
         {
             if (!Directory.Exists(_path))
             {
@@ -158,7 +158,7 @@ namespace GBReaderAuquierC.Repositories
                 throw new DataManipulationException(
                     $"Le fichier {_fileName} n'a pas été trouvé dans le répertoire {_path}.");
             }
-        }
+        }*/
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

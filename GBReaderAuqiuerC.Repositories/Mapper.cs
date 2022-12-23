@@ -114,7 +114,7 @@ namespace GBReaderAuquierC.Repositories
             {
                 return new Session();
             }
-            var history = new Dictionary<string, BookSave>();
+            var history = new Dictionary<string, ReadingSession>();
             foreach (var bsd in dto.History)
             {
                 history.Add(bsd.Key, ConvertDtoToSave(bsd.Value));
@@ -126,10 +126,10 @@ namespace GBReaderAuquierC.Repositories
         public static SessionDto ConvertToDto(Session session) 
             => new (ConvertHistoryToDto(session.History));
 
-        public static SessionDto ConvertToDto(Dictionary<string, BookSave> historique)
+        public static SessionDto ConvertToDto(Dictionary<string, ReadingSession> historique)
             => new(ConvertHistoryToDto(historique));
 
-        private static Dictionary<string, BookSaveDto> ConvertHistoryToDto(Dictionary<string, BookSave> history)
+        private static Dictionary<string, BookSaveDto> ConvertHistoryToDto(Dictionary<string, ReadingSession> history)
         {
             var result = new Dictionary<string, BookSaveDto>();
 
@@ -141,15 +141,15 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private static BookSaveDto ConvertSaveToDto(BookSave bookSave) 
+        private static BookSaveDto ConvertSaveToDto(ReadingSession readingSession) 
             => new (
-                bookSave.Begin.ToString("dd/MM/yyyy hh:mm:ss"), 
-                bookSave.LastUpdate.ToString("dd/MM/yyyy hh:mm:ss"), 
-                bookSave.History
+                readingSession.Begin.ToString("dd/MM/yyyy hh:mm:ss"), 
+                readingSession.LastUpdate.ToString("dd/MM/yyyy hh:mm:ss"), 
+                readingSession.History
             );
 
-        private static BookSave ConvertDtoToSave(BookSaveDto dto) 
-            => BookSave.Get(
+        private static ReadingSession ConvertDtoToSave(BookSaveDto dto) 
+            => ReadingSession.Get(
                 string.IsNullOrEmpty(dto.BeginDate) ? DateTime.Now : DateTime.Parse(dto.BeginDate), 
                 string.IsNullOrEmpty(dto.LastUpdate) ? DateTime.Now : DateTime.Parse(dto.LastUpdate), 
                 dto.History 

@@ -45,13 +45,12 @@ public class Book
         if(b[BookAttribute.Resume] == null || b[BookAttribute.Resume].Trim().Length == 0) { return true; }
         return false;
     }
-
-    public Book(string title, string author, string isbn, string resume)
-        => _data = new BookMetaData(title, resume, isbn, author);
-
-    public Book(string title, string author, string isbn, string resume, string imgPath)
-        : this(title, author, isbn, resume)
-        => _imgPath = imgPath;
+    
+    public Book(string title, string author, string isbn, string resume, string imgPath = "")
+    {
+        _data = new BookMetaData(title, resume, isbn, author);
+        _imgPath = imgPath;
+    }
 
     public int GetNPageFor(Page page)
         => _pages.IndexOf(page) + 1;
