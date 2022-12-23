@@ -13,10 +13,10 @@ namespace GBReaderAuquierC.Repositories
         private Book _currentBook;
         private Book _book;
         private Page _page;
-        private Dictionary<string, BookSave> _history = new ();
+        private Dictionary<string, ReadingSession> _history = new ();
         
-        private string _path;
-        private string _fileName;
+        private readonly string _path;
+        private readonly string _fileName;
 
         public Book CurrentBook
         {
@@ -39,11 +39,11 @@ namespace GBReaderAuquierC.Repositories
                 {
                     _book = value;
                     NotifyPropertyChanged();
-                    if (_book.CountPage > 0)
+                    if (_book.CountPage > 1)
                     {
                         if (!_history.ContainsKey(_book[BookAttribute.Isbn]))
                         {
-                            _history[_book[BookAttribute.Isbn]] = new BookSave();
+                            _history[_book[BookAttribute.Isbn]] = new ReadingSession();
                         }
                         ReadingPage = _history.Count == 0 || _history[_book[BookAttribute.Isbn]].Count == 0 ? _book.First : _book[_history[_book[BookAttribute.Isbn]].Last - 1];
                     }
@@ -73,13 +73,13 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-    public Dictionary<string, BookSave> History
+    public Dictionary<string, ReadingSession> History
     {
         get => _history;
         private set
         {
             _history = value;
-            NotifyPropertyChanged(nameof(History));
+            NotifyPropertyChanged();
         }
     }
 
@@ -93,11 +93,11 @@ namespace GBReaderAuquierC.Repositories
 
         public void LoadSession()
         {
-            createIfNotExist();
+            CreateIfNotExist();
 
             try
             {
-                History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(Path.Join(_path, _fileName)))).History;
+                History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDto>(File.ReadAllText(Path.Join(_path, _fileName)))).History;
             }
             catch (JsonSerializationException e)
             {
@@ -111,11 +111,11 @@ namespace GBReaderAuquierC.Repositories
 
         public void SaveSession()
         {
-            createIfNotExist();
+            CreateIfNotExist();
             try
             {
                 File.WriteAllText(Path.Join(_path, _fileName),
-                    JsonConvert.SerializeObject(Mapper.ConvertToDTO(_history)));
+                    JsonConvert.SerializeObject(Mapper.ConvertToDto(_history)));
             }
             catch (JsonSerializationException e)
             {
@@ -127,7 +127,7 @@ namespace GBReaderAuquierC.Repositories
             }
         }
 
-        private void createIfNotExist()
+        private void CreateIfNotExist()
         {
             try
             {
@@ -140,13 +140,13 @@ namespace GBReaderAuquierC.Repositories
                     File.Create(Path.Join(_path, _fileName)).Close();
                 }
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 throw new DataManipulationException("Erreur lors de la création de la ressource.", e);
             }
         }
 
-        private void verifyFileAndDirectory()
+        /*private void VerifyFileAndDirectory()
         {
             if (!Directory.Exists(_path))
             {
@@ -158,11 +158,9 @@ namespace GBReaderAuquierC.Repositories
                 throw new DataManipulationException(
                     $"Le fichier {_fileName} n'a pas été trouvé dans le répertoire {_path}.");
             }
-        }
+        }*/
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

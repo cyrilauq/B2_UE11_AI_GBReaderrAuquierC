@@ -1,4 +1,4 @@
 ﻿namespace GBReaderAuquierC.Repositories.DTO
 {
-    public record SessionDTO(Dictionary<string, BookSaveDTO> History);
+    public record SessionDto(Dictionary<string, BookSaveDto> History);
 }

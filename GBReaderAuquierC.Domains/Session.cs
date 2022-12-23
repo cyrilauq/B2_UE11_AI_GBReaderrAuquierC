@@ -9,7 +9,7 @@ public class Session : INotifyPropertyChanged
     private Book _currentBook;
     private Book _book;
     private Page _page;
-    private Dictionary<string, BookSave> _history = new ();
+    private Dictionary<string, ReadingSession> _history = new ();
 
     public Book CurrentBook
     {
@@ -24,7 +24,7 @@ public class Session : INotifyPropertyChanged
         }
     }
 
-    public Dictionary<string, BookSave> History
+    public Dictionary<string, ReadingSession> History
     {
         get => _history;
         set
@@ -51,7 +51,7 @@ public class Session : INotifyPropertyChanged
                 NotifyPropertyChanged(nameof(Book));
                 if (!_history.ContainsKey(_book[BookAttribute.Isbn]))
                 {
-                    _history[_book[BookAttribute.Isbn]] = new BookSave();
+                    _history[_book[BookAttribute.Isbn]] = new ReadingSession();
                 }
                 Page = _history.Count == 0 || _history[_book[BookAttribute.Isbn]].Count == 0 ? _book.First : _book[_history[_book[BookAttribute.Isbn]].Last - 1];
             }

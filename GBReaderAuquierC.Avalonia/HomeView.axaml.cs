@@ -99,15 +99,13 @@ public partial class HomeView : UserControl, IHomeView
         SearchBookRequested?.Invoke(this, GetSearchArgs());
     }
 
-    private SearchEventArgs GetSearchArgs()
-    {
-        return new SearchEventArgs(Search.Text?.ToLower().Replace("-", ""),
+    private SearchEventArgs GetSearchArgs() 
+        => new (Search.Text?.ToLower().Replace("-", ""),
             new Filter(
                 FilterISBN.IsSelected,
                 FilterTitle.IsSelected
             )
         );
-    }
 
     private void On_EnterDown(object? sender, KeyEventArgs e)
     {

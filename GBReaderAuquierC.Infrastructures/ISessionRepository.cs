@@ -8,7 +8,7 @@ namespace GBReaderAuquierC.Infrastructures
         Book CurrentBook { get; set; }
         Book ReadingBook { get; set; }
         Page ReadingPage { get; set; }
-        Dictionary<string, BookSave> History { get; }
+        Dictionary<string, ReadingSession> History { get; }
 
         void LoadSession();
 

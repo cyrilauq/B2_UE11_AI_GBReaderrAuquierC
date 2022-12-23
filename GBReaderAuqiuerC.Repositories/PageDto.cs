@@ -1,8 +1,8 @@
 ﻿namespace GBReaderAuquierC.Repositories
 {
-    public class PageDTO
+    public class PageDto
     {
-        private string _content;
+        private readonly string _content;
         private Dictionary<string, string> _choices = new();
 
         public Dictionary<string, string> Choices
@@ -16,7 +16,7 @@
             get => _content;
         }
         
-        public PageDTO(string content)
+        public PageDto(string content)
         {
             _content = content;
         }

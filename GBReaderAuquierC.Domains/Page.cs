@@ -38,14 +38,6 @@
             }
         }
 
-        public override bool Equals(object? obj)
-        {
-            if(this == obj) { return true; }
-            if(this.GetType() != obj.GetType()) { return false; }
-            Page that = obj as Page;
-            return this._content.Equals(that._content);
-        }
-
         public override string ToString() => $"{nameof(_choices)}: {_choices}, {nameof(_content)}: {_content}";
     }
 }

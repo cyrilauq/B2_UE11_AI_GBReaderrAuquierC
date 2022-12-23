@@ -136,17 +136,6 @@ public class JsonRepository : IDataRepository
         public NoBooksFindException(string message) : base(message) {}
     }
 
-
-    public void SaveSession(Session session)
-    {
-        
-    }
-    
-    public void LoadSession(Session session)
-    {
-        
-    }
-
     public IEnumerable<Book> SearchBooks(string search, SearchOption Option, RangeArg arg = null)
     {
         // TODO : Créer le corps de la méthode

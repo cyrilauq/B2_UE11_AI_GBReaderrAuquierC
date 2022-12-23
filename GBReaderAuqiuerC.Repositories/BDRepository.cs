@@ -11,16 +11,15 @@ using SearchOption = GBReaderAuquierC.Infrastructures.SearchOption;
 
 namespace GBReaderAuquierC.Repositories
 {
-    public class BDRepository : IDataRepository
+    public class BdRepository : IDataRepository
     {
         private readonly MySqlClientFactory _factory;
 
         private readonly string _sessionRepo = Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), "ue36", "e200106-session.json");
-        // private DbProviderFactory _factory;
 
         private readonly string _connectionString;
 
-        public BDRepository(string providerName, DbInformations info)
+        public BdRepository(string providerName, DbInformations info)
         {
             try
             {
@@ -42,46 +41,40 @@ namespace GBReaderAuquierC.Repositories
             IList<Book> result = new List<Book>();
             try
             {
-                using (IDbConnection con = _factory.CreateConnection())
+                using IDbConnection con = _factory.CreateConnection();
+                con.ConnectionString = _connectionString;
+                con.Open();
+                using var selectCmd = con.CreateCommand();
+                selectCmd.CommandText = SqlInstructions.GET_ALL_BOOKS;
+                var beginParam = selectCmd.CreateParameter();
+                beginParam.ParameterName = "@begin";
+                beginParam.Value = begin;
+                beginParam.DbType = DbType.Int32;
+                selectCmd.Parameters.Add(beginParam);
+                var endParam = selectCmd.CreateParameter();
+                endParam.ParameterName = "@end";
+                endParam.Value = end;
+                endParam.DbType = DbType.Int32;
+                selectCmd.Parameters.Add(endParam);
+                using (IDataReader reader = selectCmd.ExecuteReader())
                 {
-                    con.ConnectionString = _connectionString;
-                    con.Open();
-                    using var selectCmd = con.CreateCommand();
-                    selectCmd.CommandText = "SELECT b.id_book, b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
-                                            "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author " +
-                                            "FROM book b " +
-                                            "WHERE b.datePublication IS NOT NULL " +
-                                            "LIMIT @begin, @end";
-                    var beginParam = selectCmd.CreateParameter();
-                    beginParam.ParameterName = "@begin";
-                    beginParam.Value = begin;
-                    beginParam.DbType = DbType.Int32;
-                    selectCmd.Parameters.Add(beginParam);
-                    var endParam = selectCmd.CreateParameter();
-                    endParam.ParameterName = "@end";
-                    endParam.Value = end;
-                    endParam.DbType = DbType.Int32;
-                    selectCmd.Parameters.Add(endParam);
-                    using (IDataReader reader = selectCmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        var book = new BookDTO(
+                            reader["title"] != null ? reader["title"] as string : null,
+                            reader["resume"] != null ? reader["resume"] as string : null,
+                            reader["author"] != null ? reader["author"] as string : null,
+                            reader["isbn"] != null ? reader["isbn"] as string : null,
+                            reader["imgPath"] != null ? reader["imgPath"] as string : null
+                        );
+                        Book convertedBook = Mapper.ConvertToBook(book);
+                        if (convertedBook)
                         {
-                            var book = new BookDTO(
-                                reader["title"] != null ? reader["title"] as string : null,
-                                reader["resume"] != null ? reader["resume"] as string : null,
-                                reader["author"] != null ? reader["author"] as string : null,
-                                reader["isbn"] != null ? reader["isbn"] as string : null,
-                                reader["imgPath"] != null ? reader["imgPath"] as string : null
-                            );
-                            Book convertedBook = Mapper.ConvertToBook(book);
-                            if (convertedBook)
-                            {
-                                result.Add(convertedBook);
-                            }
+                            result.Add(convertedBook);
                         }
                     }
-                    con.Close();
                 }
+                con.Close();
             }
             catch(UnableToConnectException e)
             {
@@ -99,41 +92,39 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private IList<PageDTO> GetPages(int idBook)
+        private IList<PageDto> GetPages(int idBook)
         {
-            IList<PageDTO> result = new List<PageDTO>();
-            if (idBook != -1)
+            IList<PageDto> result = new List<PageDto>();
+            if (idBook == -1)
             {
-                try
+                return result;
+            }
+
+            try
+            {
+                using IDbConnection con = _factory.CreateConnection();
+                con.ConnectionString = _connectionString;
+                con.Open();
+                using var selectCmd = con.CreateCommand();
+                selectCmd.CommandText = SqlInstructions.GET_PAGE_FOR_BOOK;
+                var param = selectCmd.CreateParameter();
+                param.ParameterName = "@id_book";
+                param.Value = idBook;
+                param.DbType = DbType.Int32;
+                selectCmd.Parameters.Add(param);
+                using (IDataReader reader = selectCmd.ExecuteReader())
                 {
-                    using (IDbConnection con = _factory.CreateConnection())
+                    while (reader.Read())
                     {
-                        con.ConnectionString = _connectionString;
-                        con.Open();
-                        using var selectCmd = con.CreateCommand();
-                        selectCmd.CommandText = "SELECT id_page, content " +
-                                                "FROM page " +
-                                                "WHERE id_book = @id_book";
-                        var param = selectCmd.CreateParameter();
-                        param.ParameterName = "@id_book";
-                        param.Value = idBook;
-                        param.DbType = DbType.Int32;
-                        selectCmd.Parameters.Add(param);
-                        using (IDataReader reader = selectCmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var page = new PageDTO(reader["content"] != null ? reader["content"] as string : null);
-                                page.Choices = GetChoices(reader["id_page"] != null ? (int)reader["id_page"] : -1);
-                                result.Add(page);
-                            }
-                        }
+                        var page = new PageDto(reader["content"] != null ? reader["content"] as string : null);
+                        page.Choices = GetChoices(reader["id_page"] != null ? (int)reader["id_page"] : -1);
+                        result.Add(page);
                     }
                 }
-                catch (ArgumentException e)
-                {
-                    throw new DataManipulationException("The parameters of the query are incorrects.", e);
-                }
+            }
+            catch (ArgumentException e)
+            {
+                throw new DataManipulationException("The parameters of the query are incorrects.", e);
             }
             return result;
         }
@@ -143,25 +134,20 @@ namespace GBReaderAuquierC.Repositories
             Dictionary<string, string> result = new();
             try
             {
-                using (IDbConnection con = _factory.CreateConnection())
+                using IDbConnection con = _factory.CreateConnection();
+                con.ConnectionString = _connectionString;
+                con.Open();
+                using var selectCmd = con.CreateCommand();
+                selectCmd.CommandText = SqlInstructions.GET_CHOICE_FOR_PAGE;
+                AddParameter(selectCmd, "@id_page", idPage, DbType.Int32);
+                using (IDataReader reader = selectCmd.ExecuteReader())
                 {
-                    con.ConnectionString = _connectionString;
-                    con.Open();
-                    using var selectCmd = con.CreateCommand();
-                    selectCmd.CommandText = "SELECT p.content, c.content as target_content " +
-                                            "FROM choice p " +
-                                            "JOIN page c ON c.id_page = p.id_target " +
-                                            "WHERE p.id_page = @id_page";
-                    AddParameter(selectCmd, "@id_page", idPage, DbType.Int32);
-                    using (IDataReader reader = selectCmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            result.Add(
-                                reader["content"] != null ? reader["content"] as string : null,
-                                reader["target_content"] != null ? reader["target_content"] as string : null
-                            );
-                        }
+                        result.Add(
+                            reader["content"] != null ? reader["content"] as string : null,
+                            reader["target_content"] != null ? reader["target_content"] as string : null
+                        );
                     }
                 }
             }
@@ -184,31 +170,24 @@ namespace GBReaderAuquierC.Repositories
             BookDTO dto = null;
             try
             {
-                using (IDbConnection con = _factory.CreateConnection())
+                using IDbConnection con = _factory.CreateConnection();
+                con.ConnectionString = _connectionString;
+                con.Open();
+                using var selectCmd = con.CreateCommand();
+                selectCmd.CommandText = SqlInstructions.GET_BOOK_BY_ISBN;
+                AddParameter(selectCmd, "@isbn", isbn, DbType.String);
+                using IDataReader reader = selectCmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    con.ConnectionString = _connectionString;
-                    con.Open();
-                    using var selectCmd = con.CreateCommand();
-                    selectCmd.CommandText = "SELECT b.title, b.isbn, b.datePublication, b.imgPath, b.resume, " +
-                                            "(SELECT a.name FROM author a WHERE a.id_author = b.id_author) as author, b.id_book " +
-                                            "FROM book b " +
-                                            "WHERE b.isbn = @isbn && datePublication IS NOT NULL";
-                    AddParameter(selectCmd, "@isbn", isbn, DbType.String);
-                    using (IDataReader reader = selectCmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            dto = new BookDTO(
-                                reader["title"] != null ? reader["title"] as string : null,
-                                reader["resume"] != null ? reader["resume"] as string : null,
-                                reader["author"] != null ? reader["author"] as string : null,
-                                reader["isbn"] != null ? reader["isbn"] as string : null,
-                                reader["imgPath"] != null ? reader["imgPath"] as string : null,
-                                "1.2"
-                            );
-                            dto.Id = reader["id_book"] != null ? (int)reader["id_book"] : -1;
-                        }
-                    }
+                    dto = new BookDTO(
+                        reader["title"] != null ? reader["title"] as string : null,
+                        reader["resume"] != null ? reader["resume"] as string : null,
+                        reader["author"] != null ? reader["author"] as string : null,
+                        reader["isbn"] != null ? reader["isbn"] as string : null,
+                        reader["imgPath"] != null ? reader["imgPath"] as string : null,
+                        "1.2"
+                    );
+                    dto.Id = reader["id_book"] != null ? (int)reader["id_book"] : -1;
                 }
             }
             catch(UnableToConnectException e)
@@ -234,61 +213,6 @@ namespace GBReaderAuquierC.Repositories
             return null;
         }
 
-        public void SaveSession(Session session)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
-            {
-                // TODO : modifier messages d'erreurs
-                throw new DataManipulationException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
-            }
-
-            if (!File.Exists(_sessionRepo))
-            {
-                throw new DataManipulationException(
-                    $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
-            }
-
-            try
-            {
-                File.WriteAllText(_sessionRepo, 
-                    JsonConvert.SerializeObject(Mapper.ConvertToDTO(session)));
-            }
-            catch (JsonReaderException)
-            {
-            }
-            catch (IOException)
-            {
-            }
-        }
-        
-        public void LoadSession(Session session)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(_sessionRepo)))
-            {
-                // TODO : modifier messages d'erreurs
-                throw new DirectoryNotFoundException($"Le dossier {Path.GetDirectoryName(_sessionRepo)} n'a pas été trouvé.");
-            }
-
-            if (!File.Exists(_sessionRepo))
-            {
-                throw new FileNotFoundException(
-                    $"Le fichier {Path.GetFileName(_sessionRepo)} n'a pas été trouvé dans le répertoire {Path.GetDirectoryName(_sessionRepo)}.");
-            }
-
-            try
-            {
-                session.History = Mapper.ConvertToSession(JsonConvert.DeserializeObject<SessionDTO>(File.ReadAllText(_sessionRepo))).History;
-            }
-            catch (JsonReaderException e)
-            {
-                throw new DataManipulationException("Une erreur est survenue lors de la récupération des données", e);
-            }
-            catch (IOException e)
-            {
-                throw new DataManipulationException("Une erreur est survenue lors de la récupération des données", e);
-            }
-        }
-
         public IEnumerable<Book> SearchBooks(string search, SearchOption option, RangeArg arg)
         {
             IList<Book> result = new List<Book>();
@@ -305,35 +229,33 @@ namespace GBReaderAuquierC.Repositories
             }
             try
             {
-                using (IDbConnection con = _factory.CreateConnection())
+                using IDbConnection con = _factory.CreateConnection();
+                con.ConnectionString = _connectionString;
+                con.Open();
+                using var selectCmd = con.CreateCommand();
+                selectCmd.CommandText = query;
+                AddParameter(selectCmd, "@search", $"%{search}%", DbType.String);
+                AddParameter(selectCmd, "@begin", arg.Begin, DbType.Int32);
+                AddParameter(selectCmd, "@end", arg.End, DbType.Int32);
+                using (IDataReader reader = selectCmd.ExecuteReader())
                 {
-                    con.ConnectionString = _connectionString;
-                    con.Open();
-                    using var selectCmd = con.CreateCommand();
-                    selectCmd.CommandText = query;
-                    AddParameter(selectCmd, "@search", $"%{search}%", DbType.String);
-                    AddParameter(selectCmd, "@begin", arg.Begin, DbType.Int32);
-                    AddParameter(selectCmd, "@end", arg.End, DbType.Int32);
-                    using (IDataReader reader = selectCmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        var book = new BookDTO(
+                            reader["title"] != null ? reader["title"] as string : null,
+                            reader["resume"] != null ? reader["resume"] as string : null,
+                            reader["author"] != null ? reader["author"] as string : null,
+                            reader["isbn"] != null ? reader["isbn"] as string : null,
+                            reader["imgPath"] != null ? reader["imgPath"] as string : null
+                        );
+                        Book convertedBook = Mapper.ConvertToBook(book);
+                        if (convertedBook)
                         {
-                            var book = new BookDTO(
-                                reader["title"] != null ? reader["title"] as string : null,
-                                reader["resume"] != null ? reader["resume"] as string : null,
-                                reader["author"] != null ? reader["author"] as string : null,
-                                reader["isbn"] != null ? reader["isbn"] as string : null,
-                                reader["imgPath"] != null ? reader["imgPath"] as string : null
-                            );
-                            Book convertedBook = Mapper.ConvertToBook(book);
-                            if (convertedBook)
-                            {
-                                result.Add(convertedBook);
-                            }
+                            result.Add(convertedBook);
                         }
                     }
-                    con.Close();
                 }
+                con.Close();
             }
             catch(UnableToConnectException e)
             {
@@ -351,7 +273,7 @@ namespace GBReaderAuquierC.Repositories
             return result;
         }
 
-        private void AddParameter(IDbCommand command, string name, object value, DbType type)
+        private static void AddParameter(IDbCommand command, string name, object value, DbType type)
         {
             var param = command.CreateParameter();
             param.ParameterName = name;
